@@ -1,0 +1,24 @@
+.burger_construct_list {
+  max-width: 600px;
+  width: 100%;
+  padding-right: 8px;
+  height: 55vh;
+  overflow-y: scroll;
+}
+
+.burger_construct_list_item {
+  max-width: 568px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.burger_construct_list_item {
+  cursor: pointer;
+}
+
+.no_icon {
+  max-width: 30px;
+  width: 100%;
+}

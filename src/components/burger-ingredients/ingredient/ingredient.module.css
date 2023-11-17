@@ -1,0 +1,11 @@
+.ingredient {
+  max-width: 272px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ingredient__price {
+  display: flex;
+  justify-content: center
+}
