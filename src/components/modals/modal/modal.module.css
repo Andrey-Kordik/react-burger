@@ -1,0 +1,22 @@
+.modal {
+
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #1C1C21; /* Цвет фона модального окна */
+  padding: 60px 40px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень для эффекта всплывания */
+  z-index: 101;
+  max-width: 720px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__close{
+  display: flex;
+  justify-content: flex-end;
+}

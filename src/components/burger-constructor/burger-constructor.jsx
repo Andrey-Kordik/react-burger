@@ -5,8 +5,9 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerConstructorPriceBar from './burger-constructor-pricebar/burger-constructor-pricebar';
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function BurgerConstructor({ burgers }) {
+function BurgerConstructor({ burgers, onOpenWindow, isModalOpen, onCloseModal }) {
+
+
 
   return (
     <section className={` ${styles.burgers_constructor} pt-25`}>
@@ -82,22 +83,14 @@ function BurgerConstructor({ burgers }) {
           />
         </div>
       </div>
-      <BurgerConstructorPriceBar />
+      <BurgerConstructorPriceBar
+      onOpenWindow ={onOpenWindow}
+      isModalOpen ={isModalOpen}
+      onCloseModal= {onCloseModal}
+      />
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  burgers: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['bun', 'sauce', 'main', 'top', 'bottom']).isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
 
 
 export default BurgerConstructor;

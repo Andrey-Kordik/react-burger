@@ -1,16 +1,31 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import styles from './burger-ingredients.module.css';
 import Ingredient from './ingredient/ingredient';
-import PropTypes from 'prop-types';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modals/modal/modal';
 
+function BurgerIngredients({ burgers, onOpenWindow, isModalOpen, onCloseModal }) {
 
+  console.log(isModalOpen);
 
-function BurgerIngredients({ burgers }) {
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+  const handleIngredientClick = (ingredient) => {
+    setSelectedIngredient(ingredient);
+    onOpenWindow(ingredient.type)
+  };
 
   const buns = burgers.filter((item) => item.type === 'bun');
   const sauces = burgers.filter((item) => item.type === 'sauce');
   const mains = burgers.filter((item) => item.type === 'main');
+
+  const handleModalClose = () => {
+    setSelectedIngredient(null);
+    onCloseModal();
+  };
+
 
   return (
     <section className={styles.ingredients}>
@@ -20,8 +35,10 @@ function BurgerIngredients({ burgers }) {
         <div className={styles.ingredients_buns}>
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <div className={styles.ingredients_container}>
-            {buns.map((bun) => (
-              <Ingredient key={bun._id} data={bun} />
+          {buns.map((bun) => (
+              <div key={bun._id} onClick={() => handleIngredientClick(bun)}>
+                <Ingredient data={bun} />
+              </div>
             ))}
           </div>
         </div>
@@ -42,28 +59,16 @@ function BurgerIngredients({ burgers }) {
           </div>
         </div>
       </div>
+      {isModalOpen &&  selectedIngredient && (
+        <Modal onClose={handleModalClose}>
+          <IngredientDetails ingredient={selectedIngredient}
+          />
+        </Modal>
+      )}
+
     </section>
   );
 }
 
-BurgerIngredients.propTypes = {
-  burgers: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-};
-
-
 export default BurgerIngredients;
+

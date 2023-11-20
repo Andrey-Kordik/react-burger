@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from './burger-constructor-pricebar.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-function BurgerConstructorPriceBar() {
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../../modals/modal/modal';
+import ModalOverlay from '../../modals/modal-overlay/modal-overlay';
+import OrderDetails from '../../order-details/order-details';
 
+function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) {
 
   return (
     <div className={` ${styles.burger_pricebar} pt-10`}>
@@ -11,11 +13,19 @@ function BurgerConstructorPriceBar() {
         <p className='text text_type_digits-medium pr-2'>610</p>
         <CurrencyIcon />
       </div>
-      <Button htmlType="button" type="primary" size="medium">
+      <Button onClick={onOpenWindow} type="primary" htmlType='button'>
         Оформить заказ
       </Button>
+      {isModalOpen && (
+        <>
+          <Modal  onClose={onCloseModal}>
+            <OrderDetails />
+            </Modal>
+          <ModalOverlay
+            onClose={onCloseModal} />
+        </>
+      )}
     </div>
-
   );
 }
 
