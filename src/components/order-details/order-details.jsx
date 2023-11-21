@@ -2,6 +2,7 @@
 import styles from './order-details.module.css'
 import confirmImage from '../../images/done.png'
 
+
 const OrderDetails = () => {
   return (
     <div className={styles.order}>

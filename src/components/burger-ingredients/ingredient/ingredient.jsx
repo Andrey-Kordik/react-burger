@@ -2,6 +2,7 @@ import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient.module.css';
 
+
 function Ingredient({ data }) {
   return (
     <article className={styles.ingredient} >

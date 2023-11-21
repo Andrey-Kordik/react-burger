@@ -18,7 +18,8 @@ function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) 
       </Button>
       {isModalOpen && (
         <>
-          <Modal  onClose={onCloseModal}>
+          <Modal  onClose={onCloseModal}
+          headerHeading="">
             <OrderDetails />
             </Modal>
           <ModalOverlay

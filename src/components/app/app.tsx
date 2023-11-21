@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './app.module.css';
-import Header from '../app-header/app-header';
 import { useState, useEffect } from 'react';
+import Header from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { burgersData } from '../utils/data';
-import { ingredientsApi } from '../utils/ingredients-api';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import Modal from '../modals/modal/modal';
+import { ingredientsApi } from '../utils/ingredients-api';
 
 
 function App() {
@@ -21,8 +19,6 @@ function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-
 
   useEffect(() => {
     ingredientsApi.getIngredients()
@@ -40,14 +36,12 @@ function App() {
       <main className={styles.main}>
         <BurgerIngredients
           burgers={ingredients}
-          onOpenWindow ={handleOrderClick}
-          isModalOpen = {isModalOpen}
-          onCloseModal = {closeModal} />
+          onCloseModal={closeModal} />
         <BurgerConstructor
-        burgers={ingredients}
-        onOpenWindow ={handleOrderClick}
-        isModalOpen = {isModalOpen}
-        onCloseModal = {closeModal}
+
+          onOpenWindow={handleOrderClick}
+          isModalOpen={isModalOpen}
+          onCloseModal={closeModal}
         />
       </main>
     </div>

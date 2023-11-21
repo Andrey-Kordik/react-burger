@@ -3,7 +3,16 @@
   width: 100%;
   padding-right: 8px;
   height: 55vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.burger_ingridients_list {
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .burger_construct_list_item {

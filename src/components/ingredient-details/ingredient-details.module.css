@@ -1,0 +1,18 @@
+.ingredient_details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ingredient_details_components {
+  display: flex;
+  max-width: 520px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ingredient_details_components_item {
+  max-width: 120px;
+  width: 100%;
+
+}
