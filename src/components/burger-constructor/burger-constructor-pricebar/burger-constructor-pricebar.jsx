@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './burger-constructor-pricebar.module.css';
+import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modals/modal/modal';
-import ModalOverlay from '../../modals/modal-overlay/modal-overlay';
 import OrderDetails from '../../order-details/order-details';
 
 function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) {
@@ -17,17 +17,19 @@ function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) 
         Оформить заказ
       </Button>
       {isModalOpen && (
-        <>
-          <Modal  onClose={onCloseModal}
+        <Modal onClose={onCloseModal}
           headerHeading="">
-            <OrderDetails />
-            </Modal>
-          <ModalOverlay
-            onClose={onCloseModal} />
-        </>
+          <OrderDetails />
+        </Modal>
       )}
     </div>
   );
 }
+
+BurgerConstructorPriceBar.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  onOpenWindow: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
+};
 
 export default BurgerConstructorPriceBar;

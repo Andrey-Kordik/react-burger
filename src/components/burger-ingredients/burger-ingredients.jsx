@@ -6,7 +6,6 @@ import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modals/modal/modal';
-import ModalOverlay from '../modals/modal-overlay/modal-overlay';
 import { burgerPropTypes } from '../utils/prop-types'
 
 
@@ -70,15 +69,12 @@ function BurgerIngredients({ burgers, onCloseModal }) {
         </div>
       </div>
       {isIngredientModalOpen && selectedIngredient && (
-        <>
-          <Modal onClose={handleIngredientModalClose}
-            headerHeading="Детали ингридиента">
-            <IngredientDetails ingredient={selectedIngredient}
-            />
-          </Modal>
-          <ModalOverlay
-            onClose={handleIngredientModalClose} />
-        </>
+
+        <Modal onClose={handleIngredientModalClose}
+          headerHeading="Детали ингридиента">
+          <IngredientDetails ingredient={selectedIngredient}
+          />
+        </Modal>
       )}
     </section>
   );

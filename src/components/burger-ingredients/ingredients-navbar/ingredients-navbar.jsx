@@ -4,18 +4,18 @@ import styles from './ingredients-navbar.module.css';
 
 
 function IngredientsNavbar() {
-  const [current, setCurrent] = React.useState('one')
+  const [current, setCurrent] = React.useState('bun')
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbar_container}>
-        <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
           Булки
         </Tab>
-        <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+        <Tab value="main" active={current === 'main'} onClick={setCurrent}>
           Начинки
         </Tab>
       </div>
