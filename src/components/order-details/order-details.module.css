@@ -1,0 +1,10 @@
+.order {
+  max-width: 520px;
+  width: 100%;
+  margin: 25px auto 0;
+
+}
+
+.order__confirm_image {
+  margin-bottom: 60px;
+}

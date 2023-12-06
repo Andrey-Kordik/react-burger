@@ -1,11 +1,14 @@
 import React from 'react';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './ingredient.module.css';
 import PropTypes from 'prop-types';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { burgerPropTypes } from '../../utils/prop-types';
+import styles from './ingredient.module.css';
+
 
 function Ingredient({ data }) {
+
   return (
-    <article className={styles.ingredient}>
+    <article className={styles.ingredient} >
       <img src={data.image} alt={data.name} />
       <div className={styles.ingredient__price}>
         <p className="text text_type_digits-default pr-1">{data.price}</p>
@@ -17,12 +20,7 @@ function Ingredient({ data }) {
 }
 
 Ingredient.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }).isRequired,
+  data: burgerPropTypes.isRequired,
 };
-
 
 export default Ingredient;

@@ -1,69 +1,89 @@
 import React from 'react';
-import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import styles from './burger-ingredients.module.css';
-import Ingredient from './ingredient/ingredient';
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
+import Ingredient from './ingredient/ingredient';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modals/modal/modal';
+import { burgerPropTypes } from '../utils/prop-types'
 
 
+function BurgerIngredients({ burgers, onCloseModal }) {
 
-function BurgerIngredients({ burgers }) {
+  const [isIngredientModalOpen, setisIngredientModalOpen] = useState(false);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
-  const buns = burgers.filter((item) => item.type === 'bun');
-  const sauces = burgers.filter((item) => item.type === 'sauce');
-  const mains = burgers.filter((item) => item.type === 'main');
+  const handleIngredientClick = (ingredient) => {
+    setSelectedIngredient(ingredient);
+    setisIngredientModalOpen(true)
+  };
+
+  const filteredBurgers = useMemo(() => {
+    const buns = burgers.filter((item) => item.type === 'bun');
+    const sauces = burgers.filter((item) => item.type === 'sauce');
+    const mains = burgers.filter((item) => item.type === 'main');
+
+    return { buns, sauces, mains };
+  }, [burgers]);
+
+  const handleIngredientModalClose = () => {
+    setSelectedIngredient(null);
+    onCloseModal();
+  };
 
   return (
     <section className={styles.ingredients}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <IngredientsNavbar />
-      <div className={`${styles.ingredients_list} custom-scroll`}>
+      <div className={`${styles.ingredients_list} custom-scroll pr-2`}>
         <div className={styles.ingredients_buns}>
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <div className={styles.ingredients_container}>
-            {buns.map((bun) => (
-              <Ingredient key={bun._id} data={bun} />
+            {filteredBurgers.buns.map((bun) => (
+              <div key={bun._id} onClick={() => handleIngredientClick(bun)}>
+                <Ingredient data={bun} />
+              </div>
             ))}
           </div>
         </div>
         <div className={styles.ingredients_sauces}>
           <h2 className="text text_type_main-medium mb-6">Соусы</h2>
           <div className={styles.ingredients_container}>
-            {sauces.map((sauce) => (
-              <Ingredient key={sauce._id} data={sauce} />
+            {filteredBurgers.sauces.map((sauce) => (
+              <div key={sauce._id} onClick={() => handleIngredientClick(sauce)}>
+                <Ingredient data={sauce} />
+              </div>
             ))}
           </div>
         </div>
         <div className={styles.ingredients_mains}>
           <h2 className="text text_type_main-medium mb-6">Начинки</h2>
           <div className={styles.ingredients_container}>
-            {mains.map((main) => (
-              <Ingredient key={main._id} data={main} />
+            {filteredBurgers.mains.map((main) => (
+              <div key={main._id} onClick={() => handleIngredientClick(main)}>
+                <Ingredient data={main} />
+              </div>
             ))}
           </div>
         </div>
       </div>
+      {isIngredientModalOpen && selectedIngredient && (
+
+        <Modal onClose={handleIngredientModalClose}
+          headerHeading="Детали ингридиента">
+          <IngredientDetails ingredient={selectedIngredient}
+          />
+        </Modal>
+      )}
     </section>
   );
 }
 
 BurgerIngredients.propTypes = {
-  burgers: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  burgers: PropTypes.arrayOf(burgerPropTypes).isRequired,
+  onCloseModal: PropTypes.func.isRequired,
 };
 
-
 export default BurgerIngredients;
+
