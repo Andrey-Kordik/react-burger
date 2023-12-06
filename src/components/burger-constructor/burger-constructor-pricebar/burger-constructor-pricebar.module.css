@@ -1,0 +1,9 @@
+.burger_pricebar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.burger_price {
+    display: flex;
+    align-items: center;
+}

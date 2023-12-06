@@ -1,0 +1,19 @@
+.ingredients {
+  max-width: 600px;
+  width: 100%;
+}
+
+.ingredients_list {
+  max-width: 568px;
+  width: 100%;
+  margin: 0 auto;
+  height: 70vh;
+  overflow-y: auto;
+}
+
+.ingredients_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
