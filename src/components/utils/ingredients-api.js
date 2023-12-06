@@ -13,6 +13,17 @@ class IngredientsApi {
         return this._checkResult(res)
       })
   }
+getOrder(ids) {
+  return fetch(`${this.url}/orders`, {
+    method: 'POST',
+    headers: this.headers,
+    body: JSON.stringify({ ingredients: ids }),
+  })
+    .then(res => {
+      return this._checkResult(res);
+    });
+}
+
 
   _checkResult(res) {
     if (res.ok) {
@@ -26,6 +37,6 @@ class IngredientsApi {
 export const ingredientsApi = new IngredientsApi({
   url: 'https://norma.nomoreparties.space/api',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json;charset=utf-8'
   }
 });
