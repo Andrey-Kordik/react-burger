@@ -5,15 +5,18 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import { reorderIngredients } from "../../../services/constructor-ingredients/actions";
 import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
 
 const Filling = ({ ingredient, deleteIng, index }) => {
+
+
   const dispatch = useDispatch();
 
   const ref = useRef(null);
 
   const [{ isDragging }, drag] = useDrag({
     type: 'ingredient',
-    item: { index },
+    item:  {index} ,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -47,6 +50,8 @@ const Filling = ({ ingredient, deleteIng, index }) => {
       item.index = targetIndex;
     },
   });
+
+
 
   drag(drop(ref));
 

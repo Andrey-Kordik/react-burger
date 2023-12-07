@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './burger-constructor.module.css';
 import BurgerConstructorPriceBar from './burger-constructor-pricebar/burger-constructor-pricebar';
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient, reorderIngredients, setTotalPrice } from '../../services/constructor-ingredients/actions'
@@ -24,6 +24,8 @@ function BurgerConstructor() {
   const builder = useSelector((state) => state.selectedIngredients.burgerConstructor);
   const hasBuns = builder.filter((ingredient) => ingredient.type === "bun");
   const hasFillings = builder.filter((ingredient) => ingredient.type === "sauce" || ingredient.type === "main");
+
+  console.log(builder)
 
   const onDropHandler = (item) => {
     if (item.length > 0 && item[0].type === "bun") {
@@ -74,11 +76,11 @@ function BurgerConstructor() {
     <section className={`${styles.burgers_constructor} pt-25`}>
       <div className={`${styles.burger_construct_list} mr-2`} ref={dropTarget}>
 
-        {hasBuns.length > 0 && hasFillings.length > 0 && builder.length > 0 ? (
+        {hasBuns.length > 0 && hasFillings.length > 0 && (
           <div className={styles.burger_construct_list_item}>
             <div className={styles.no_icon}></div>
             {hasBuns.map((ingredient) => (
-              <Bun ingredient={ingredient} text={`${ingredient.name} (верх)`} type="top" key={ingredient.key}/>
+              <Bun ingredient={ingredient} text={`${ingredient.name} (верх)`} type="top" key={ingredient.key} />
             ))}
             <div className={` ${styles.burger_constructor_ing} custom-scroll`}  >
               {hasFillings.map((ingredient, index) => (
@@ -86,43 +88,41 @@ function BurgerConstructor() {
               ))}
             </div>
             {hasBuns.map((ingredient) => (
-              <Bun ingredient={ingredient} text={`${ingredient.name} (низ)`} type="bottom" key={ingredient.key}/>
+              <Bun ingredient={ingredient} text={`${ingredient.name} (низ)`} type="bottom" key={ingredient.key} />
             ))}
             <div className={styles.no_icon}></div>
           </div>
-        ) : (
+        )}
+
+        {hasBuns.length === 0 && hasFillings.length > 0 && (
           <>
-            {!hasBuns.length > 0 && hasFillings.length > 0 && (
-              <>
-                <div className={styles.burger_construct_container}>Выберите булку</div>
-                <div className={` ${styles.burger_constructor_ing} custom-scroll`} >
-                {hasFillings.map((ingredient, index) => (
+            <div className={styles.burger_construct_container}>Выберите булку</div>
+            <div className={` ${styles.burger_constructor_ing} custom-scroll`} >
+              {hasFillings.map((ingredient, index) => (
                 <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
               ))}
-                </div>
-                <div className={styles.burger_construct_container}>Выберите булку</div>
-              </>
-            )}
+            </div>
+            <div className={styles.burger_construct_container}>Выберите булку</div>
+          </>
+        )}
 
-            {hasBuns.length > 0 && !hasFillings.length > 0 && (
-              <>
-                {hasBuns.map((ingredient) => (
-                  <Bun ingredient={ingredient} text={`${ingredient.name} (верх)`} type="top" key={ingredient.key}/>
-                ))}
-                <div className={styles.burger_construct_container}>Выберите начинку</div>
-                {hasBuns.map((ingredient) => (
-                  <Bun ingredient={ingredient} text={`${ingredient.name} (низ)`} type="bottom" key={ingredient.key} />
-                ))}
-              </>
-            )}
+        {hasBuns.length > 0 && !hasFillings.length > 0 && (
+          <>
+            {hasBuns.map((ingredient) => (
+              <Bun ingredient={ingredient} text={`${ingredient.name} (верх)`} type="top" key={ingredient.key} />
+            ))}
+            <div className={styles.burger_construct_container}>Выберите начинку</div>
+            {hasBuns.map((ingredient) => (
+              <Bun ingredient={ingredient} text={`${ingredient.name} (низ)`} type="bottom" key={ingredient.key} />
+            ))}
+          </>
+        )}
 
-            {!hasBuns.length > 0 && !hasFillings.length > 0 && (
-              <>
-                <div className={styles.burger_construct_container}>Выберете булку</div>
-                <div className={styles.burger_construct_container}>Выберете начинку</div>
-                <div className={styles.burger_construct_container}>Выберете булку</div>
-              </>
-            )}
+        {!hasBuns.length > 0 && !hasFillings.length > 0 && (
+          <>
+            <div className={styles.burger_construct_container}>Выберете булку</div>
+            <div className={styles.burger_construct_container}>Выберете начинку</div>
+            <div className={styles.burger_construct_container}>Выберете булку</div>
           </>
         )}
       </div>
