@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 function Ingredient({ data }) {
-  const id = data;
+  const ing = data;
 
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
 
@@ -23,7 +23,7 @@ function Ingredient({ data }) {
 
   const [, dragRef] = useDrag({
     type: data.type === "bun" ? "bun" : "ingredient",
-    item: [ id ],
+    item: [ ing ],
   });
 
   return (

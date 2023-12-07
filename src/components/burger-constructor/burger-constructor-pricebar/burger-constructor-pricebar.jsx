@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
-import { useReducer, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadOrderNumber} from '../../../services/order-details/actions'
+import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
 
-function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal, totalPrice, ings}) {
+function BurgerConstructorPriceBar({ totalPrice, ings}) {
 
   const dispatch = useDispatch();
 
@@ -37,7 +36,10 @@ if (bunId) {
       });
   };
 
-console.log(ids)
+  const handleOrderModalClose = () => {
+    dispatch(clearOrderNumber());
+  };
+
 
   return (
     <div className={` ${styles.burger_pricebar} pt-10`}>
@@ -49,7 +51,7 @@ console.log(ids)
         Оформить заказ
       </Button>
       {orderNumber && (
-        <Modal onClose={onCloseModal}
+        <Modal onClose={handleOrderModalClose}
           headerHeading="">
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
@@ -59,9 +61,8 @@ console.log(ids)
 }
 
 BurgerConstructorPriceBar.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
-  onOpenWindow: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  ings: PropTypes.array.isRequired
 };
 
 export default BurgerConstructorPriceBar;

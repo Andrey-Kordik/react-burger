@@ -3,7 +3,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredients-navbar.module.css';
 
 
-
 function IngredientsNavbar({ current, setCurrent }) {
   return (
     <nav className={styles.navbar}>

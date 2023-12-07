@@ -8,10 +8,10 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modals/modal/modal';
 import { burgerPropTypes } from '../utils/prop-types'
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedIngredient, clearSelectedIngredient } from "../../services/selected-ingredients/actions"
+import { setSelectedIngredient, clearSelectedIngredient } from "../../services/constructor-ingredients/actions"
 
 
-function BurgerIngredients({ burgers, onCloseModal }) {
+function BurgerIngredients({ burgers }) {
 
   const dispatch = useDispatch();
   const selectedIngredient = useSelector((state) => state.selectedIngredients.selectedIngredient);
@@ -73,7 +73,6 @@ function BurgerIngredients({ burgers, onCloseModal }) {
 
   const handleIngredientModalClose = () => {
     dispatch(clearSelectedIngredient());
-    onCloseModal();
   };
 
   return (
@@ -123,7 +122,6 @@ function BurgerIngredients({ burgers, onCloseModal }) {
 
 BurgerIngredients.propTypes = {
   burgers: PropTypes.arrayOf(burgerPropTypes).isRequired,
-  onCloseModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

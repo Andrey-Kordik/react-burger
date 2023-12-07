@@ -18,17 +18,6 @@ function App() {
 
   const ingredientsData = ingredients.data
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOrderClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-
   useEffect(() => {
     dispatch(loadIngredients());
   }, []);
@@ -52,11 +41,9 @@ function App() {
         <main className={styles.main}>
           <BurgerIngredients
             burgers={ingredientsData}
-            onCloseModal={closeModal} />
+           />
           <BurgerConstructor
-            onOpenWindow={handleOrderClick}
-            isModalOpen={isModalOpen}
-            onCloseModal={closeModal}
+
           />
         </main>
       </DndProvider>

@@ -4,7 +4,7 @@ import confirmImage from '../../images/done.png'
 
 
 
-const OrderDetails = () => {
+const OrderDetails = ({orderNumber}) => {
 
   return (
     <div className={styles.order}>

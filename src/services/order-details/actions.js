@@ -3,6 +3,7 @@ import { ingredientsApi} from '../../components/utils/ingredients-api'
 export const ORDER_LOAD_SUCCESS = "ORDER_LOAD_SUCCESS";
 export const ORDER_LOADING = "ORDER_LOADING";
 export const ORDER_ERROR = "ORDER_ERROR";
+export const CLEAR_ORDER_NUMBER = "CLEAR_ORDER_NUMBER";
 
 export const loadOrderNumber = (ids) => (dispatch) => {
   dispatch({ type: ORDER_LOADING });
@@ -19,3 +20,7 @@ export const loadOrderNumber = (ids) => (dispatch) => {
       });
     });
 };
+
+export const clearOrderNumber = () => ({
+  type: 'CLEAR_ORDER_NUMBER'
+});

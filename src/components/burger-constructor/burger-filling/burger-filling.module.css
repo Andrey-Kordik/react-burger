@@ -1,0 +1,12 @@
+.burger_filling {
+  display: flex;
+  align-items: center;
+  max-width: 560px;
+  width: 100%;
+}
+
+.burger_filling_cont {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

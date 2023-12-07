@@ -1,7 +1,8 @@
 import {
   ORDER_LOAD_SUCCESS,
   ORDER_LOADING,
-  ORDER_ERROR,
+  ORDER_ERROR, 
+  CLEAR_ORDER_NUMBER
 } from "./actions";
 
 const initialState = {
@@ -29,10 +30,15 @@ export const reducer = (state = initialState, action) => {
     case ORDER_LOAD_SUCCESS:
       return {
         ...state,
-        orderNumber: action.payload.orderNumber,
+        orderNumber: action.payload,
         loading: false,
       };
 
+      case CLEAR_ORDER_NUMBER:
+        return {
+          ...state,
+          orderNumber: null,
+        };
 
     default:
       return state;

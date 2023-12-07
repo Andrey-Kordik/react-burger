@@ -3,7 +3,7 @@ import {
   CLEAR_SELECTED_INGREDIENT,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  UPDATE_CONSTRUCTOR,
+  REORDER_INGREDIENTS,
   SET_TOTAL_PRICE
 } from "./actions";
 
@@ -25,7 +25,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         selectedIngredient: null,
       };
-      case ADD_INGREDIENT:
+    case ADD_INGREDIENT:
       return {
         ...state,
         totalPrice: state.totalPrice + action.payload.price,
@@ -40,16 +40,21 @@ export const reducer = (state = initialState, action) => {
         ),
       };
 
-      case SET_TOTAL_PRICE:
-        return {
-          ...state,
-          totalPrice: action.payload,
-        };
-
-      case UPDATE_CONSTRUCTOR:
+    case SET_TOTAL_PRICE:
       return {
         ...state,
-        constructor: action.payload,
+        totalPrice: action.payload,
+      };
+
+    case REORDER_INGREDIENTS:
+      const { fromIndex, toIndex } = action.payload;
+      const updatedConstructor = [...state.burgerConstructor];
+
+      updatedConstructor.splice(toIndex, 0, updatedConstructor.splice(fromIndex, 1)[0]);
+
+      return {
+        ...state,
+        burgerConstructor: updatedConstructor,
       };
     default:
       return state;
