@@ -45,7 +45,7 @@ function BurgerConstructorPriceBar({ totalPrice, ings }) {
     dispatch(clearOrderNumber());
   };
 
-  const isButtonActive = hasBun && hasMain || hasSauce;
+  const isButtonActive = hasBun && hasMain && hasSauce;
 
   return (
     <div className={`${styles.burger_pricebar} pt-10`}>
