@@ -5,7 +5,7 @@ import BurgerConstructorPriceBar from './burger-constructor-pricebar/burger-cons
 import { useDrop } from "react-dnd";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { addIngredient, removeIngredient, reorderIngredients, setTotalPrice } from '../../services/constructor-ingredients/actions'
+import { addIngredient, removeIngredient, setTotalPrice } from '../../services/constructor-ingredients/actions'
 import { v4 as uuidv4 } from 'uuid';
 import Filling from './burger-filling/burger-filling';
 import Bun from './burger-bun/burger-bun';
@@ -61,7 +61,7 @@ function BurgerConstructor() {
     });
 
     if (bun) {
-      totalPrice += bun.price;
+      totalPrice += bun.price * 2;
     }
 
     dispatch(setTotalPrice(totalPrice));
