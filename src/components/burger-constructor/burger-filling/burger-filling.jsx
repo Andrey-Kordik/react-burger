@@ -5,10 +5,10 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import { reorderIngredients } from "../../../services/constructor-ingredients/actions";
 import { useDispatch } from "react-redux";
-import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { burgerPropTypes } from '../../utils/prop-types';
 
 const Filling = ({ ingredient, deleteIng, index }) => {
-
 
   const dispatch = useDispatch();
 
@@ -51,8 +51,6 @@ const Filling = ({ ingredient, deleteIng, index }) => {
     },
   });
 
-
-
   drag(drop(ref));
 
   return (
@@ -69,6 +67,12 @@ const Filling = ({ ingredient, deleteIng, index }) => {
       </div>
     </div>
   );
+};
+
+Filling.propTypes = {
+  ingredient: burgerPropTypes.isRequired,
+  deleteIng: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 export default Filling;

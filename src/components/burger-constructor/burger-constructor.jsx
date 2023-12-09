@@ -16,17 +16,6 @@ function BurgerConstructor() {
 
   const totalPrice = useSelector((state) => state.selectedIngredients.totalPrice);
 
-  const [, dropTarget] = useDrop({
-    accept: ["ingredient", "bun"],
-    drop: (item) => onDropHandler(item),
-  });
-
-  const builder = useSelector((state) => state.selectedIngredients.burgerConstructor);
-  const hasBuns = builder.filter((ingredient) => ingredient.type === "bun");
-  const hasFillings = builder.filter((ingredient) => ingredient.type === "sauce" || ingredient.type === "main");
-
-  console.log(builder)
-
   const onDropHandler = (item) => {
     if (item.length > 0 && item[0].type === "bun") {
       const existingBun = builder.find((ingredient) => ingredient.type === "bun");
@@ -40,6 +29,17 @@ function BurgerConstructor() {
       dispatch(addIngredient(newItem));
     }
   };
+
+  const [, dropTarget] = useDrop({
+    accept: ["ingredient", "bun"],
+    drop: (item) => onDropHandler(item),
+  });
+
+  const builder = useSelector((state) => state.selectedIngredients.burgerConstructor);
+  const hasBuns = builder.filter((ingredient) => ingredient.type === "bun");
+  const hasFillings = builder.filter((ingredient) => ingredient.type === "sauce" || ingredient.type === "main");
+
+  console.log(builder)
 
   const deleteIng = (item) => {
     dispatch(removeIngredient(item));

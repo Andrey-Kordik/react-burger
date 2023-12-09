@@ -5,7 +5,7 @@ import { burgerPropTypes } from '../../utils/prop-types';
 import styles from './ingredient.module.css';
 import { useDrag } from "react-dnd";
 import { Counter  } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 function Ingredient({ data }) {

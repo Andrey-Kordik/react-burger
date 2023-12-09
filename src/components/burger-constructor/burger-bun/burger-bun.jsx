@@ -1,5 +1,7 @@
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { burgerPropTypes } from '../../utils/prop-types';
 
 const Bun = ({ ingredient, text, type }) => {
 
@@ -16,6 +18,12 @@ const Bun = ({ ingredient, text, type }) => {
       />
     </div>
   );
+};
+
+Bun.propTypes = {
+  ingredient: burgerPropTypes.isRequired,
+  text: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default Bun;
