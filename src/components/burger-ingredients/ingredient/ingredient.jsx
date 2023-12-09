@@ -13,7 +13,7 @@ function Ingredient({ data }) {
 
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
 
-  let count = constructorIngredients.filter(
+  let count = constructorIngredients.ingredients.filter(
     (ingredient) => ingredient.name === data.name
   ).length;
 

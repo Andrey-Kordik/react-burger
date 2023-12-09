@@ -15,7 +15,7 @@ const Filling = ({ ingredient, deleteIng, index }) => {
   const ref = useRef(null);
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'ingredient',
+    type: 'sorting',
     item:  {index} ,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -23,7 +23,7 @@ const Filling = ({ ingredient, deleteIng, index }) => {
   });
 
   const [, drop] = useDrop({
-    accept: 'ingredient',
+    accept: 'sorting',
     hover(item, monitor) {
       const draggedIndex = item.index;
       const targetIndex = index;

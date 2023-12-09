@@ -9,7 +9,10 @@ import {
 
 const initialState = {
   selectedIngredient: null,
-  burgerConstructor: [],
+  burgerConstructor: {
+    bun: null,
+    ingredients: [],
+  },
   totalPrice: 0,
 };
 
@@ -25,37 +28,63 @@ export const reducer = (state = initialState, action) => {
         ...state,
         selectedIngredient: null,
       };
-    case ADD_INGREDIENT:
-      return {
-        ...state,
-        totalPrice: state.totalPrice + action.payload.price,
-        burgerConstructor: [...state.burgerConstructor, { ...action.payload, id: action.id }],
-      };
-    case REMOVE_INGREDIENT:
-      return {
-        ...state,
-        totalPrice: state.totalPrice - action.payload.price,
-        burgerConstructor: state.burgerConstructor.filter(
-          (ingredient) => ingredient !== action.payload
-        ),
-      };
-
+    case ADD_INGREDIENT: {
+      if (action.payload.type === 'bun') {
+        return {
+          ...state,
+          burgerConstructor: {
+            ...state.burgerConstructor,
+            bun: action.payload,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          burgerConstructor: {
+            ...state.burgerConstructor,
+            ingredients: [...state.burgerConstructor.ingredients, { ...action.payload, id: action.id }],
+          },
+        };
+      }
+    }
+    case REMOVE_INGREDIENT: {
+      if (action.payload.type === 'bun') {
+        return {
+          ...state,
+          burgerConstructor: {
+            ...state.burgerConstructor,
+            bun: null,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          burgerConstructor: {
+            ...state.burgerConstructor,
+            ingredients: state.burgerConstructor.ingredients.filter((ingredient) => ingredient !== action.payload),
+          },
+        };
+      }
+    }
     case SET_TOTAL_PRICE:
       return {
         ...state,
         totalPrice: action.payload,
       };
-
-    case REORDER_INGREDIENTS:
+    case REORDER_INGREDIENTS: {
       const { fromIndex, toIndex } = action.payload;
-      const updatedConstructor = [...state.burgerConstructor];
+      const updatedIngredients = [...state.burgerConstructor.ingredients];
 
-      updatedConstructor.splice(toIndex, 0, updatedConstructor.splice(fromIndex, 1)[0]);
+      updatedIngredients.splice(toIndex, 0, updatedIngredients.splice(fromIndex, 1)[0]);
 
       return {
         ...state,
-        burgerConstructor: updatedConstructor,
+        burgerConstructor: {
+          ...state.burgerConstructor,
+          ingredients: updatedIngredients,
+        },
       };
+    }
     default:
       return state;
   }

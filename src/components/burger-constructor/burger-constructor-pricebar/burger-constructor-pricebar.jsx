@@ -7,26 +7,31 @@ import OrderDetails from '../../order-details/order-details';
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
 
-function BurgerConstructorPriceBar({ totalPrice, ings }) {
+function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
   const dispatch = useDispatch();
 
+  const components = [...ings, bun];
   const ids = [];
   let bunId = null;
   let hasBun = false;
   let hasMain = false;
   let hasSauce = false;
 
-  ings.forEach((ingredient) => {
-    if (ingredient.type === "bun") {
+
+
+  components.forEach((ingredient) => {
+    if (ingredient && ingredient.type === "bun") {
       bunId = ingredient._id;
       ids.unshift(bunId);
       hasBun = true;
-    } else if (ingredient.type === "main") {
+    } else if (ingredient && ingredient.type === "main") {
       hasMain = true;
-    } else if (ingredient.type === "sauce") {
+    } else if (ingredient && ingredient.type === "sauce") {
       hasSauce = true;
     }
-    ids.push(ingredient._id);
+    if (ingredient) {
+      ids.push(ingredient._id);
+    }
   });
 
   if (bunId) {
@@ -65,10 +70,10 @@ function BurgerConstructorPriceBar({ totalPrice, ings }) {
   );
 }
 
-
 BurgerConstructorPriceBar.propTypes = {
   totalPrice: PropTypes.number.isRequired,
-  ings: PropTypes.array.isRequired
+  ings: PropTypes.array.isRequired,
+  bun: PropTypes.object,
 };
 
 export default BurgerConstructorPriceBar;
