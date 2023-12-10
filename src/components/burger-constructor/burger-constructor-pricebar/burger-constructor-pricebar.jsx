@@ -4,22 +4,66 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
+import { useDispatch, useSelector } from "react-redux";
+import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
 
-function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) {
+function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
+  const dispatch = useDispatch();
+
+  const components = [...ings, bun];
+  const ids = [];
+  let bunId = null;
+  let hasBun = false;
+  let hasMain = false;
+  let hasSauce = false;
+
+
+
+  components.forEach((ingredient) => {
+    if (ingredient && ingredient.type === "bun") {
+      bunId = ingredient._id;
+      ids.unshift(bunId);
+      hasBun = true;
+    } else if (ingredient && ingredient.type === "main") {
+      hasMain = true;
+    } else if (ingredient && ingredient.type === "sauce") {
+      hasSauce = true;
+    }
+    if (ingredient) {
+      ids.push(ingredient._id);
+    }
+  });
+
+  if (bunId) {
+    ids.push(bunId);
+  }
+
+  const orderNumber = useSelector((state) => state.orderNumber.orderNumber);
+
+  const handleOrderSubmit = () => {
+    dispatch(loadOrderNumber(ids)).catch((error) => {
+      console.error(error);
+    });
+  };
+
+  const handleOrderModalClose = () => {
+    dispatch(clearOrderNumber());
+  };
+
+  const isButtonActive = hasBun && hasMain && hasSauce;
 
   return (
-    <div className={` ${styles.burger_pricebar} pt-10`}>
-      <div className={` ${styles.burger_price} pr-10`}>
-        <p className='text text_type_digits-medium pr-2'>610</p>
+    <div className={`${styles.burger_pricebar} pt-10`}>
+      <div className={`${styles.burger_price} pr-10`}>
+        <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
         <CurrencyIcon />
       </div>
-      <Button onClick={onOpenWindow} type="primary" htmlType='button'>
+      <Button onClick={handleOrderSubmit} type="primary" htmlType="button" disabled={!isButtonActive}>
         Оформить заказ
       </Button>
-      {isModalOpen && (
-        <Modal onClose={onCloseModal}
-          headerHeading="">
-          <OrderDetails />
+      {orderNumber && (
+        <Modal onClose={handleOrderModalClose} headerHeading="">
+          <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
     </div>
@@ -27,9 +71,9 @@ function BurgerConstructorPriceBar({ onOpenWindow, isModalOpen, onCloseModal }) 
 }
 
 BurgerConstructorPriceBar.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
-  onOpenWindow: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  ings: PropTypes.array.isRequired,
+  bun: PropTypes.object,
 };
 
 export default BurgerConstructorPriceBar;

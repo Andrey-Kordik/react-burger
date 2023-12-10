@@ -3,6 +3,7 @@
   width: 100%;
   text-align: center;
   cursor: pointer;
+  position: relative;
 }
 
 .ingredient__price {

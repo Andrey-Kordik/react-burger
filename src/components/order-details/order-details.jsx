@@ -3,10 +3,12 @@ import styles from './order-details.module.css'
 import confirmImage from '../../images/done.png'
 
 
-const OrderDetails = () => {
+
+const OrderDetails = ({orderNumber}) => {
+
   return (
     <div className={styles.order}>
-      <p className='text text_type_digits-large mb-8'>034536</p>
+      <p className={` ${styles.order_digits} text text_type_digits-large mb-8`}>{orderNumber}</p>
       <p className='text text_type_main-medium mb-15'>идентификатор заказа</p>
       <img className={styles.order__confirm_image} src={confirmImage}></img>
       <p className='text text_type_main-small mb-2'>Ваш заказ начали готовит</p>

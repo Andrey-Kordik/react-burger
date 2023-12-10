@@ -1,10 +1,17 @@
-.burger_construct_list {
+.burgers_constructor {
   max-width: 600px;
   width: 100%;
-  padding-right: 8px;
-  height: 55vh;
   display: flex;
   flex-direction: column;
+
+}
+
+
+.burger_construct_list {
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 
@@ -15,10 +22,22 @@
   gap: 10px;
 }
 
+.burger_constructor_ing {
+  overflow-y: scroll;
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+
 .burger_construct_list_item {
   max-width: 568px;
   width: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
   justify-content: space-between;
 }
@@ -30,4 +49,44 @@
 .no_icon {
   max-width: 30px;
   width: 100%;
+}
+
+.burger_construct_empty {
+  max-width: 536px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.burger_construct_container {
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  background-color: #1C1C21;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.burger_construct_container:first-child {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.burger_construct_container:last-child {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.burger_construct_full {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.burger_construct_full {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
