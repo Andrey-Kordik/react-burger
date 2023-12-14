@@ -1,7 +1,6 @@
-import styles from './ingredient-details.module.css'
-import PropTypes from 'prop-types';
-import { burgerPropTypes } from '../utils/prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import styles from './ingredient-details.module.css';
+
+import {  useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const IngredientDetails = () => {

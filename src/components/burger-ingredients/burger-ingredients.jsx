@@ -3,23 +3,12 @@ import styles from './burger-ingredients.module.css';
 import { useMemo, useState, useEffect,useRef } from 'react';
 import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modals/modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedIngredient, clearSelectedIngredient } from "../../services/constructor-ingredients/actions"
-import { loadIngredients } from '../../services/ingredients/actions'
-import Preloader from '../Preloader/Preloader';
+import PropTypes from 'prop-types';
 
-function BurgerIngredients() {
-  const dispatch = useDispatch();
+function BurgerIngredients({ingredientsData}) {
 
   const [current, setCurrent] = useState('bun');
   const ingredientsContainerRef = useRef();
-
-
-
-  const { loading, error, ingredients } = useSelector((store) => store.ingredients);
-  const ingredientsData = ingredients.data || [];
 
   const filteredBurgers = useMemo(() => {
     const buns = ingredientsData.filter((item) => item.type === 'bun');
@@ -28,22 +17,6 @@ function BurgerIngredients() {
 
     return { buns, sauces, mains };
   }, [ingredientsData]);
-
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
-
-  if (loading) {
-    return < Preloader />;
-  }
-
-  if (!loading && error) {
-    return <h2>{`Ошибка: ${error}`}</h2>;
-  }
-
-  if (ingredients.length === 0) {
-    return null;
-  }
 
 
   return (
@@ -86,7 +59,9 @@ function BurgerIngredients() {
   );
 }
 
-
+BurgerIngredients.propTypes = {
+  ingredientsData: PropTypes.array.isRequired,
+};
 
 export default BurgerIngredients;
 

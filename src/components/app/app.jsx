@@ -1,43 +1,72 @@
 import React from 'react';
 import styles from './app.module.css';
-import Header from '../app-header/app-header';
-import HomePage from '../../pages/home';
+import HomePage from '../../pages/home/home';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modals/modal/modal';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients } from '../../services/ingredients/actions'
+import { useEffect } from 'react';
+import Preloader from '../Preloader/Preloader';
+import Header from '../app-header/app-header';
+import Login from '../../pages/login/login';
 
 function App() {
+
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading, error, ingredients } = useSelector((store) => store.ingredients);
+  const ingredientsData = ingredients.data || [];
   const background = location.state && location.state.background;
 
+  useEffect(() => {
+    dispatch(loadIngredients());
+  }, []);
+
+
+  if (loading) {
+    return < Preloader />;
+  }
+
+  if (!loading && error) {
+    return <h2>{`Ошибка: ${error}`}</h2>;
+  }
+
   const handleModalClose = () => {
-    // Возвращаемся к предыдущему пути при закрытии модалки
     navigate(-1);
   };
 
-  return (
-    <div className={styles.app}>
-   <Routes location={background || location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path='/ingredients/:ingredientId'
-               element={<IngredientDetails />} />
-      </Routes>
-      {background && (
-        <Routes>
-	        <Route path='/ingredients/:ingredientId'
-	          element={
-	            <Modal headerHeading='Детали ингридиента' onClose={handleModalClose}>
-	              <IngredientDetails />
-	            </Modal>
-	          }
-	        />
-        </Routes>
-      )}
 
-    </div>
-  );
+  if (ingredientsData.length > 0) {
+    return (
+      <div className={styles.app}>
+        <Header />
+        <Routes location={background || location}>
+          <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
+          <Route path='/ingredients/:ingredientId'element={<IngredientDetails />} />
+          <Route path='/login' element={<Login />} />
+        </Routes>
+
+
+        {background && (
+          <Routes>
+            <Route path='/ingredients/:ingredientId'
+              element={
+                <Modal headerHeading='Детали ингридиента' onClose={handleModalClose}>
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export default App;

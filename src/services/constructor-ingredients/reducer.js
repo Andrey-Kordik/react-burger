@@ -1,5 +1,4 @@
 import {
-  SET_SELECTED_INGREDIENT,
   CLEAR_SELECTED_INGREDIENT,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
@@ -8,7 +7,6 @@ import {
 } from "./actions";
 
 const initialState = {
-  selectedIngredient: {},
   burgerConstructor: {
     bun: null,
     ingredients: [],
@@ -18,11 +16,6 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SELECTED_INGREDIENT:
-      return {
-        ...state,
-        selectedIngredient: action.payload,
-      };
     case CLEAR_SELECTED_INGREDIENT:
       return {
         ...state,
