@@ -8,7 +8,7 @@ import {
 } from "./actions";
 
 const initialState = {
-  selectedIngredient: null,
+  selectedIngredient: {},
   burgerConstructor: {
     bun: null,
     ingredients: [],

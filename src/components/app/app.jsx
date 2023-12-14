@@ -1,28 +1,41 @@
 import React from 'react';
 import styles from './app.module.css';
-import { useState, useEffect } from 'react';
 import Header from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import HomePage from '../../pages/home';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modals/modal/modal';
 
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
+
+  const handleModalClose = () => {
+    // Возвращаемся к предыдущему пути при закрытии модалки
+    navigate(-1);
+  };
 
   return (
     <div className={styles.app}>
-      <Header />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients
-           />
-          <BurgerConstructor
+   <Routes location={background || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path='/ingredients/:ingredientId'
+               element={<IngredientDetails />} />
+      </Routes>
+      {background && (
+        <Routes>
+	        <Route path='/ingredients/:ingredientId'
+	          element={
+	            <Modal headerHeading='Детали ингридиента' onClose={handleModalClose}>
+	              <IngredientDetails />
+	            </Modal>
+	          }
+	        />
+        </Routes>
+      )}
 
-          />
-        </main>
-      </DndProvider>
     </div>
   );
 }

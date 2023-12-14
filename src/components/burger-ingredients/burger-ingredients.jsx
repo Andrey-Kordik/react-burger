@@ -12,13 +12,11 @@ import Preloader from '../Preloader/Preloader';
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
-  const selectedIngredient = useSelector((state) => state.selectedIngredients.selectedIngredient);
+
   const [current, setCurrent] = useState('bun');
   const ingredientsContainerRef = useRef();
 
-  const handleIngredientClick = (ingredient) => {
-    dispatch(setSelectedIngredient(ingredient));
-  };
+
 
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
   const ingredientsData = ingredients.data || [];
@@ -47,9 +45,6 @@ function BurgerIngredients() {
     return null;
   }
 
-  const handleIngredientModalClose = () => {
-    dispatch(clearSelectedIngredient());
-  };
 
   return (
     <section className={styles.ingredients}>
@@ -60,7 +55,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.buns.map((bun) => (
-              <div key={bun._id} onClick={() => handleIngredientClick(bun)}>
+              <div key={bun._id}>
                 <Ingredient data={bun} />
               </div>
             ))}
@@ -70,7 +65,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Соусы</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.sauces.map((sauce) => (
-              <div key={sauce._id} onClick={() => handleIngredientClick(sauce)}>
+              <div key={sauce._id} >
                 <Ingredient data={sauce} />
               </div>
             ))}
@@ -80,18 +75,13 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Начинки</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.mains.map((main) => (
-              <div key={main._id} onClick={() => handleIngredientClick(main)}>
+              <div key={main._id} >
                 <Ingredient data={main} />
               </div>
             ))}
           </div>
         </div>
       </div>
-      {selectedIngredient && (
-        <Modal onClose={handleIngredientModalClose} headerHeading="Детали ингридиента">
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      )}
     </section>
   );
 }
