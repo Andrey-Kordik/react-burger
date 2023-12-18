@@ -13,17 +13,17 @@ class IngredientsApi {
         return this._checkResult(res)
       })
   }
-getOrder(ids) {
-  return fetch(`${this.url}/orders`, {
-    method: 'POST',
-    headers: this.headers,
-    body: JSON.stringify({ ingredients: ids }),
-  })
-    .then(res => {
-      return this._checkResult(res);
-    });
-}
 
+  getOrder(ids) {
+    return fetch(`${this.url}/orders`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({ ingredients: ids }),
+    })
+      .then(res => {
+        return this._checkResult(res);
+      });
+  }
 
   _checkResult(res) {
     if (res.ok) {
@@ -31,6 +31,8 @@ getOrder(ids) {
     }
     return Promise.reject(`Ошибка ${res.status}`)
   }
+
+
 
 }
 

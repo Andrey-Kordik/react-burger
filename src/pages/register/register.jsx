@@ -1,41 +1,54 @@
 import React from 'react';
-import commonStyles from './login.module.css';
+import styles from './register.module.css';
+import commonStyles from '../login/login.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../services/auth/actions'
+import { register } from '../../services/auth/actions';
 
 
-function Login() {
+function Register() {
+  const dispatch = useDispatch();
+  const registerState = useSelector(state => state.authReducer);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const inputRef = useRef(null);
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const loginState = useSelector(state => state.authReducer);
+  const [nameValue, setNameValue] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
-
-  useEffect(() => {
-    setIsFormValid(emailValue && passwordValue);
-  }, [emailValue, passwordValue]);
+  const inputRef = useRef(null);
 
   const onIconClickPassword = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(emailValue, passwordValue))
+    dispatch(register(nameValue, emailValue, passwordValue))
   };
+
+  useEffect(() => {
+    setIsFormValid(nameValue && emailValue && passwordValue);
+  }, [nameValue, emailValue, passwordValue]);
 
   return (
     <div className={commonStyles.login}>
       <div className={commonStyles.login_container}>
-        <p className='text text_type_main-default mb-6'>Вход</p>
-        <form className={` ${commonStyles.form_container} mb-20`} onSubmit={handleLogin}>
+        <p className='text text_type_main-default mb-6'>Регистрация</p>
+        <form className={` ${commonStyles.form_container} mb-20`} onSubmit={handleSubmit}>
+          <Input
+            type={'text'}
+            placeholder={'Имя'}
+            onChange={(e) => setNameValue(e.target.value)}
+            name={'name'}
+            error={false}
+            errorText={'Ошибка'}
+            size={'default'}
+            extraClass='mb-6'
+            value={nameValue}
+            required
+          />
           <Input
             type={'email'}
             placeholder={'E-mail'}
@@ -64,22 +77,18 @@ function Login() {
             required
             minLength='6'
           />
-          <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || loginState.loading}>
-            {loginState.loading ? 'Загрузка' : 'Войти'}
+          <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || registerState.loading}>
+            {registerState.loading ? 'Загрузка' : 'Зарегистрироваться'}
           </Button>
-          {loginState.error && <p className={commonStyles.error}>{loginState.error}</p>}
+          {registerState.error && <p className={commonStyles.error}>{registerState.error}</p>}
         </form>
         <div className={`${commonStyles.link_container} mb-4`}>
-          <p className='text text_type_main-default text_color_inactive mr-2'>Вы - новый пользователь?</p>
-          <Link className={commonStyles.login_link} to="/register">Зарегистрироваться</Link>
-        </div>
-        <div className={`${commonStyles.link_container} mb-4`}>
-          <p className='text text_type_main-default text_color_inactive mr-2'>Забыли пароль?</p>
-          <Link className={commonStyles.login_link} to="/forgot-password">Восстановить пароль</Link>
+          <p className='text text_type_main-default text_color_inactive mr-2'>Уже зарегистрированы?</p>
+          <Link className={commonStyles.login_link} to="/login">Войти</Link>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;

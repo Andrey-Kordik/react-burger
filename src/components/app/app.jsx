@@ -10,6 +10,15 @@ import { useEffect } from 'react';
 import Preloader from '../Preloader/Preloader';
 import Header from '../app-header/app-header';
 import Login from '../../pages/login/login';
+import Register from '../../pages/register/register';
+import ForgotPassword from '../../pages/forgot-password/forgot-password';
+import ResetPassword from '../../pages/reset-password/reset-password';
+import Profile from '../../pages/profile/profile';
+import {checkUserAuth, refreshToken} from '../../services/auth/actions'
+import { OnlyAuth, OnlyUnAuth} from '../protected-route/protected-route'
+import { getUser } from '../../services/auth/actions'
+
+
 
 function App() {
 
@@ -19,10 +28,14 @@ function App() {
 
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
   const ingredientsData = ingredients.data || [];
+
   const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(loadIngredients());
+    dispatch(checkUserAuth());
+    dispatch(getUser());
+
   }, []);
 
 
@@ -44,9 +57,13 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Routes location={background || location}>
-          <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
+          <Route path="/" element={<OnlyAuth component= {<HomePage ingredientsData={ingredientsData} />} /> } />
           <Route path='/ingredients/:ingredientId'element={<IngredientDetails />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={<OnlyUnAuth component= {<Login />} />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/reset-password' element={<ResetPassword />} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
 
 
