@@ -3,16 +3,23 @@ import commonStyles from '../login/login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { sendCode } from '../../services/auth/actions';
 
 function ForgotPassword() {
   const [emailValue, setEmailValue] = useState('');
+  const dispatch = useDispatch();
+
+  const handleResetPassword = (e) => {
+    e.preventDefault();
+    dispatch(sendCode(emailValue))
+  };
 
   return (
     <div className={commonStyles.login}>
       <div className={commonStyles.login_container}>
         <p className='text text_type_main-default mb-6'>Восстановление пароля</p>
-        <form className={` ${commonStyles.form_container} mb-20`}>
+        <form className={` ${commonStyles.form_container} mb-20`} onSubmit={handleResetPassword}>
           <Input
             type={'email'}
             placeholder={'E-mail'}
@@ -25,7 +32,7 @@ function ForgotPassword() {
             value={emailValue}
             required
           />
-          <Button htmlType="button" type="primary" size="medium">Восстановить</Button>
+          <Button htmlType="submit" type="primary" size="medium">Восстановить</Button>
         </form>
         <div className={`${commonStyles.link_container} mb-4`}>
           <p className='text text_type_main-default text_color_inactive mr-2'>Вспомнили пароль?</p>

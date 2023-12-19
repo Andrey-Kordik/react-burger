@@ -34,7 +34,6 @@ function App() {
   useEffect(() => {
     dispatch(loadIngredients());
     dispatch(checkUserAuth());
-    dispatch(getUser());
 
   }, []);
 
@@ -57,7 +56,7 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Routes location={background || location}>
-          <Route path="/" element={<OnlyAuth component= {<HomePage ingredientsData={ingredientsData} />} /> } />
+          <Route path="/" element= {<HomePage ingredientsData={ingredientsData} />}  />
           <Route path='/ingredients/:ingredientId'element={<IngredientDetails />} />
           <Route path='/login' element={<OnlyUnAuth component= {<Login />} />} />
           <Route path='/register' element={<Register />} />

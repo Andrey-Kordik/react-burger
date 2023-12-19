@@ -7,11 +7,15 @@ import {
   LOGIN_ERROR,
   SET_IS_AUTH_CHECKED,
   SET_USER,
-  REFRESH_TOKEN,
-  REFRESH_TOKEN_FAILURE,
   LOGOUT_FAILURE,
   LOGOUT_REQUEST,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  SEND_CODE_ERROR,
+  SEND_CODE_SUCCESS,
+  SEND_CODE_LOADING,
+  RESET_PASSWORD_ERROR,
+  RESET_PASSWORD_LOADING,
+  RESET_PASSWORD_SUCCESS
 } from "./actions";
 
 const initialState = {
@@ -35,25 +39,14 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        accessToken: "",
+        refreshToken: "",
       };
     case LOGOUT_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
-      };
-    case REFRESH_TOKEN:
-      return {
-        ...state,
-        refreshToken: action.payload.refreshToken,
-        accessToken: action.payload.accessToken,
-        loading: false,
-      };
-    case REFRESH_TOKEN_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
       };
     case SET_IS_AUTH_CHECKED:
       return {
@@ -100,11 +93,45 @@ export const reducer = (state = initialState, action) => {
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
       };
+    case SEND_CODE_LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case SEND_CODE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case SEND_CODE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case RESET_PASSWORD_LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case RESET_PASSWORD_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
     case SET_USER:
       return {
         ...state,
         user: action.payload
-      }
+      };
     default:
       return state;
   }

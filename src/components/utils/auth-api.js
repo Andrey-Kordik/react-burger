@@ -10,28 +10,28 @@ class AuthApi {
   }
 
   getUserData() {
-    return fetch(`${this.url}/auth/user`, {
+    return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: "GET",
       headers: this.headers
     })
       .then(res => {
-        return this._checkResult(res)
+        return res;
       })
   }
 
   editUserData({ email, name }) {
-    return fetch(`${this.url}/auth/user`, {
+    return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({ email: email, name: name })
     })
       .then(res => {
-        return this._checkResult(res)
+        return res;
       })
   }
 
   register(name, email, password) {
-    return fetch(`${this.url}/auth/register`, {
+    return this.fetchWithRefresh(`${this.url}/auth/register`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
@@ -41,12 +41,12 @@ class AuthApi {
       })
     })
       .then(res => {
-        return this._checkResult(res)
+        return res;
       })
   }
 
   authorize(email, password) {
-    return fetch(`${this.url}/auth/login`, {
+    return this.fetchWithRefresh(`${this.url}/auth/login`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
@@ -55,11 +55,11 @@ class AuthApi {
       })
     })
       .then(res => {
-        return this._checkResult(res)
+        return res;
       })
   }
 
-  refreshToken () {
+  refreshToken() {
     return fetch(`${this.url}/auth/token`, {
       method: "POST",
       headers: {
@@ -68,16 +68,19 @@ class AuthApi {
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
-    }).then(checkReponse);
+    })
+      .then(res => {
+        return this._checkResult(res)
+      })
   };
 
-   fetchWithRefresh = async (url, options) => {
+  fetchWithRefresh = async (url, options) => {
     try {
       const res = await fetch(url, options);
-      return await checkReponse(res);
+      return await this._checkResult(res);
     } catch (err) {
       if (err.message === "jwt expired") {
-        const refreshData = await refreshToken(); //обновляем токен
+        const refreshData = await this.refreshToken(); //обновляем токен
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }
@@ -85,22 +88,57 @@ class AuthApi {
         localStorage.setItem("accessToken", refreshData.accessToken);
         options.headers.authorization = refreshData.accessToken;
         const res = await fetch(url, options); //повторяем запрос
-        return await checkReponse(res);
+        return await this._checkResult(res);
       } else {
         return Promise.reject(err);
       }
     }
   };
 
-  logout() {
-    return fetch(`${this.url}/auth/logout`, {
+  logout(refreshToken) {
+    const body = {
+      token: refreshToken,
+    };
+    return this.fetchWithRefresh(`${this.url}/auth/logout`, {
       method: 'POST',
-      headers: this._headers,
+      headers: this.headers,
+      body: JSON.stringify(body),
     })
       .then(res => {
-        return this._checkResult(res)
-      })
-  };
+        return res;
+      });
+  }
+
+
+  sendCode(email) {
+    const body = {
+      email: email,
+    };
+    return fetch(`${this.url}/password-reset`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(body),
+    })
+      .then(res => {
+        return res;
+      });
+  }
+
+  resetPassword(token, password) {
+    const body = {
+      token: token,
+      password: password
+    };
+    return fetch(`${this.url}/password-reset/reset`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(body),
+    })
+      .then(res => {
+        return res;
+      });
+  }
+
 }
 
 export const authApi = new AuthApi({

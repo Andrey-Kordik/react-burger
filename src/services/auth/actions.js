@@ -3,32 +3,80 @@ import { authApi } from '../../components/utils/auth-api'
 export const REGISTER_LOAD_SUCCESS = "REGISTER_LOAD_SUCCESS";
 export const REGISTER_LOADING = "REGISTER_LOADING";
 export const REGISTER_ERROR = "REGISTER_ERROR";
+
 export const LOGIN_LOAD_SUCCESS = "LOGIN_LOAD_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+
 export const GET_USER = "GET_USER";
 export const SET_IS_AUTH_CHECKED = 'SET_IS_AUTH_CHECKED'
 export const SET_USER = "SET_USER";
-export const REFRESH_TOKEN = "REFRESH_TOKEN"
-export const REFRESH_TOKEN_FAILURE = "REFRESH_TOKEN_FAILURE"
+
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE"
 
-export const logout = () => (dispatch) => {
-  dispatch({ type: LOGOUT_REQUEST });
-  return authApi.logout()
-    .then(data => {
-      if (data.success) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        setUser(null)
+export const SEND_CODE_LOADING = "SEND_CODE_LOADING"
+export const SEND_CODE_SUCCESS = "SEND_CODE_SUCCESS"
+export const SEND_CODE_ERROR = "SEND_CODE_ERROR"
+
+export const RESET_PASSWORD_LOADING = "SEND_CODE_LOADING"
+export const RESET_PASSWORD_SUCCESS = "SEND_CODE_SUCCESS"
+export const RESET_PASSWORD_ERROR = "SEND_CODE_ERROR"
+
+export const resetPassword = (token, password) => (dispatch) => {
+  dispatch({ type: RESET_PASSWORD_LOADING });
+  return authApi.resetPassword(token, password)
+    .then(res => {
+      dispatch({
+        type: RESET_PASSWORD_SUCCESS,
+        payload: res
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: RESET_PASSWORD_ERROR,
+        payload: error.message,
+      });
+      console.log(error.message);
+    });
+};
+
+
+export const sendCode = function(email) {
+  return function(dispatch) {
+    dispatch({ type: SEND_CODE_LOADING });
+
+    return authApi.sendCode(email)
+      .then(function(res) {
         dispatch({
-          type: LOGOUT_SUCCESS,
+          type: SEND_CODE_SUCCESS,
+          payload: res,
         });
-      } else {
-        dispatch(logoutFailure(data.message));
-      }
+      })
+      .catch(function(error) {
+        dispatch({
+          type: SEND_CODE_ERROR,
+          payload: error.message,
+        });
+        console.log(error.message);
+      });
+  };
+};
+
+
+export const logout = () => (dispatch, getState) => {
+  dispatch({ type: LOGOUT_REQUEST });
+  const refreshToken = getState().authReducer.refreshToken;
+  console.log(refreshToken);
+  return authApi.logout(refreshToken)
+    .then(data => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      dispatch(setUser(null));
+      dispatch({
+        type: LOGOUT_SUCCESS,
+      });
     })
     .catch(error => {
       dispatch({
@@ -38,22 +86,8 @@ export const logout = () => (dispatch) => {
     });
 };
 
-export const refreshToken = (refreshToken, accessToken) => (dispatch) => {
-  dispatch({ type: REFRESH_TOKEN });
-  return authApi.fetchWithRefresh(url, options)
-    .then(res => {
-      dispatch({
-        type: REFRESH_TOKEN,
-        payload: {
-          refreshToken,
-          accessToken,
-        },
-      });
-    })
-    .catch(error => {
-      dispatch({ type: REFRESH_TOKEN_FAILURE, payload: error });
-    });
-};
+
+
 
 export const register = (name, email, password) => (dispatch) => {
   dispatch({ type: REGISTER_LOADING });
