@@ -151,6 +151,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        user: action.payload,
       };
     default:
       return state;

@@ -6,11 +6,19 @@ import { MenuIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-function Header() {
 
-  const user = useSelector(state => state.authReducer.user);
-  const userName = user && user.name;
+function Header({ userName }) {
+
+  const [nameValue, setNameValue] = useState(null);
+
+  useEffect(() => {
+    setNameValue(userName);
+  }, [userName]);
+
+  console.log(nameValue);
+
 
   return (
     <header className={styles.header}>
@@ -38,7 +46,7 @@ function Header() {
         <div className={styles.header__profile}>
           {userName ? (
             <NavLink to="/profile" className={`${window.location.pathname === '/profile' ? styles.header__links : styles.header__links_inactive} pl-2`}>
-              {userName}
+              {nameValue}
             </NavLink>
           ) : (
             <>

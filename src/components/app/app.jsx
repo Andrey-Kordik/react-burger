@@ -19,6 +19,7 @@ import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route'
 import { getUser } from '../../services/auth/actions'
 
 
+
 function App() {
 
   const location = useLocation();
@@ -29,11 +30,13 @@ function App() {
   const ingredientsData = ingredients.data || [];
 
   const background = location.state && location.state.background;
-
+  const user = useSelector(state => state.authReducer.user);
+  const userName = user && user.name
+console.log(userName)
   useEffect(() => {
-    dispatch(getUser())
-    dispatch(loadIngredients());
     dispatch(checkUserAuth());
+    dispatch(getUser())
+    dispatch(loadIngredients())
 
   }, []);
 
@@ -54,15 +57,15 @@ function App() {
   if (ingredientsData.length > 0) {
     return (
       <div className={styles.app}>
-        <Header />
+        <Header userName={userName}/>
         <Routes location={background || location}>
           <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
           <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
           <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
-          <Route path='/register' element={<Register />} />
+          <Route path='/register' element={<OnlyUnAuth component={<Register />} />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<OnlyAuth component={<Profile user={user}/>} />} />
         </Routes>
 
 

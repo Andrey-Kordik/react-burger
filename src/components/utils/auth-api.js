@@ -19,7 +19,7 @@ class AuthApi {
       })
   }
 
-  editUserData({ email, name, password }) {
+  editUserData( email, name, password ) {
     return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: "PATCH",
       headers: this.headers,
@@ -62,9 +62,7 @@ class AuthApi {
   refreshToken() {
     return fetch(`${this.url}/auth/token`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
+      headers: this.headers,
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
@@ -74,26 +72,28 @@ class AuthApi {
       })
   };
 
+
   fetchWithRefresh = async (url, options) => {
     try {
       const res = await fetch(url, options);
       return await this._checkResult(res);
     } catch (err) {
       if (err.message === "jwt expired") {
-        const refreshData = await this.refreshToken(); //обновляем токен
+        const refreshData = await this.refreshToken(); // обновляем токен
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }
         localStorage.setItem("refreshToken", refreshData.refreshToken);
         localStorage.setItem("accessToken", refreshData.accessToken);
-        options.headers.authorization = refreshData.accessToken;
-        const res = await fetch(url, options); //повторяем запрос
+        options.headers.authorization = refreshData.accessToken; // обновляем заголовок
+        const res = await fetch(url, options); // повторяем запрос
         return await this._checkResult(res);
       } else {
         return Promise.reject(err);
       }
     }
   };
+
 
   logout(refreshToken) {
     const body = {

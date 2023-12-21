@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/auth/actions'
 import { editUserData } from '../../services/auth/actions'
 
-function Profile() {
+function Profile({user}) {
   const [emailValue, setEmailValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -16,13 +16,6 @@ function Profile() {
   const [initialValues, setInitialValues] = useState({});
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
-  console.log(user);
-
-  const onIconClickPassword = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    setShowPassword(!showPassword);
-  };
 
   useEffect(() => {
     setNameValue(user.name);
@@ -30,6 +23,8 @@ function Profile() {
     setPasswordValue(user.password);
     setInitialValues({ name: user.name, email: user.email, password: user.password });
   }, [user]);
+
+
 
   const handleLogout = () => {
     dispatch(logout());
@@ -111,7 +106,7 @@ function Profile() {
             icon="EditIcon"
           />
           <Input
-            type={'text'}
+            type={'password'}
             placeholder={'Пароль'}
             onChange={(e) => handleInputChange(e.target.value, 'password')}
             name={'password'}
