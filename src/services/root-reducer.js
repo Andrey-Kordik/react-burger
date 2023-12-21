@@ -5,8 +5,8 @@ import { reducer as orderNumReducer} from './order-details/reducer'
 import {reducer as authReducer} from './auth/reducer'
 
 export const rootReducer = combineReducers({
+  authReducer: authReducer,
   ingredients: ingredientsReducer,
   selectedIngredients: selectedIngReducer,
-  orderNumber: orderNumReducer,
-  authReducer: authReducer
+  orderNumber: orderNumReducer
 })

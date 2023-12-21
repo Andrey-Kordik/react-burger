@@ -19,11 +19,11 @@ class AuthApi {
       })
   }
 
-  editUserData({ email, name }) {
+  editUserData({ email, name, password }) {
     return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: "PATCH",
       headers: this.headers,
-      body: JSON.stringify({ email: email, name: name })
+      body: JSON.stringify({ email: email, name: name, password:password})
     })
       .then(res => {
         return res;

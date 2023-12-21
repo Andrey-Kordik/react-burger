@@ -5,37 +5,50 @@ import { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/auth/actions'
+import { editUserData } from '../../services/auth/actions'
 
 function Profile() {
   const [emailValue, setEmailValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [isValueChanged, setIsValueChanged] = useState(false); // добавьте состояние для отслеживания изменений в инпутах
-  const dispatch = useDispatch()
+
+  const [isValueChanged, setIsValueChanged] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
+
+  const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.user);
+  console.log(user);
 
+  const onIconClickPassword = () => {
+    setTimeout(() => inputRef.current.focus(), 0);
+    setShowPassword(!showPassword);
+  };
 
-  useState(() => {
+  useEffect(() => {
     setNameValue(user.name);
     setEmailValue(user.email);
-  }, []);
+    setPasswordValue(user.password);
+    setInitialValues({ name: user.name, email: user.email, password: user.password });
+  }, [user]);
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
-  const handleInputChange = (value, inputName) => {
-    if (
-      (inputName === 'name' && value !== user.name) ||
-      (inputName === 'email' && value !== user.email) ||
-      (inputName === 'password' && value !== passwordValue)
-    ) {
-      setIsValueChanged(true);
-    } else {
-      setIsValueChanged(false);
-    }
+  const handleSaveChanges = (e) => {
+    e.preventDefault();
+    dispatch(editUserData(emailValue, nameValue, passwordValue));
+    setIsValueChanged(false);
+  };
 
+  const handleCancelChanges = () => {
+    setNameValue(initialValues.name);
+    setEmailValue(initialValues.email);
+    setPasswordValue(initialValues.password);
+    setIsValueChanged(false);
+  };
+
+  const handleInputChange = (value, inputName) => {
     switch (inputName) {
       case 'name':
         setNameValue(value);
@@ -48,6 +61,16 @@ function Profile() {
         break;
       default:
         break;
+    }
+
+    if (
+      (inputName === 'name' && value !== initialValues.name) ||
+      (inputName === 'email' && value !== initialValues.email) ||
+      (inputName === 'password' && value !== initialValues.password)
+    ) {
+      setIsValueChanged(true);
+    } else {
+      setIsValueChanged(false);
     }
   };
 
@@ -62,7 +85,7 @@ function Profile() {
           </div>
           <p className='text text_type_main-default text_color_inactive'>В этом разделе вы можете изменить свои персональные данные</p>
         </div>
-        <form className={styles.profile_form}>
+        <form className={styles.profile_form} onSubmit={handleSaveChanges}>
           <Input
             type={'text'}
             placeholder={'Имя'}
@@ -72,8 +95,7 @@ function Profile() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='mb-6'
-            value={nameValue}
-            required
+            value={nameValue || ''}
             icon="EditIcon"
           />
           <Input
@@ -85,12 +107,11 @@ function Profile() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='mb-6'
-            value={emailValue}
-            required
+            value={emailValue || ''}
             icon="EditIcon"
           />
           <Input
-            type={showPassword ? 'text' : 'password'}
+            type={'text'}
             placeholder={'Пароль'}
             onChange={(e) => handleInputChange(e.target.value, 'password')}
             name={'password'}
@@ -98,17 +119,16 @@ function Profile() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='mb-6'
-            value={passwordValue}
-            required
+            value={passwordValue || ''}
             minLength='6'
             icon="EditIcon"
           />
           <div className={styles.button_container}>
-            {/* Проверяем, были ли изменения в инпутах */}
             {isValueChanged && (
               <>
-                <Button htmlType="button" type="secondary" size="small">Отменить</Button>
-                <Button htmlType="button" type="primary" size="medium">Сохранить</Button>
+                <Button
+                  htmlType="button" type="secondary" size="small" onClick={handleCancelChanges}>Отменить</Button>
+                <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
               </>
             )}
           </div>

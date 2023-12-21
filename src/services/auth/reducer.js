@@ -15,7 +15,10 @@ import {
   SEND_CODE_LOADING,
   RESET_PASSWORD_ERROR,
   RESET_PASSWORD_LOADING,
-  RESET_PASSWORD_SUCCESS
+  RESET_PASSWORD_SUCCESS,
+  EDIT_USER_DATA_ERROR,
+  EDIT_USER_DATA_SUCCESS,
+  EDIT_USER_DATA_LOADING
 } from "./actions";
 
 const initialState = {
@@ -131,6 +134,23 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload
+      };
+    case EDIT_USER_DATA_LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case EDIT_USER_DATA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case EDIT_USER_DATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

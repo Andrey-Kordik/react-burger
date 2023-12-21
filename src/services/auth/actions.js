@@ -24,6 +24,29 @@ export const RESET_PASSWORD_LOADING = "SEND_CODE_LOADING"
 export const RESET_PASSWORD_SUCCESS = "SEND_CODE_SUCCESS"
 export const RESET_PASSWORD_ERROR = "SEND_CODE_ERROR"
 
+export const EDIT_USER_DATA_LOADING = "SEND_CODE_LOADING"
+export const EDIT_USER_DATA_SUCCESS = "SEND_CODE_SUCCESS"
+export const EDIT_USER_DATA_ERROR = "SEND_CODE_ERROR"
+
+export const editUserData = (email, name, password) => (dispatch) => {
+  dispatch({ type: EDIT_USER_DATA_LOADING });
+  return authApi.editUserData(email, name, password)
+    .then(res => {
+      dispatch({
+        type: EDIT_USER_DATA_SUCCESS,
+        payload: res
+      });
+    })
+    .catch(error => {
+      dispatch({
+        type: EDIT_USER_DATA_ERROR,
+        payload: error.message,
+      });
+      console.log(error.message);
+    });
+};
+
+
 export const resetPassword = (token, password) => (dispatch) => {
   dispatch({ type: RESET_PASSWORD_LOADING });
   return authApi.resetPassword(token, password)
