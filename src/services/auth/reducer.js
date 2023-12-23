@@ -18,7 +18,9 @@ import {
   RESET_PASSWORD_SUCCESS,
   EDIT_USER_DATA_ERROR,
   EDIT_USER_DATA_SUCCESS,
-  EDIT_USER_DATA_LOADING,GET_USER_ERROR
+  EDIT_USER_DATA_LOADING,
+  GET_USER_ERROR,
+  SET_PASSWORD_RESET
 } from "./actions";
 
 const initialState = {
@@ -27,11 +29,18 @@ const initialState = {
   user: null,
   accessToken: localStorage.getItem("accessToken") || "",
   refreshToken: localStorage.getItem("refreshToken") || "",
-  isAuthChecked: false
+  isAuthChecked: false,
+  isPasswordReset: false,
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_PASSWORD_RESET:
+      return {
+        ...state,
+        isPasswordReset: action.payload,
+      };
+
     case LOGOUT_REQUEST:
       return {
         ...state,

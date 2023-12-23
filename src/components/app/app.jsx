@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './app.module.css';
 import HomePage from '../../pages/home/home';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation, Navigate} from 'react-router-dom';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modals/modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,6 +32,8 @@ function App() {
   const user = useSelector((state) => state.authReducer.user);
   const userName = user && user.name;
 
+  const isPasswordReset = useSelector((state) => state.authReducer.isPasswordReset);
+
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(loadIngredients());
@@ -61,7 +63,7 @@ function App() {
           <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
           <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
           <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
-          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword />} />} />
+          <Route path="/reset-password" element={isPasswordReset ? <OnlyUnAuth component={<ResetPassword />} /> : <Navigate to="/forgot-password" />} />
           <Route path="/profile" element={<OnlyAuth component={<Profile user={user} />} />} />
           <Route path="/*" element={< Page404 />} />
         </Routes>

@@ -28,7 +28,7 @@ class AuthApi {
 
 
    refreshToken = () => {
-    return fetch(`${BURGER_API_URL}/auth/token`, {
+    return fetch(`${this.url}/auth/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

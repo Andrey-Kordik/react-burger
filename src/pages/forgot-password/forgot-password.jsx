@@ -4,7 +4,7 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sendCode } from '../../services/auth/actions';
+import { sendCode, setPasswordReset } from '../../services/auth/actions';
 import {useNavigate } from 'react-router-dom';
 
 
@@ -13,12 +13,13 @@ function ForgotPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
+
   const handleResetPassword = (e) => {
     e.preventDefault();
-    dispatch(sendCode(emailValue))
-    navigate('/reset-password')
+    dispatch(sendCode(emailValue));
+    dispatch(setPasswordReset(true));
+    navigate('/reset-password');
   };
-
   return (
     <div className={commonStyles.login}>
       <div className={commonStyles.login_container}>

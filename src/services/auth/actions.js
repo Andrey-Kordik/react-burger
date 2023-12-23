@@ -29,13 +29,18 @@ export const EDIT_USER_DATA_SUCCESS = "SEND_CODE_SUCCESS"
 export const EDIT_USER_DATA_ERROR = "SEND_CODE_ERROR"
 
 export const GET_USER_ERROR = "GET_USER_ERROR"
+export const SET_PASSWORD_RESET = 'SET_PASSWORD_RESET';
+
+export const setPasswordReset = (isReset) => ({
+  type: SET_PASSWORD_RESET,
+  payload: isReset,
+});
 
 export const setUser = (user) => ({
   type: SET_USER,
   payload: user,
 }
 );
-
 
 export const getUser = () => {
   return (dispatch) => {
