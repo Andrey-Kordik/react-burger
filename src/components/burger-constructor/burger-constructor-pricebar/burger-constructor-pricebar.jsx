@@ -70,7 +70,7 @@ const navigate= useNavigate()
       </Button>
       {loading && (
         <Modal onClose={handleOrderModalClose} headerHeading="Пожалуйста подождите...">
-          <Preloader />
+           return <Preloader />
         </Modal>
       )}
       {orderNumber && (
