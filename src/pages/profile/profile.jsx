@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/auth/actions'
-import { editUserData } from '../../services/auth/actions'
+import { editUserData, getUser } from '../../services/auth/actions'
 
-function Profile({user}) {
+function Profile({ user }) {
   const [emailValue, setEmailValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -17,15 +18,6 @@ function Profile({user}) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setNameValue(user.name);
-    setEmailValue(user.email);
-    setPasswordValue(user.password);
-    setInitialValues({ name: user.name, email: user.email, password: user.password });
-  }, [user]);
-
-
-
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -34,7 +26,19 @@ function Profile({user}) {
     e.preventDefault();
     dispatch(editUserData(emailValue, nameValue, passwordValue));
     setIsValueChanged(false);
+
+    setTimeout(() => {
+      dispatch(getUser());
+    }, 1000);
   };
+
+  useEffect(() => {
+    setNameValue(user.name);
+    setEmailValue(user.email);
+    setPasswordValue(user.password);
+    setInitialValues({ name: user.name, email: user.email, password: user.password });
+
+  }, [user]);
 
   const handleCancelChanges = () => {
     setNameValue(initialValues.name);
@@ -132,5 +136,10 @@ function Profile({user}) {
     </div>
   );
 }
+
+
+Profile.propTypes = {
+  user: PropTypes.object
+};
 
 export default Profile;

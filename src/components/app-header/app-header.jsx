@@ -11,13 +11,6 @@ import { useEffect, useState } from 'react';
 
 function Header({ userName }) {
 
-  const [nameValue, setNameValue] = useState(null);
-
-  useEffect(() => {
-    setNameValue(userName);
-  }, [userName]);
-
-  console.log(nameValue);
 
 
   return (
@@ -46,7 +39,7 @@ function Header({ userName }) {
         <div className={styles.header__profile}>
           {userName ? (
             <NavLink to="/profile" className={`${window.location.pathname === '/profile' ? styles.header__links : styles.header__links_inactive} pl-2`}>
-              {nameValue}
+              {userName}
             </NavLink>
           ) : (
             <>

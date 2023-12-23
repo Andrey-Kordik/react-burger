@@ -13,9 +13,10 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const loginState = useSelector(state => state.authReducer);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     setIsFormValid(emailValue && passwordValue);
@@ -28,21 +29,20 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(login(emailValue, passwordValue))
+    setIsSubmitted(true); // Устанавливаем флаг сабмита формы
+    dispatch(login(emailValue, passwordValue));
   };
 
   return (
     <div className={commonStyles.login}>
       <div className={commonStyles.login_container}>
         <p className='text text_type_main-default mb-6'>Вход</p>
-        <form className={` ${commonStyles.form_container} mb-20`} onSubmit={handleLogin}>
+        <form className={`${commonStyles.form_container} mb-20`} onSubmit={handleLogin}>
           <Input
             type={'email'}
             placeholder={'E-mail'}
             onChange={(e) => setEmailValue(e.target.value)}
             name={'email'}
-            error={false}
-            errorText={'Ошибка'}
             size={'default'}
             extraClass='mb-6'
             value={emailValue}
@@ -53,8 +53,6 @@ function Login() {
             placeholder={'Пароль'}
             onChange={(e) => setPasswordValue(e.target.value)}
             name={'password'}
-            error={false}
-            errorText={'Ошибка'}
             size={'default'}
             icon={showPassword ? 'HideIcon' : 'ShowIcon'}
             ref={inputRef}
@@ -67,7 +65,7 @@ function Login() {
           <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || loginState.loading}>
             {loginState.loading ? 'Загрузка' : 'Войти'}
           </Button>
-          {loginState.error && <p className={commonStyles.error}>{loginState.error}</p>}
+          {isSubmitted && loginState.error && <p className={commonStyles.error}>{loginState.error}</p>}
         </form>
         <div className={`${commonStyles.link_container} mb-4`}>
           <p className='text text_type_main-default text_color_inactive mr-2'>Вы - новый пользователь?</p>

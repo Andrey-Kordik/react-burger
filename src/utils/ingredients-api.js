@@ -14,25 +14,12 @@ class IngredientsApi {
       })
   }
 
-  getOrder(ids) {
-    return fetch(`${this.url}/orders`, {
-      method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({ ingredients: ids }),
-    })
-      .then(res => {
-        return this._checkResult(res);
-      });
-  }
-
   _checkResult(res) {
     if (res.ok) {
       return res.json()
     }
     return Promise.reject(`Ошибка ${res.status}`)
   }
-
-
 
 }
 

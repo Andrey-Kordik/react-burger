@@ -17,11 +17,10 @@ import Profile from '../../pages/profile/profile';
 import { checkUserAuth } from '../../services/auth/actions'
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route'
 import { getUser } from '../../services/auth/actions'
-
+import Page404 from '../page404/page404';
 
 
 function App() {
-
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,19 +29,18 @@ function App() {
   const ingredientsData = ingredients.data || [];
 
   const background = location.state && location.state.background;
-  const user = useSelector(state => state.authReducer.user);
-  const userName = user && user.name
-console.log(userName)
+  const user = useSelector((state) => state.authReducer.user);
+  const userName = user && user.name;
+
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(loadIngredients());
     dispatch(getUser())
-    dispatch(loadIngredients())
-
   }, []);
 
 
   if (loading) {
-    return < Preloader />;
+    return <Preloader />;
   }
 
   if (!loading && error) {
@@ -53,34 +51,33 @@ console.log(userName)
     navigate(-1);
   };
 
-
   if (ingredientsData.length > 0) {
     return (
       <div className={styles.app}>
-        <Header userName={userName}/>
+        <Header userName={userName} />
         <Routes location={background || location}>
           <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
-          <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
-          <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
-          <Route path='/register' element={<OnlyUnAuth component={<Register />} />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
-          <Route path='/profile' element={<OnlyAuth component={<Profile user={user}/>} />} />
+          <Route path="/ingredients/:ingredientId" element={<IngredientDetails />} />
+          <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+          <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
+          <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
+          <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPassword />} />} />
+          <Route path="/profile" element={<OnlyAuth component={<Profile user={user} />} />} />
+          <Route path="/*" element={< Page404 />} />
         </Routes>
-
 
         {background && (
           <Routes>
-            <Route path='/ingredients/:ingredientId'
+            <Route
+              path="/ingredients/:ingredientId"
               element={
-                <Modal headerHeading='Детали ингридиента' onClose={handleModalClose}>
-                  <IngredientDetails />
+                <Modal headerHeading="Детали ингридиента" onClose={handleModalClose}>
+                  <IngredientDetails background={background}/>
                 </Modal>
               }
             />
           </Routes>
         )}
-
       </div>
     );
   }

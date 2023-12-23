@@ -1,19 +1,20 @@
 import styles from './ingredient-details.module.css';
-
+import PropTypes from 'prop-types';
 import {  useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-const IngredientDetails = () => {
+const IngredientDetails = ({background}) => {
   const { ingredientId } = useParams();
-  console.log(ingredientId);
 
   const initialIngredients = useSelector((store) => store.ingredients);
   const allIngredients = initialIngredients.ingredients.data
-  console.log(allIngredients);
 
   const ingredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);
   return (
     <div className={styles.ingredient_details}>
+       {!background && (
+        <h1 className={styles.ingredient_details_heading}>Детали ингридиента</h1>
+      )}
       <img src={ingredient.image_large}></img>
       <p className='text text_type_main-medium mt-4 mb-8'>{ingredient.name}</p>
       <div className={styles.ingredient_details_components}>
@@ -34,5 +35,8 @@ const IngredientDetails = () => {
   )
 };
 
+IngredientDetails.propTypes = {
+  background: PropTypes.object,
+};
 
 export default IngredientDetails

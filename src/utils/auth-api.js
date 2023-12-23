@@ -1,7 +1,7 @@
+
 class AuthApi {
-  constructor({ url, headers }) {
+  constructor({ url }) {
     this.url = url;
-    this.headers = headers;
   }
 
 
@@ -9,69 +9,35 @@ class AuthApi {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   }
 
-  getUserData() {
-    return this.fetchWithRefresh(`${this.url}/auth/user`, {
-      method: "GET",
-      headers: this.headers
-    })
-      .then(res => {
-        return res;
-      })
+  getHeaders() {
+    return {
+      'Content-Type': 'application/json;charset=utf-8',
+      authorization: localStorage.getItem('accessToken'),
+    };
   }
 
-  editUserData( email, name, password ) {
-    return this.fetchWithRefresh(`${this.url}/auth/user`, {
-      method: "PATCH",
-      headers: this.headers,
-      body: JSON.stringify({ email: email, name: name, password:password})
-    })
-      .then(res => {
-        return res;
-      })
-  }
 
-  register(name, email, password) {
-    return this.fetchWithRefresh(`${this.url}/auth/register`, {
+  getOrder(ids) {
+    return fetch(`${this.url}/orders`, {
       method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-      })
+      headers: this.getHeaders(),
+      body: JSON.stringify({ ingredients: ids }),
     })
-      .then(res => {
-        return res;
-      })
+
   }
 
-  authorize(email, password) {
-    return this.fetchWithRefresh(`${this.url}/auth/login`, {
-      method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    })
-      .then(res => {
-        return res;
-      })
-  }
 
-  refreshToken() {
-    return fetch(`${this.url}/auth/token`, {
+   refreshToken = () => {
+    return fetch(`${BURGER_API_URL}/auth/token`, {
       method: "POST",
-      headers: this.headers,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
       body: JSON.stringify({
         token: localStorage.getItem("refreshToken"),
       }),
     })
-      .then(res => {
-        return this._checkResult(res)
-      })
   };
-
 
   fetchWithRefresh = async (url, options) => {
     try {
@@ -94,6 +60,47 @@ class AuthApi {
     }
   };
 
+  getUserData() {
+    return this.fetchWithRefresh(`${this.url}/auth/user`, {
+      method: 'GET',
+      headers: this.getHeaders(),
+    })
+
+  }
+
+  editUserData(email, name, password) {
+    return this.fetchWithRefresh(`${this.url}/auth/user`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ email: email, name: name, password: password }),
+    })
+
+  }
+
+  register(name, email, password) {
+    return this.fetchWithRefresh(`${this.url}/auth/register`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        token: localStorage.getItem('refreshToken')
+      }),
+    })
+  }
+
+  authorize(email, password) {
+    return this.fetchWithRefresh(`${this.url}/auth/login`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+
+  }
 
   logout(refreshToken) {
     const body = {
@@ -101,14 +108,10 @@ class AuthApi {
     };
     return this.fetchWithRefresh(`${this.url}/auth/logout`, {
       method: 'POST',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(body),
     })
-      .then(res => {
-        return res;
-      });
   }
-
 
   sendCode(email) {
     const body = {
@@ -116,35 +119,25 @@ class AuthApi {
     };
     return fetch(`${this.url}/password-reset`, {
       method: 'POST',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(body),
     })
-      .then(res => {
-        return res;
-      });
+
   }
 
   resetPassword(token, password) {
     const body = {
       token: token,
-      password: password
+      password: password,
     };
     return fetch(`${this.url}/password-reset/reset`, {
       method: 'POST',
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: JSON.stringify(body),
     })
-      .then(res => {
-        return res;
-      });
   }
-
 }
 
 export const authApi = new AuthApi({
   url: 'https://norma.nomoreparties.space/api',
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-    authorization: localStorage.getItem('accessToken')
-  }
 });

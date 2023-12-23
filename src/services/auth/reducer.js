@@ -18,7 +18,7 @@ import {
   RESET_PASSWORD_SUCCESS,
   EDIT_USER_DATA_ERROR,
   EDIT_USER_DATA_SUCCESS,
-  EDIT_USER_DATA_LOADING
+  EDIT_USER_DATA_LOADING,GET_USER_ERROR
 } from "./actions";
 
 const initialState = {
@@ -153,6 +153,12 @@ export const reducer = (state = initialState, action) => {
         loading: false,
         user: action.payload,
       };
+      case GET_USER_ERROR:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
     default:
       return state;
   }

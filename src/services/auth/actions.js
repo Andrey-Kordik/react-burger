@@ -1,4 +1,4 @@
-import { authApi } from '../../components/utils/auth-api'
+import { authApi } from '../../utils/auth-api'
 
 export const REGISTER_LOAD_SUCCESS = "REGISTER_LOAD_SUCCESS";
 export const REGISTER_LOADING = "REGISTER_LOADING";
@@ -28,6 +28,7 @@ export const EDIT_USER_DATA_LOADING = "SEND_CODE_LOADING"
 export const EDIT_USER_DATA_SUCCESS = "SEND_CODE_SUCCESS"
 export const EDIT_USER_DATA_ERROR = "SEND_CODE_ERROR"
 
+export const GET_USER_ERROR = "GET_USER_ERROR"
 
 export const setUser = (user) => ({
   type: SET_USER,
@@ -36,13 +37,19 @@ export const setUser = (user) => ({
 );
 
 
-
 export const getUser = () => {
   return (dispatch) => {
     return authApi.getUserData().then((res) => {
       dispatch(setUser(res.user));
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_USER_ERROR,
+        payload: error.message,
+      });
+      console.log(error.message);
     });
-  };
+  }
 };
 
 export const editUserData = (email, name, password) => (dispatch) => {
@@ -128,8 +135,6 @@ export const logout = () => (dispatch, getState) => {
 };
 
 
-
-
 export const register = (name, email, password) => (dispatch) => {
   dispatch({ type: REGISTER_LOADING });
   return authApi.register(name, email, password)
@@ -160,6 +165,7 @@ export const login = (email, password) => (dispatch) => {
       localStorage.setItem("refreshToken", res.refreshToken);
       localStorage.setItem("accessToken", res.accessToken);
       dispatch(setUser(res.user));
+      console.log(res)
       dispatch(setIsAuthChecked(true))
     })
     .catch(error => {

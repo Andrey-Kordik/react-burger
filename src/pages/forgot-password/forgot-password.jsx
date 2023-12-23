@@ -1,18 +1,22 @@
 import React from 'react';
 import commonStyles from '../login/login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { sendCode } from '../../services/auth/actions';
+import {useNavigate } from 'react-router-dom';
+
 
 function ForgotPassword() {
   const [emailValue, setEmailValue] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleResetPassword = (e) => {
     e.preventDefault();
     dispatch(sendCode(emailValue))
+    navigate('/reset-password')
   };
 
   return (

@@ -4,7 +4,7 @@ import BurgerIngredients from '../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
+import PropTypes from 'prop-types';
 
 function HomePage({ingredientsData}) {
 
@@ -17,5 +17,9 @@ function HomePage({ingredientsData}) {
       </DndProvider>
   );
 }
+
+HomePage.propTypes = {
+  ingredientsData: PropTypes.array.isRequired
+};
 
 export default HomePage;

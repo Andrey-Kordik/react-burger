@@ -17,6 +17,7 @@ function Register() {
   const [nameValue, setNameValue] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
   const inputRef = useRef(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onIconClickPassword = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -80,7 +81,7 @@ function Register() {
           <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || registerState.loading}>
             {registerState.loading ? 'Загрузка' : 'Зарегистрироваться'}
           </Button>
-          {registerState.error && <p className={commonStyles.error}>{registerState.error}</p>}
+          {isSubmitted && registerState.error && <p className={commonStyles.error}>{registerState.error}</p>}
         </form>
         <div className={`${commonStyles.link_container} mb-4`}>
           <p className='text text_type_main-default text_color_inactive mr-2'>Уже зарегистрированы?</p>
