@@ -8,8 +8,7 @@ const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
   const location = useLocation()
 
   if (!isAuthChecked) {
-    return Preloader
-  }
+    return < Preloader /> }
 
   if (onlyUnAuth && user) {
     const { from } = location.state || { from: { pathname: '/' } }
