@@ -6,9 +6,12 @@ import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
+import {  useNavigate  } from 'react-router-dom';
+import Preloader from '../../Preloader/Preloader';
 
 function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
   const dispatch = useDispatch();
+const navigate= useNavigate()
 
   const components = [...ings, bun];
   const ids = [];
@@ -38,12 +41,16 @@ function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
     ids.push(bunId);
   }
 
-  const orderNumber = useSelector((state) => state.orderNumber.orderNumber);
-
+  const { orderNumber, loading } = useSelector((state) => state.orderNumber);
+  const user = useSelector((state) => state.authReducer.user);
   const handleOrderSubmit = () => {
-    dispatch(loadOrderNumber(ids)).catch((error) => {
-      console.error(error);
-    });
+    if (user) {
+      dispatch(loadOrderNumber(ids)).catch((error) => {
+        console.error(error);
+      });
+    } else {
+      navigate('/login');
+    }
   };
 
   const handleOrderModalClose = () => {
@@ -61,6 +68,11 @@ function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
       <Button onClick={handleOrderSubmit} type="primary" htmlType="button" disabled={!isButtonActive}>
         Оформить заказ
       </Button>
+      {loading && (
+        <Modal onClose={handleOrderModalClose} headerHeading="Пожалуйста подождите...">
+           return <Preloader />
+        </Modal>
+      )}
       {orderNumber && (
         <Modal onClose={handleOrderModalClose} headerHeading="">
           <OrderDetails orderNumber={orderNumber} />

@@ -4,29 +4,51 @@ import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { MenuIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
-function Header() {
+function Header({ userName }) {
+
+
 
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
         <nav className={styles.header__nav}>
           <div className={`${styles.header__nav_container} mr-12`}>
-            <BurgerIcon />
-            <p className="text text_type_main-default pl-2">Конструктор</p>
+            <BurgerIcon type={window.location.pathname === '/' ? "primary" : "secondary"} />
+            <NavLink
+              to='/'
+              className={`${window.location.pathname === '/' ? styles.header__links : styles.header__links_inactive} pl-2`}>
+              Конструктор
+            </NavLink>
           </div>
           <div className={styles.header__nav_container}>
             <MenuIcon
               type="secondary" />
-            <a href="/" className={` ${styles.header__links} text text_type_main-default text_color_inactive pl-2`}>Лента заказов</a>
+            <NavLink
+              to='/'
+              className={`${window.location.pathname === '/order' ? styles.header__links : styles.header__links_inactive} pl-2`}>
+              Лента заказов
+            </NavLink>
           </div>
         </nav>
         <Logo />
         <div className={styles.header__profile}>
-          <ProfileIcon
-            type="secondary" />
-          <a href="/" className={` ${styles.header__links} text text_type_main-default text_color_inactive pl-2`}>Личный кабинет</a>
+          {userName ? (
+            <NavLink to="/profile" className={`${window.location.pathname === '/profile' ? styles.header__links : styles.header__links_inactive} pl-2`}>
+              {userName}
+            </NavLink>
+          ) : (
+            <>
+              <ProfileIcon type={window.location.pathname === '/profile' ? "primary" : "secondary"} />
+              <NavLink to="/profile" className={`${window.location.pathname === '/profile' ? styles.header__links : styles.header__links_inactive} pl-2`}>
+                Личный кабинет
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </header>

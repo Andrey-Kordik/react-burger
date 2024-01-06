@@ -3,25 +3,12 @@ import styles from './burger-ingredients.module.css';
 import { useMemo, useState, useEffect,useRef } from 'react';
 import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modals/modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedIngredient, clearSelectedIngredient } from "../../services/constructor-ingredients/actions"
-import { loadIngredients } from '../../services/ingredients/actions'
-import Preloader from '../Preloader/Preloader';
+import PropTypes from 'prop-types';
 
-function BurgerIngredients() {
-  const dispatch = useDispatch();
-  const selectedIngredient = useSelector((state) => state.selectedIngredients.selectedIngredient);
+function BurgerIngredients({ingredientsData}) {
+
   const [current, setCurrent] = useState('bun');
   const ingredientsContainerRef = useRef();
-
-  const handleIngredientClick = (ingredient) => {
-    dispatch(setSelectedIngredient(ingredient));
-  };
-
-  const { loading, error, ingredients } = useSelector((store) => store.ingredients);
-  const ingredientsData = ingredients.data || [];
 
   const filteredBurgers = useMemo(() => {
     const buns = ingredientsData.filter((item) => item.type === 'bun');
@@ -31,25 +18,6 @@ function BurgerIngredients() {
     return { buns, sauces, mains };
   }, [ingredientsData]);
 
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
-
-  if (loading) {
-    return < Preloader />;
-  }
-
-  if (!loading && error) {
-    return <h2>{`Ошибка: ${error}`}</h2>;
-  }
-
-  if (ingredients.length === 0) {
-    return null;
-  }
-
-  const handleIngredientModalClose = () => {
-    dispatch(clearSelectedIngredient());
-  };
 
   return (
     <section className={styles.ingredients}>
@@ -60,7 +28,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.buns.map((bun) => (
-              <div key={bun._id} onClick={() => handleIngredientClick(bun)}>
+              <div key={bun._id}>
                 <Ingredient data={bun} />
               </div>
             ))}
@@ -70,7 +38,7 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Соусы</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.sauces.map((sauce) => (
-              <div key={sauce._id} onClick={() => handleIngredientClick(sauce)}>
+              <div key={sauce._id} >
                 <Ingredient data={sauce} />
               </div>
             ))}
@@ -80,23 +48,20 @@ function BurgerIngredients() {
           <h2 className="text text_type_main-medium mb-6">Начинки</h2>
           <div className={styles.ingredients_container}>
             {filteredBurgers.mains.map((main) => (
-              <div key={main._id} onClick={() => handleIngredientClick(main)}>
+              <div key={main._id} >
                 <Ingredient data={main} />
               </div>
             ))}
           </div>
         </div>
       </div>
-      {selectedIngredient && (
-        <Modal onClose={handleIngredientModalClose} headerHeading="Детали ингридиента">
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      )}
     </section>
   );
 }
 
-
+BurgerIngredients.propTypes = {
+  ingredientsData: PropTypes.array.isRequired,
+};
 
 export default BurgerIngredients;
 

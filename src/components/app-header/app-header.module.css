@@ -34,6 +34,20 @@
 
 .header__links {
   text-decoration: none;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+  color: white;
+}
+
+.header__links_inactive {
+  text-decoration: none;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+  color: #8585AD;
 }
 
 .header__links:hover {

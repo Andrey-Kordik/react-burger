@@ -1,16 +1,10 @@
 
-
-export const SET_SELECTED_INGREDIENT = "SET_SELECTED_INGREDIENT";
 export const CLEAR_SELECTED_INGREDIENT = "CLEAR_SELECTED_INGREDIENT";
 export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const REORDER_INGREDIENTS = "REORDER_INGREDIENTS";
 export const SET_TOTAL_PRICE = "SET_TOTAL_PRICE";
 
-export const setSelectedIngredient = (ingredient) => ({
-  type: 'SET_SELECTED_INGREDIENT',
-  payload: ingredient,
-});
 
 export const clearSelectedIngredient = () => ({
   type: 'CLEAR_SELECTED_INGREDIENT'

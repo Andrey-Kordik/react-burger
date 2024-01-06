@@ -1,4 +1,4 @@
-import { ingredientsApi} from '../../components/utils/ingredients-api'
+import { ingredientsApi} from '../../utils/ingredients-api'
 
 export const INGREDIENTS_LOAD_SUCCESS = "TASKS_LOAD_SUCCESS";
 export const INGREDIENTS_LOADING = "TASKS_LOADING";

@@ -6,7 +6,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { reorderIngredients } from "../../../services/constructor-ingredients/actions";
 import { useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
-import { burgerPropTypes } from '../../utils/prop-types';
+import { burgerPropTypes } from '../../../utils/prop-types';
 
 const Filling = ({ ingredient, deleteIng, index }) => {
 
