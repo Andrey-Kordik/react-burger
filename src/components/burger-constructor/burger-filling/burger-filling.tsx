@@ -5,12 +5,7 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import { reorderIngredients } from "../../../services/constructor-ingredients/actions";
 import { useDispatch } from "react-redux";
-<<<<<<< HEAD:src/components/burger-constructor/burger-filling/burger-filling.tsx
 import { IIngredient } from '../../app/app';
-=======
-import PropTypes from 'prop-types';
-import { burgerPropTypes } from '../../../utils/prop-types';
->>>>>>> main:src/components/burger-constructor/burger-filling/burger-filling.jsx
 
 interface FillingProps {
   ingredient: IIngredient;

@@ -170,10 +170,6 @@ export const login = (email, password) => (dispatch) => {
       localStorage.setItem("refreshToken", res.refreshToken);
       localStorage.setItem("accessToken", res.accessToken);
       dispatch(setUser(res.user));
-<<<<<<< HEAD
-=======
-      console.log(res)
->>>>>>> main
       dispatch(setIsAuthChecked(true))
     })
     .catch(error => {

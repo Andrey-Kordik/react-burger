@@ -1,5 +1,4 @@
 import styles from './ingredient-details.module.css';
-<<<<<<< HEAD:src/components/ingredient-details/ingredient-details.tsx
 import React, { FC } from 'react';
 import {  useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -27,19 +26,7 @@ interface IngredientDetailsProps {
   const allIngredients = initialIngredients.ingredients.data
 
   const ingredient = allIngredients.find((ingredient: ModalIngredient) => ingredient._id === ingredientId);
-=======
-import PropTypes from 'prop-types';
-import {  useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
-const IngredientDetails = ({background}) => {
-  const { ingredientId } = useParams();
-
-  const initialIngredients = useSelector((store) => store.ingredients);
-  const allIngredients = initialIngredients.ingredients.data
->>>>>>> main:src/components/ingredient-details/ingredient-details.jsx
-
-  const ingredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);
   return (
     <div className={styles.ingredient_details}>
        {!background && (
@@ -65,11 +52,4 @@ const IngredientDetails = ({background}) => {
   )
 };
 
-<<<<<<< HEAD:src/components/ingredient-details/ingredient-details.tsx
-=======
-IngredientDetails.propTypes = {
-  background: PropTypes.object,
-};
-
->>>>>>> main:src/components/ingredient-details/ingredient-details.jsx
 export default IngredientDetails
