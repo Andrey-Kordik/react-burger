@@ -4,6 +4,7 @@ import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-co
 import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.tsx
 import { loadOrderNumber, clearOrderNumber } from '../../../services/order-details/actions'
 import { useNavigate } from 'react-router-dom';
 import Preloader from '../../Preloader/Preloader';
@@ -16,9 +17,18 @@ interface BurgerConstructorPriceBarProps {
 }
 
 const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPrice, ings, bun }) => {
+=======
+import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
+import {  useNavigate  } from 'react-router-dom';
+import Preloader from '../../Preloader/Preloader';
+>>>>>>> main:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.jsx
 
   const dispatch = useDispatch();
+<<<<<<< HEAD:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.tsx
   const navigate = useNavigate()
+=======
+const navigate= useNavigate()
+>>>>>>> main:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.jsx
 
   const components = [...ings, bun];
   const ids: string[] = [];
@@ -45,6 +55,7 @@ const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPr
   if (bunId) {
     ids.push(bunId);
   }
+<<<<<<< HEAD:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.tsx
   //@ts-ignore
   const { orderNumber, loading } = useSelector((state) => state.orderNumber);
     //@ts-ignore
@@ -55,6 +66,15 @@ const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPr
         //@ts-ignore
       dispatch(loadOrderNumber(ids)).catch((error) => {
         console.log(error);
+=======
+
+  const { orderNumber, loading } = useSelector((state) => state.orderNumber);
+  const user = useSelector((state) => state.authReducer.user);
+  const handleOrderSubmit = () => {
+    if (user) {
+      dispatch(loadOrderNumber(ids)).catch((error) => {
+        console.error(error);
+>>>>>>> main:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.jsx
       });
     } else {
       navigate('/login');
@@ -78,7 +98,11 @@ const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPr
       </Button>
       {loading && (
         <Modal onClose={handleOrderModalClose} headerHeading="Пожалуйста подождите...">
+<<<<<<< HEAD:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.tsx
           <Preloader />
+=======
+           return <Preloader />
+>>>>>>> main:src/components/burger-constructor/burger-constructor-pricebar/burger-constructor-pricebar.jsx
         </Modal>
       )}
       {orderNumber && (

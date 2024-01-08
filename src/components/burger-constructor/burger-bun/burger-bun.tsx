@@ -1,7 +1,12 @@
 
 import React, { FC } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+<<<<<<< HEAD:src/components/burger-constructor/burger-bun/burger-bun.tsx
 import { IIngredient } from '../../app/app';
+=======
+import PropTypes from 'prop-types';
+import { burgerPropTypes } from '../../../utils/prop-types';
+>>>>>>> main:src/components/burger-constructor/burger-bun/burger-bun.jsx
 
 interface BunProps {
   ingredient: IIngredient;
