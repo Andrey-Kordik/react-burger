@@ -1,0 +1,33 @@
+.login {
+  margin-top: 180px;
+}
+
+.login_container {
+max-width: 480px;
+width: 100%;
+margin: 0 auto;
+text-align: center;
+}
+
+.login_link{
+  text-decoration: none;
+  color: var(--interface-accent, #4C4CFF);
+text-align: center;
+font-family: 'JetBrains Mono', Arial, sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+}
+
+.link_container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  font-family: 'JetBrains Mono', Arial, sans-serif;
+  font-size: 12px;
+}

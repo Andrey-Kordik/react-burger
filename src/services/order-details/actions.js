@@ -1,4 +1,4 @@
-import { ingredientsApi} from '../../components/utils/ingredients-api'
+import { authApi } from '../../utils/auth-api'
 
 export const ORDER_LOAD_SUCCESS = "ORDER_LOAD_SUCCESS";
 export const ORDER_LOADING = "ORDER_LOADING";
@@ -7,7 +7,7 @@ export const CLEAR_ORDER_NUMBER = "CLEAR_ORDER_NUMBER";
 
 export const loadOrderNumber = (ids) => (dispatch) => {
   dispatch({ type: ORDER_LOADING });
-  return ingredientsApi.getOrder(ids).then((res) => {
+  return authApi.getOrder(ids).then((res) => {
     dispatch({
       type: ORDER_LOAD_SUCCESS,
       payload: res.order.number,

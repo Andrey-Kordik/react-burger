@@ -1,12 +1,37 @@
-import styles from './ingredient-details.module.css'
-import PropTypes from 'prop-types';
-import { burgerPropTypes } from '../utils/prop-types';
+import styles from './ingredient-details.module.css';
+import React, { FC } from 'react';
+import {  useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+interface ModalIngredient {
+  _id: string;
+  image_large: string;
+  name: string;
+  calories: number;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+}
 
-const IngredientDetails = ({ ingredient }) => {
+interface IngredientDetailsProps {
+  background: string | undefined;
+}
+
+  const IngredientDetails: FC <IngredientDetailsProps> = ({ background }) => {
+
+  const { ingredientId } = useParams();
+
+  //@ts-ignore
+  const initialIngredients = useSelector((store) => store.ingredients);
+  const allIngredients = initialIngredients.ingredients.data
+
+  const ingredient = allIngredients.find((ingredient: ModalIngredient) => ingredient._id === ingredientId);
 
   return (
     <div className={styles.ingredient_details}>
+       {!background && (
+        <h1 className={styles.ingredient_details_heading}>Детали ингридиента</h1>
+      )}
       <img src={ingredient.image_large}></img>
       <p className='text text_type_main-medium mt-4 mb-8'>{ingredient.name}</p>
       <div className={styles.ingredient_details_components}>
@@ -25,10 +50,6 @@ const IngredientDetails = ({ ingredient }) => {
       </div>
     </div>
   )
-};
-
-IngredientDetails.propTypes = {
-  ingredient: burgerPropTypes.isRequired,
 };
 
 export default IngredientDetails

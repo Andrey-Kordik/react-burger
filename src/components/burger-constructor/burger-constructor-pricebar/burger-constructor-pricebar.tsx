@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './burger-constructor-pricebar.module.css';
-import PropTypes from 'prop-types';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
 import { useDispatch, useSelector } from "react-redux";
-import { loadOrderNumber, clearOrderNumber} from '../../../services/order-details/actions'
+import { loadOrderNumber, clearOrderNumber } from '../../../services/order-details/actions'
+import { useNavigate } from 'react-router-dom';
+import Preloader from '../../Preloader/Preloader';
+import { IIngredient } from '../../app/app';
 
-function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
+interface BurgerConstructorPriceBarProps {
+  totalPrice: number;
+  ings: IIngredient[];
+  bun: IIngredient | null;
+}
+
+const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPrice, ings, bun }) => {
+
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const components = [...ings, bun];
-  const ids = [];
-  let bunId = null;
-  let hasBun = false;
-  let hasMain = false;
-  let hasSauce = false;
-
-
+  const ids: string[] = [];
+  let bunId: string | null = null;
+  let hasBun: boolean = false;
+  let hasMain: boolean = false;
+  let hasSauce: boolean = false;
 
   components.forEach((ingredient) => {
     if (ingredient && ingredient.type === "bun") {
@@ -37,13 +45,20 @@ function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
   if (bunId) {
     ids.push(bunId);
   }
-
-  const orderNumber = useSelector((state) => state.orderNumber.orderNumber);
+  //@ts-ignore
+  const { orderNumber, loading } = useSelector((state) => state.orderNumber);
+    //@ts-ignore
+  const user = useSelector((state) => state.authReducer.user);
 
   const handleOrderSubmit = () => {
-    dispatch(loadOrderNumber(ids)).catch((error) => {
-      console.error(error);
-    });
+    if (user) {
+        //@ts-ignore
+      dispatch(loadOrderNumber(ids)).catch((error) => {
+        console.log(error);
+      });
+    } else {
+      navigate('/login');
+    }
   };
 
   const handleOrderModalClose = () => {
@@ -56,11 +71,16 @@ function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
     <div className={`${styles.burger_pricebar} pt-10`}>
       <div className={`${styles.burger_price} pr-10`}>
         <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
-        <CurrencyIcon />
+        <CurrencyIcon type="primary" />
       </div>
       <Button onClick={handleOrderSubmit} type="primary" htmlType="button" disabled={!isButtonActive}>
         Оформить заказ
       </Button>
+      {loading && (
+        <Modal onClose={handleOrderModalClose} headerHeading="Пожалуйста подождите...">
+          <Preloader />
+        </Modal>
+      )}
       {orderNumber && (
         <Modal onClose={handleOrderModalClose} headerHeading="">
           <OrderDetails orderNumber={orderNumber} />
@@ -70,10 +90,5 @@ function BurgerConstructorPriceBar({ totalPrice, ings, bun }) {
   );
 }
 
-BurgerConstructorPriceBar.propTypes = {
-  totalPrice: PropTypes.number.isRequired,
-  ings: PropTypes.array.isRequired,
-  bun: PropTypes.object,
-};
 
 export default BurgerConstructorPriceBar;

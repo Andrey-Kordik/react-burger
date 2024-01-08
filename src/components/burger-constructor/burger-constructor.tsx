@@ -9,22 +9,24 @@ import { addIngredient, removeIngredient, setTotalPrice } from '../../services/c
 import { v4 as uuidv4 } from 'uuid';
 import Filling from './burger-filling/burger-filling';
 import Bun from './burger-bun/burger-bun';
-
+import { IIngredient } from '../app/app'
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-
+  //@ts-ignore
   const bun = useSelector((state) => state.selectedIngredients.burgerConstructor.bun);
+  //@ts-ignore
   const ingredients = useSelector((state) => state.selectedIngredients.burgerConstructor.ingredients);
+  //@ts-ignore
   const totalPrice = useSelector((state) => state.selectedIngredients.totalPrice);
 
 
-  const onDropHandler = (item) => {
+  const onDropHandler = (item: IIngredient[]) => {
     if (item.length > 0 && item[0].type === 'bun') {
       if (bun !== null) {
         dispatch(removeIngredient(bun));
       }
-      const newBun = { ...item[0]};
+      const newBun = { ...item[0] };
       dispatch(addIngredient(newBun));
     } else if (item.length > 0) {
       const newItem = { ...item[0], key: uuidv4() };
@@ -34,15 +36,15 @@ function BurgerConstructor() {
 
   const [, dropTarget] = useDrop({
     accept: ['ingredient', 'bun'],
-    drop: (item) => onDropHandler(item),
+    drop: (item: IIngredient[]) => onDropHandler(item),
   });
 
-  const hasBuns = bun !== null;
-  const hasFillings = ingredients.length > 0;
+  const hasBuns: boolean = bun !== null;
+  const hasFillings: boolean = ingredients.length > 0;
 
-  const deleteIng = (item) => {
+  const deleteIng = (item: IIngredient) => {
     if (item.type === 'bun' && ingredients.length > 0) {
-      const topBunIndex = ingredients.findIndex((ingredient) => ingredient.type === 'bun');
+      const topBunIndex = ingredients.findIndex((ingredient: IIngredient) => ingredient.type === 'bun');
       if (topBunIndex !== -1) {
         dispatch(removeIngredient(ingredients[topBunIndex]));
       }
@@ -55,8 +57,7 @@ function BurgerConstructor() {
   const calculateTotalPrice = () => {
     let bunCount = bun ? 1 : 0;
     let totalPrice = 0;
-
-    ingredients.forEach((ingredient) => {
+    ingredients.forEach((ingredient: IIngredient) => {
       totalPrice += ingredient.price;
     });
 
@@ -81,7 +82,8 @@ function BurgerConstructor() {
               <>
                 <Bun ingredient={bun} text={`${bun.name} (верх)`} type="top" key={bun.key} />
                 <div className={` ${styles.burger_constructor_ing} custom-scroll`}>
-                  {ingredients.map((ingredient, index) => (
+
+                  {ingredients.map((ingredient: IIngredient, index: number) => (
                     <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
                   ))}
                 </div>
@@ -96,9 +98,10 @@ function BurgerConstructor() {
           <>
             <div className={styles.burger_construct_container}>Выберите булку</div>
             <div className={` ${styles.burger_constructor_ing} custom-scroll`}>
-              {ingredients.map((ingredient, index) => (
-                <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
-              ))}
+              {
+                ingredients.map((ingredient: IIngredient, index: number) => (
+                  <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
+                ))}
             </div>
             <div className={styles.burger_construct_container}>Выберите булку</div>
           </>
@@ -128,7 +131,7 @@ function BurgerConstructor() {
       <BurgerConstructorPriceBar
         totalPrice={totalPrice}
         ings={ingredients}
-        bun = {bun}
+        bun={bun}
       />
     </section>
   );

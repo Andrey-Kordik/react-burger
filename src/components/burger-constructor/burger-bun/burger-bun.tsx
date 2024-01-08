@@ -1,10 +1,15 @@
 
+import React, { FC } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { burgerPropTypes } from '../../utils/prop-types';
+import { IIngredient } from '../../app/app';
 
-const Bun = ({ ingredient, text, type }) => {
+interface BunProps {
+  ingredient: IIngredient;
+  text: string;
+  type?: 'top' | 'bottom';
+}
 
+const Bun: FC<BunProps> = ({ ingredient, text, type }) => {
   return (
 
     <div key={ingredient.key}>
@@ -20,10 +25,5 @@ const Bun = ({ ingredient, text, type }) => {
   );
 };
 
-Bun.propTypes = {
-  ingredient: burgerPropTypes.isRequired,
-  text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
-};
 
 export default Bun;
