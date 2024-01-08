@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './home.module.css';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import PropTypes from 'prop-types';
+import {IngredientsData} from '../../components/burger-ingredients/burger-ingredients'
 
-function HomePage({ingredientsData}) {
+interface HomePageProps {
+  ingredientsData: IngredientsData;
+}
 
+  const HomePage: FC <HomePageProps> = ({ ingredientsData }) => {
   return (
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
@@ -17,9 +20,5 @@ function HomePage({ingredientsData}) {
       </DndProvider>
   );
 }
-
-HomePage.propTypes = {
-  ingredientsData: PropTypes.array.isRequired
-};
 
 export default HomePage;

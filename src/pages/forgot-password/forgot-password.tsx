@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, FormEvent } from 'react';
 import commonStyles from '../login/login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
@@ -8,18 +8,20 @@ import { sendCode, setPasswordReset } from '../../services/auth/actions';
 import {useNavigate } from 'react-router-dom';
 
 
-function ForgotPassword() {
-  const [emailValue, setEmailValue] = useState('');
+
+const ForgotPassword: FC = () => {
+  const [emailValue, setEmailValue] = useState<string>('');
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-
-  const handleResetPassword = (e) => {
+  const handleResetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+      //@ts-ignore
     dispatch(sendCode(emailValue));
     dispatch(setPasswordReset(true));
     navigate('/reset-password');
   };
+
   return (
     <div className={commonStyles.login}>
       <div className={commonStyles.login_container}>
@@ -46,6 +48,6 @@ function ForgotPassword() {
       </div>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

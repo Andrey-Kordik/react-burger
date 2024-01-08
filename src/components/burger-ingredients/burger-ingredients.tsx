@@ -5,7 +5,7 @@ import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
 import {IIngredient } from '../app/app'
 
-interface IngredientsData extends Array<IIngredient> {}
+export interface IngredientsData extends Array<IIngredient> {}
 
 interface BurgerIngredientsProps {
   ingredientsData: IngredientsData;

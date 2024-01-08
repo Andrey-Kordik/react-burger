@@ -1,35 +1,36 @@
-import React from 'react';
+import React, { FC, FormEvent } from 'react';
 import commonStyles from './login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../services/auth/actions'
 
 
-function Login() {
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const inputRef = useRef(null);
+const Login: FC = () => {
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const loginState = useSelector(state => state.authReducer);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+    //@ts-ignore
+  const loginState = useSelector((state) => state.authReducer);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsFormValid(emailValue && passwordValue);
+    setIsFormValid(!!(emailValue && passwordValue));
   }, [emailValue, passwordValue]);
 
   const onIconClickPassword = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitted(true); // Устанавливаем флаг сабмита формы
+    setIsSubmitted(true);
+        //@ts-ignore
     dispatch(login(emailValue, passwordValue));
   };
 
@@ -60,7 +61,7 @@ function Login() {
             extraClass='mb-6'
             value={passwordValue}
             required
-            minLength='6'
+            minLength={6}
           />
           <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || loginState.loading}>
             {loginState.loading ? 'Загрузка' : 'Войти'}
@@ -78,6 +79,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

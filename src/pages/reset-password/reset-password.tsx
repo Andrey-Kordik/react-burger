@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { FC, FormEvent } from 'react';
 import commonStyles from '../login/login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { resetPassword } from '../../services/auth/actions';
 
 
-function ResetPassword() {
-  const [textValue, setTextValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const inputRef = useRef(null);
+const ResetPassword: FC = () => {
+  const [textValue, setTextValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const onIconClickPassword = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(resetPassword(textValue, passwordValue));
   };
 
@@ -43,7 +44,7 @@ function ResetPassword() {
             extraClass='mb-6'
             value={passwordValue}
             required
-            minLength='6'
+            minLength={6}
           />
           <Input
             type={'text'}

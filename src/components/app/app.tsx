@@ -43,17 +43,20 @@ function App() {
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
   const ingredientsData = ingredients.data || [];
 
-  const background:string = location.state && location.state.background;
+  const background: string = location.state && location.state.background;
   //@ts-ignore
   const user = useSelector((state) => state.authReducer.user);
-  const userName:string = user && user.name;
+  const userName: string = user && user.name;
   //@ts-ignore
   const isPasswordReset = useSelector((state) => state.authReducer.isPasswordReset);
 
   useEffect(() => {
-    dispatch(checkUserAuth() as any);
-    dispatch(loadIngredients() as any);
-    dispatch(getUser() as any);
+    //@ts-ignore
+    dispatch(checkUserAuth());
+    //@ts-ignore
+    dispatch(loadIngredients());
+    //@ts-ignore
+    dispatch(getUser());
   }, []);
 
 
@@ -75,7 +78,7 @@ function App() {
         <Header userName={userName} />
         <Routes location={background || location}>
           <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
-          <Route path="/ingredients/:ingredientId" element={<IngredientDetails background={background}/>} />
+          <Route path="/ingredients/:ingredientId" element={<IngredientDetails background={background} />} />
           <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
           <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
           <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
