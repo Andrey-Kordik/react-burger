@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, FormEvent } from 'react';
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
@@ -8,26 +7,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../services/auth/actions'
 import { editUserData, getUser } from '../../services/auth/actions'
 
-function Profile({ user }) {
-  const [emailValue, setEmailValue] = useState('');
-  const [nameValue, setNameValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+}
 
-  const [isValueChanged, setIsValueChanged] = useState(false);
-  const [initialValues, setInitialValues] = useState({});
+interface ProfileProps {
+  user: IUser;
+}
+
+const Profile: FC<ProfileProps> = ({ user }) => {
+
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [nameValue, setNameValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+
+  const [isValueChanged, setIsValueChanged] = useState<boolean>(false);
+  const [initialValues, setInitialValues] = useState<IUser>({ email: '', name: '', password: '' });
 
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    //@ts-ignore
     dispatch(logout());
   };
 
-  const handleSaveChanges = (e) => {
+  const handleSaveChanges = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(editUserData(emailValue, nameValue, passwordValue));
     setIsValueChanged(false);
 
     setTimeout(() => {
+      //@ts-ignore
       dispatch(getUser());
     }, 1000);
   };
@@ -47,7 +60,7 @@ function Profile({ user }) {
     setIsValueChanged(false);
   };
 
-  const handleInputChange = (value, inputName) => {
+  const handleInputChange = (value: string, inputName: string) => {
     switch (inputName) {
       case 'name':
         setNameValue(value);
@@ -78,7 +91,7 @@ function Profile({ user }) {
       <div className={styles.profile_container}>
         <div className={styles.nav_container}>
           <div className={styles.profile_links}>
-            <NavLink className={` ${styles.profile_link} text text_type_main-medium`}>Профиль</NavLink>
+            <NavLink className={` ${styles.profile_link} text text_type_main-medium`} to='#'>Профиль</NavLink>
             <button className={` ${styles.profile_logout} text text_type_main-medium`} >История заказов</button>
             <button className={` ${styles.profile_logout} text text_type_main-medium`} onClick={handleLogout}>Выход</button>
           </div>
@@ -119,7 +132,7 @@ function Profile({ user }) {
             size={'default'}
             extraClass='mb-6'
             value={passwordValue || ''}
-            minLength='6'
+            minLength={6}
             icon="EditIcon"
           />
           <div className={styles.button_container}>
@@ -138,8 +151,5 @@ function Profile({ user }) {
 }
 
 
-Profile.propTypes = {
-  user: PropTypes.object
-};
 
 export default Profile;

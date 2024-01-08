@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './app.module.css';
 import HomePage from '../../pages/home/home';
-import { Route, Routes, useNavigate, useLocation, Navigate} from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modals/modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,25 +19,44 @@ import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route'
 import { getUser } from '../../services/auth/actions'
 import Page404 from '../page404/page404';
 
+export interface IIngredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  key?: string;
+  __v: number;
+}
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  //@ts-ignore
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
   const ingredientsData = ingredients.data || [];
 
-  const background = location.state && location.state.background;
+  const background: string = location.state && location.state.background;
+  //@ts-ignore
   const user = useSelector((state) => state.authReducer.user);
-  const userName = user && user.name;
-
+  const userName: string = user && user.name;
+  //@ts-ignore
   const isPasswordReset = useSelector((state) => state.authReducer.isPasswordReset);
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(checkUserAuth());
+    //@ts-ignore
     dispatch(loadIngredients());
-    dispatch(getUser())
+    //@ts-ignore
+    dispatch(getUser());
   }, []);
 
 
@@ -59,7 +78,7 @@ function App() {
         <Header userName={userName} />
         <Routes location={background || location}>
           <Route path="/" element={<HomePage ingredientsData={ingredientsData} />} />
-          <Route path="/ingredients/:ingredientId" element={<IngredientDetails />} />
+          <Route path="/ingredients/:ingredientId" element={<IngredientDetails background={background} />} />
           <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
           <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
           <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
@@ -74,7 +93,7 @@ function App() {
               path="/ingredients/:ingredientId"
               element={
                 <Modal headerHeading="Детали ингридиента" onClose={handleModalClose}>
-                  <IngredientDetails background={background}/>
+                  <IngredientDetails background={background} />
                 </Modal>
               }
             />

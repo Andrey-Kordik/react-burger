@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './burger-ingredients.module.css';
 import { useMemo, useState, useEffect,useRef } from 'react';
 import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
+<<<<<<< HEAD:src/components/burger-ingredients/burger-ingredients.tsx
+import {IIngredient } from '../app/app'
+
+export interface IngredientsData extends Array<IIngredient> {}
+
+interface BurgerIngredientsProps {
+  ingredientsData: IngredientsData;
+}
+
+const BurgerIngredients: FC <BurgerIngredientsProps> = ({ ingredientsData }) => {
+
+  const [current, setCurrent] = useState<string>('bun');
+  const ingredientsContainerRef = useRef<HTMLDivElement>(null);
+
+=======
 import PropTypes from 'prop-types';
 
 function BurgerIngredients({ingredientsData}) {
@@ -10,6 +25,7 @@ function BurgerIngredients({ingredientsData}) {
   const [current, setCurrent] = useState('bun');
   const ingredientsContainerRef = useRef();
 
+>>>>>>> main:src/components/burger-ingredients/burger-ingredients.jsx
   const filteredBurgers = useMemo(() => {
     const buns = ingredientsData.filter((item) => item.type === 'bun');
     const sauces = ingredientsData.filter((item) => item.type === 'sauce');
@@ -59,9 +75,12 @@ function BurgerIngredients({ingredientsData}) {
   );
 }
 
+<<<<<<< HEAD:src/components/burger-ingredients/burger-ingredients.tsx
+=======
 BurgerIngredients.propTypes = {
   ingredientsData: PropTypes.array.isRequired,
 };
+>>>>>>> main:src/components/burger-ingredients/burger-ingredients.jsx
 
 export default BurgerIngredients;
 

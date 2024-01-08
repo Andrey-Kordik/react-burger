@@ -1,58 +1,67 @@
 
 class AuthApi {
-  constructor({ url }) {
+  private url: string;
+
+  constructor({ url }: { url: string }) {
     this.url = url;
   }
 
-
-  _checkResult(res) {
+  private _checkResult(res: Response) {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
   }
 
-  getHeaders() {
-    return {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: localStorage.getItem('accessToken'),
-    };
+  private getHeaders(): Headers {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=utf-8');
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      headers.append('authorization', accessToken);
+    }
+    return headers;
   }
 
 
-  getOrder(ids) {
+  getOrder(ids: string[]) {
     return fetch(`${this.url}/orders`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ ingredients: ids }),
-    })
-
+    }).then((res) => {
+      return this._checkResult(res);
+    });
   }
 
-
-   refreshToken = () => {
+  refreshToken = () => {
     return fetch(`${this.url}/auth/token`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
+        'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({
-        token: localStorage.getItem("refreshToken"),
+        token: localStorage.getItem('refreshToken'),
       }),
-    })
+    }).then((res) => {
+      return this._checkResult(res);
+    });
   };
 
-  fetchWithRefresh = async (url, options) => {
+  private fetchWithRefresh = async (url: string, options: RequestInit) => {
     try {
       const res = await fetch(url, options);
       return await this._checkResult(res);
-    } catch (err) {
-      if (err.message === "jwt expired") {
-        const refreshData = await this.refreshToken(); // обновляем токен
+    } catch (err: any) {
+      if (err.message === 'jwt expired') {
+        const refreshData = await this.refreshToken();
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }
-        localStorage.setItem("refreshToken", refreshData.refreshToken);
-        localStorage.setItem("accessToken", refreshData.accessToken);
-        options.headers.authorization = refreshData.accessToken; // обновляем заголовок
-        const res = await fetch(url, options); // повторяем запрос
+        localStorage.setItem('refreshToken', refreshData.refreshToken);
+        localStorage.setItem('accessToken', refreshData.accessToken);
+        options.headers = {
+          ...options.headers,
+          authorization: refreshData.accessToken,
+        };
+        const res = await fetch(url, options);
         return await this._checkResult(res);
       } else {
         return Promise.reject(err);
@@ -64,45 +73,42 @@ class AuthApi {
     return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: 'GET',
       headers: this.getHeaders(),
-    })
-
+    });
   }
 
-  editUserData(email, name, password) {
+  editUserData(email: string, name: string, password: string) {
     return this.fetchWithRefresh(`${this.url}/auth/user`, {
       method: 'PATCH',
       headers: this.getHeaders(),
-      body: JSON.stringify({ email: email, name: name, password: password }),
-    })
-
+      body: JSON.stringify({ email, name, password }),
+    });
   }
 
-  register(name, email, password) {
+  register(name: string, email: string, password: string) {
     return this.fetchWithRefresh(`${this.url}/auth/register`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-        token: localStorage.getItem('refreshToken')
+        name,
+        email,
+        password,
+        token: localStorage.getItem('refreshToken'),
       }),
-    })
+    });
   }
 
-  authorize(email, password) {
+  authorize(email: string, password: string) {
     return this.fetchWithRefresh(`${this.url}/auth/login`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email,
+        password,
       }),
-    })
-
+    });
   }
 
-  logout(refreshToken) {
+  logout(refreshToken: string) {
     const body = {
       token: refreshToken,
     };
@@ -110,31 +116,30 @@ class AuthApi {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
-    })
+    });
   }
 
-  sendCode(email) {
+  sendCode(email: string) {
     const body = {
-      email: email,
+      email,
     };
     return fetch(`${this.url}/password-reset`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
-    })
-
+    });
   }
 
-  resetPassword(token, password) {
+  resetPassword(token: string, password: string) {
     const body = {
-      token: token,
-      password: password,
+      token,
+      password,
     };
     return fetch(`${this.url}/password-reset/reset`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
-    })
+    });
   }
 }
 

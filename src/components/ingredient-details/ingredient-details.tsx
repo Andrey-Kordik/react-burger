@@ -1,4 +1,33 @@
 import styles from './ingredient-details.module.css';
+<<<<<<< HEAD:src/components/ingredient-details/ingredient-details.tsx
+import React, { FC } from 'react';
+import {  useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+interface ModalIngredient {
+  _id: string;
+  image_large: string;
+  name: string;
+  calories: number;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+}
+
+interface IngredientDetailsProps {
+  background: string | undefined;
+}
+
+  const IngredientDetails: FC <IngredientDetailsProps> = ({ background }) => {
+
+  const { ingredientId } = useParams();
+
+  //@ts-ignore
+  const initialIngredients = useSelector((store) => store.ingredients);
+  const allIngredients = initialIngredients.ingredients.data
+
+  const ingredient = allIngredients.find((ingredient: ModalIngredient) => ingredient._id === ingredientId);
+=======
 import PropTypes from 'prop-types';
 import {  useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -8,6 +37,7 @@ const IngredientDetails = ({background}) => {
 
   const initialIngredients = useSelector((store) => store.ingredients);
   const allIngredients = initialIngredients.ingredients.data
+>>>>>>> main:src/components/ingredient-details/ingredient-details.jsx
 
   const ingredient = allIngredients.find((ingredient) => ingredient._id === ingredientId);
   return (
@@ -35,8 +65,11 @@ const IngredientDetails = ({background}) => {
   )
 };
 
+<<<<<<< HEAD:src/components/ingredient-details/ingredient-details.tsx
+=======
 IngredientDetails.propTypes = {
   background: PropTypes.object,
 };
 
+>>>>>>> main:src/components/ingredient-details/ingredient-details.jsx
 export default IngredientDetails

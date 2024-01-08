@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './register.module.css';
+import React, { FC, FormEvent } from 'react';
 import commonStyles from '../login/login.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
@@ -8,29 +7,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../services/auth/actions';
 
 
-function Register() {
+
+const Register: FC = () => {
   const dispatch = useDispatch();
-  const registerState = useSelector(state => state.authReducer);
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [nameValue, setNameValue] = useState('');
-  const [isFormValid, setIsFormValid] = useState(false);
-  const inputRef = useRef(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  //@ts-ignore
+  const registerState = useSelector((state) => state.authReducer);
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [nameValue, setNameValue] = useState<string>('');
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const onIconClickPassword = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(register(nameValue, emailValue, passwordValue))
+    setIsSubmitted(true);
+    //@ts-ignore
+    dispatch(register(nameValue, emailValue, passwordValue));
   };
 
   useEffect(() => {
-    setIsFormValid(nameValue && emailValue && passwordValue);
+    setIsFormValid(!!(nameValue && emailValue && passwordValue));
   }, [nameValue, emailValue, passwordValue]);
 
   return (
@@ -76,7 +79,7 @@ function Register() {
             extraClass='mb-6'
             value={passwordValue}
             required
-            minLength='6'
+            minLength={6} // изменение значения на числовое
           />
           <Button type="primary" size="medium" htmlType="submit" disabled={!isFormValid || registerState.loading}>
             {registerState.loading ? 'Загрузка' : 'Зарегистрироваться'}
