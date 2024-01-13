@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, KeyboardEvent, useEffect } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
 
@@ -22,9 +22,9 @@ const Modal: FC<ModalProps> = ({ children, onClose, headerHeading }) => {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown as unknown as EventListener);
+    document.addEventListener('keydown', handleKeyDown );
     return () => {
-      document.removeEventListener('keydown', handleKeyDown as unknown as EventListener);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
