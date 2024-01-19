@@ -18,6 +18,8 @@ import { checkUserAuth } from '../../services/auth/actions'
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route'
 import { getUser } from '../../services/auth/actions'
 import Page404 from '../page404/page404';
+import Orders from '../../pages/orders/orders';
+import ProfileRoutes from '../profile-routes/profile-routes';
 
 export interface IIngredient {
   _id: string;
@@ -59,7 +61,6 @@ function App() {
     dispatch(getUser());
   }, []);
 
-
   if (loading) {
     return <Preloader />;
   }
@@ -83,8 +84,9 @@ function App() {
           <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
           <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPassword />} />} />
           <Route path="/reset-password" element={isPasswordReset ? <OnlyUnAuth component={<ResetPassword />} /> : <Navigate to="/forgot-password" />} />
-          <Route path="/profile" element={<OnlyAuth component={<Profile user={user} />} />} />
-          <Route path="/*" element={< Page404 />} />
+          <Route  path="/profile/*" element={<OnlyAuth component={<ProfileRoutes user={user} />} />} />
+          <Route path="/feed" element={<OnlyAuth component={<Orders />} /> } />
+          <Route path="/*" element={<Page404 />} />
         </Routes>
 
         {background && (
@@ -106,4 +108,4 @@ function App() {
   return null;
 }
 
-export default App;
+export default App

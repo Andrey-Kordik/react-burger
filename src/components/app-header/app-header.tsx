@@ -28,8 +28,8 @@ const Header: FC <HeaderUserName> = ({ userName }) => {
             <MenuIcon
               type="secondary" />
             <NavLink
-              to='/'
-              className={`${window.location.pathname === '/order' ? styles.header__links : styles.header__links_inactive} pl-2`}>
+              to='/feed'
+              className={`${window.location.pathname === '/feed' ? styles.header__links : styles.header__links_inactive} pl-2`}>
               Лента заказов
             </NavLink>
           </div>
