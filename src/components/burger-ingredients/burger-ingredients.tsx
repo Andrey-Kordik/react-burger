@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import styles from './burger-ingredients.module.css';
-import { useMemo, useState, useEffect,useRef } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import IngredientsNavbar from './ingredients-navbar/ingredients-navbar';
 import Ingredient from './ingredient/ingredient';
-import {IIngredient } from '../app/app'
+import {IIngredient } from '../../services/types/types'
 
 export interface IngredientsData extends Array<IIngredient> {}
 

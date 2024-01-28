@@ -3,9 +3,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import styles from './ingredient.module.css';
 import { useDrag } from "react-dnd";
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../services/hooks/hooks";
 import { Link, useLocation } from 'react-router-dom';
-import { IIngredient } from '../../app/app'
+import { IIngredient } from '../../../services/types/types'
 
 interface IngredientProps {
   data: IIngredient;
@@ -16,7 +16,6 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   const location = useLocation();
   const ing = data;
   const ingredientId = data['_id'];
-  //@ts-ignore
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
 
   let count = constructorIngredients.ingredients.filter(

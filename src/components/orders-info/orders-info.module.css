@@ -11,8 +11,18 @@
   margin-bottom: 60px;
 }
 
+.order_number_container {
+  max-width: 280px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.order_number_undone{
+  color: white;
+}
+
 .orders_status {
-  max-width: 272px;
+  max-width: 280px;
   width: 100%;
 
 }

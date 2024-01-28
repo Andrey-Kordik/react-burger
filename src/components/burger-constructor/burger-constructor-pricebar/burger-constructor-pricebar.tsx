@@ -3,11 +3,11 @@ import styles from './burger-constructor-pricebar.module.css';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../../modals/modal/modal';
 import OrderDetails from '../../order-details/order-details';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../../services/hooks/hooks";
 import { loadOrderNumber, clearOrderNumber } from '../../../services/order-details/actions'
 import { useNavigate } from 'react-router-dom';
 import Preloader from '../../Preloader/Preloader';
-import { IIngredient } from '../../app/app';
+import { IIngredient } from '../../../services/types/types';
 
 interface BurgerConstructorPriceBarProps {
   totalPrice: number;
@@ -45,17 +45,13 @@ const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPr
   if (bunId) {
     ids.push(bunId);
   }
-  //@ts-ignore
+
   const { orderNumber, loading } = useSelector((state) => state.orderNumber);
-    //@ts-ignore
   const user = useSelector((state) => state.authReducer.user);
 
   const handleOrderSubmit = () => {
     if (user) {
-        //@ts-ignore
-      dispatch(loadOrderNumber(ids)).catch((error) => {
-        console.log(error);
-      });
+      dispatch(loadOrderNumber(ids))
     } else {
       navigate('/login');
     }

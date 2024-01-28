@@ -1,7 +1,7 @@
 import styles from './ingredient-details.module.css';
 import React, { FC } from 'react';
-import {  useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { IIngredient } from '../../services/types/types';
 
 interface ModalIngredient {
   _id: string;
@@ -15,17 +15,18 @@ interface ModalIngredient {
 
 interface IngredientDetailsProps {
   background: string | undefined;
+  ingredients: IIngredient[]
 }
 
-  const IngredientDetails: FC <IngredientDetailsProps> = ({ background }) => {
+  const IngredientDetails: FC <IngredientDetailsProps> = ({ background, ingredients }) => {
 
   const { ingredientId } = useParams();
 
-  //@ts-ignore
-  const initialIngredients = useSelector((store) => store.ingredients);
-  const allIngredients = initialIngredients.ingredients.data
+  const ingredient = ingredients.find((ingredient: ModalIngredient) => ingredient._id === ingredientId);
 
-  const ingredient = allIngredients.find((ingredient: ModalIngredient) => ingredient._id === ingredientId);
+  if (!ingredient) {
+    return <p>Ингредиент не найден</p>;
+  }
 
   return (
     <div className={styles.ingredient_details}>

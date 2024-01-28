@@ -23,6 +23,19 @@ import {
   SET_PASSWORD_RESET
 } from "./actions";
 
+import { IUser } from "../types/types";
+import { TAuthActions } from "./actions";
+
+export type TAuthState = {
+  loading: boolean;
+  error: null | string;
+  user: IUser | null,
+  accessToken: string,
+  refreshToken: string,
+  isAuthChecked: boolean,
+  isPasswordReset: boolean,
+};
+
 const initialState = {
   loading: false,
   error: null,
@@ -33,7 +46,7 @@ const initialState = {
   isPasswordReset: false,
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: TAuthState  = initialState, action: TAuthActions) : TAuthState => {
   switch (action.type) {
     case SET_PASSWORD_RESET:
       return {

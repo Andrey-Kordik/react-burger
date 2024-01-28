@@ -4,20 +4,17 @@ import styles from './burger-constructor.module.css';
 import BurgerConstructorPriceBar from './burger-constructor-pricebar/burger-constructor-pricebar';
 import { useDrop } from "react-dnd";
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
 import { addIngredient, removeIngredient, setTotalPrice } from '../../services/constructor-ingredients/actions'
 import { v4 as uuidv4 } from 'uuid';
 import Filling from './burger-filling/burger-filling';
 import Bun from './burger-bun/burger-bun';
-import { IIngredient } from '../app/app'
+import { IIngredient } from '../../services/types/types'
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  //@ts-ignore
   const bun = useSelector((state) => state.selectedIngredients.burgerConstructor.bun);
-  //@ts-ignore
   const ingredients = useSelector((state) => state.selectedIngredients.burgerConstructor.ingredients);
-  //@ts-ignore
   const totalPrice = useSelector((state) => state.selectedIngredients.totalPrice);
 
 
@@ -80,14 +77,14 @@ function BurgerConstructor() {
             <div className={styles.no_icon}></div>
             {hasBuns && (
               <>
-                <Bun ingredient={bun} text={`${bun.name} (верх)`} type="top" key={bun.key} />
+                <Bun ingredient={bun} text={`${bun?.name} (верх)`} type="top" key={bun?.key} />
                 <div className={` ${styles.burger_constructor_ing} custom-scroll`}>
 
                   {ingredients.map((ingredient: IIngredient, index: number) => (
                     <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
                   ))}
                 </div>
-                <Bun ingredient={bun} text={`${bun.name} (низ)`} type="bottom" key={bun.key} />
+                <Bun ingredient={bun} text={`${bun?.name} (низ)`} type="bottom" key={bun?.key} />
               </>
             )}
             <div className={styles.no_icon}></div>
@@ -111,9 +108,9 @@ function BurgerConstructor() {
           <>
             {hasBuns && (
               <>
-                <Bun ingredient={bun} text={`${bun.name} (верх)`} type="top" key={bun.key} />
+                <Bun ingredient={bun} text={`${bun?.name} (верх)`} type="top" key={bun?.key} />
                 <div className={styles.burger_construct_container}>Выберите начинку</div>
-                <Bun ingredient={bun} text={`${bun.name} (низ)`} type="bottom" key={bun.key} />
+                <Bun ingredient={bun} text={`${bun?.name} (низ)`} type="bottom" key={bun?.key} />
               </>
             )}
           </>

@@ -1,11 +1,12 @@
 import React, { FC, FormEvent, useState, useEffect } from 'react';
-import { IUser } from '../../components/profile-routes/profile-routes';
+import { IUser } from '../../services/types/types';
 import styles from './profile-form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "../../services/hooks/hooks";
 import { editUserData, getUser } from '../../services/auth/actions'
+import { ProfileProps } from '../../components/profile-routes/profile-routes';
 
-const ProfileForm: FC<{ user: IUser }> = ({ user }) => {
+const ProfileForm: FC<ProfileProps> = ({ user }) => {
 
   const [emailValue, setEmailValue] = useState<string>('');
   const [nameValue, setNameValue] = useState<string>('');
@@ -17,16 +18,15 @@ const ProfileForm: FC<{ user: IUser }> = ({ user }) => {
 
   const handleSaveChanges = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(editUserData(emailValue, nameValue, passwordValue));
     setIsValueChanged(false);
 
     setTimeout(() => {
-      //@ts-ignore
       dispatch(getUser());
-    }, 1000);
+    }, 500);
   };
 
+if(user) {
   useEffect(() => {
     setNameValue(user.name);
     setEmailValue(user.email);
@@ -34,6 +34,7 @@ const ProfileForm: FC<{ user: IUser }> = ({ user }) => {
     setInitialValues({ name: user.name, email: user.email, password: user.password });
 
   }, [user]);
+}
 
   const handleCancelChanges = () => {
     setNameValue(initialValues.name);

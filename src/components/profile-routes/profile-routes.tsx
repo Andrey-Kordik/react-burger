@@ -1,16 +1,9 @@
 import React, { FC } from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Profile from '../../pages/profile/profile';
-import OrderList from '../../components/order-list/order-list';
-
-export interface IUser {
-  name: string;
-  email: string;
-  password: string;
-}
-
+import { IUser } from '../../services/types/types';
 export interface ProfileProps {
-  user: IUser;
+  user: IUser | null;
 }
 
 const ProfileRoutes: FC<ProfileProps> = ({ user }) => {

@@ -2,8 +2,40 @@ import React, { FC } from 'react';
 import styles from './orders.module.css';
 import OrderList from '../../components/order-list/order-list';
 import OrdersInfo from '../../components/orders-info/orders-info';
+import Preloader from '../../components/Preloader/Preloader';
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
+import {
+  allOrdersConnect,
+  allOrdersDisconnect,
+} from "../../services/ws-all-orders/actions";
+import { useMatch } from 'react-router-dom';
+import { useEffect } from 'react';
+
+
+
+const ALL_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
+
 
 const Orders: FC = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.allOrders.loading);
+
+  const match = useMatch('/feed');
+
+
+  useEffect(() => {
+    if (match) {
+      dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
+    }
+    if (!match) {
+      dispatch(allOrdersDisconnect());
+    }
+  }, [match, dispatch]);
+
+
+  if (loading) {
+    return <Preloader />;
+  }
   return (
     <div className={styles.orders}>
       <h1 className='text text_type_main-large mt-10 mb-5'>Лента заказов</h1>

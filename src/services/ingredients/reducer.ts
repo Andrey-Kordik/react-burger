@@ -4,13 +4,22 @@ import {
   INGREDIENTS_ERROR,
 } from "./actions";
 
+import { IIngredient } from '../types/types';
+import { TGetIngredientsActions } from "./actions";
+
+export type TIngredientsState = {
+  ingredients: IIngredient[],
+  loading: boolean;
+  error: null | string;
+};
+
 const initialState = {
   ingredients: [],
   loading: false,
   error: null
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state:TIngredientsState = initialState, action:TGetIngredientsActions) : TIngredientsState  => {
   switch (action.type) {
     case INGREDIENTS_LOADING: {
       return {

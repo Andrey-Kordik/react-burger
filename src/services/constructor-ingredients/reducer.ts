@@ -1,26 +1,33 @@
 import {
-  CLEAR_SELECTED_INGREDIENT,
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
   REORDER_INGREDIENTS,
   SET_TOTAL_PRICE
 } from "./actions";
 
+import { IIngredient } from '../types/types';
+import type { TIngredientsActions } from "./actions";
+
+export type TConstructorState = {
+  burgerConstructor: {
+    bun: null | IIngredient,
+    ingredients: IIngredient[],
+  },
+  totalPrice: number,
+};
+
+
 const initialState = {
   burgerConstructor: {
-    bun: null,
+    bun: null ,
     ingredients: [],
   },
   totalPrice: 0,
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: TConstructorState = initialState, action: TIngredientsActions): TConstructorState => {
   switch (action.type) {
-    case CLEAR_SELECTED_INGREDIENT:
-      return {
-        ...state,
-        selectedIngredient: null,
-      };
+
     case ADD_INGREDIENT: {
       if (action.payload.type === 'bun') {
         return {
@@ -35,7 +42,7 @@ export const reducer = (state = initialState, action) => {
           ...state,
           burgerConstructor: {
             ...state.burgerConstructor,
-            ingredients: [...state.burgerConstructor.ingredients, { ...action.payload, id: action.id }],
+            ingredients: [...state.burgerConstructor.ingredients, { ...action.payload, _id: action.id }],
           },
         };
       }
