@@ -31,6 +31,15 @@ class AuthApi {
     });
   }
 
+  getCurrentOrder(number: number) {
+    return fetch(`${this.url}/orders/:number`, {
+      method: 'GET',
+      headers: this.getHeaders(),
+    }).then((res) => {
+      return this._checkResult(res);
+    });
+  }
+
   refreshToken = () => {
     return fetch(`${this.url}/auth/token`, {
       method: 'POST',

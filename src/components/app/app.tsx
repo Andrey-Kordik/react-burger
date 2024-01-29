@@ -21,7 +21,6 @@ import Orders from '../../pages/orders/orders';
 import ProfileRoutes from '../profile-routes/profile-routes';
 import OrderModal from '../order-modal/order-modal';
 
-
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -69,8 +68,8 @@ function App() {
           <Route path="/reset-password" element={isPasswordReset ? <OnlyUnAuth component={<ResetPassword />} /> : <Navigate to="/forgot-password" />} />
           <Route path="/profile/*" element={<OnlyAuth component={<ProfileRoutes user={user} />} />} />
           <Route path="/feed" element={<Orders />} />
-          <Route path="/feed/:number" element={<OrderModal background={background} orders={orders} />} />
-          <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderModal orders={orders} background={background} />} />} />
+          <Route path="/feed/:number" element={<OrderModal background={background}  />} />
+          <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderModal background={background} />} />} />
           <Route path="/*" element={<Page404 />} />
         </Routes>
 
@@ -88,7 +87,7 @@ function App() {
               path="/feed/:number"
               element={
                 <Modal headerHeading="" onClose={handleModalClose}>
-                  <OrderModal orders={orders} background={background} />
+                  <OrderModal  background={background} />
                 </Modal>
               }
             />
@@ -96,7 +95,7 @@ function App() {
               path="/profile/orders/:number"
               element={
                 <Modal headerHeading="" onClose={handleModalClose}>
-                  <OrderModal orders={orders} background={background} />
+                  <OrderModal  background={background} />
                 </Modal>
               }
             />
