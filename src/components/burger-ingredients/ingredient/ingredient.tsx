@@ -17,20 +17,16 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   const ing = data;
   const ingredientId = data['_id'];
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
+  const isBunInConstructor = constructorIngredients.bun && constructorIngredients.bun._id === ing._id;
 
-  let count = constructorIngredients.ingredients.filter(
-    (ingredient: IIngredient) => ingredient.name === data.name
-  ).length;
-
-  if (data.type === 'bun' && count > 0) {
-    count = 2;
-  }
+  const count = isBunInConstructor
+    ? 2
+    : constructorIngredients.ingredients.filter((ingredient) => ingredient._id === ing._id).length;
 
   const [, dragRef] = useDrag({
     type: data.type === "bun" ? "bun" : "ingredient",
     item: [ing],
   });
-
   return (
     <Link
       key={ingredientId} to={`/ingredients/${ingredientId}`} state={{ background: location }} className={styles.link}>

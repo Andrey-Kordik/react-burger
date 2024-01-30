@@ -27,9 +27,8 @@ function App() {
   const dispatch = useDispatch();
 
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
-  const orders = location.pathname.includes('/feed')
-  ? useSelector((state) => state.allOrders.allOrders.orders)
-  : useSelector((state) => state.myOrders.myOrders.orders);
+  const allOrders = useSelector((state) => state.allOrders.allOrders.orders)
+  const myOrders = useSelector((state) => state.myOrders.myOrders.orders);
 
   const background: string = location.state && location.state.background;
 
@@ -68,8 +67,8 @@ function App() {
           <Route path="/reset-password" element={isPasswordReset ? <OnlyUnAuth component={<ResetPassword />} /> : <Navigate to="/forgot-password" />} />
           <Route path="/profile/*" element={<OnlyAuth component={<ProfileRoutes user={user} />} />} />
           <Route path="/feed" element={<Orders />} />
-          <Route path="/feed/:number" element={<OrderModal background={background}  />} />
-          <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderModal background={background} />} />} />
+          <Route path="/feed/:number" element={<OrderModal  allOrders={allOrders} myOrders={myOrders} background={background} ingredients={ingredients} />} />
+          <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderModal ingredients={ingredients} allOrders={allOrders} myOrders={myOrders} background={background} />} />} />
           <Route path="/*" element={<Page404 />} />
         </Routes>
 
@@ -87,7 +86,7 @@ function App() {
               path="/feed/:number"
               element={
                 <Modal headerHeading="" onClose={handleModalClose}>
-                  <OrderModal  background={background} />
+                  <OrderModal allOrders={allOrders} myOrders={myOrders} ingredients={ingredients}  background={background} />
                 </Modal>
               }
             />
@@ -95,7 +94,7 @@ function App() {
               path="/profile/orders/:number"
               element={
                 <Modal headerHeading="" onClose={handleModalClose}>
-                  <OrderModal  background={background} />
+                  <OrderModal allOrders={allOrders} ingredients={ingredients} myOrders={myOrders} background={background} />
                 </Modal>
               }
             />

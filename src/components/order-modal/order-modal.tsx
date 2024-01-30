@@ -6,28 +6,37 @@ import { useParams } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from '../../services/hooks/hooks';
 import { getCurrentOrder } from '../../services/auth/actions'
+import { IIngredient } from '../../services/types/types';
 import Preloader from '../Preloader/Preloader';
+import {
+  allOrdersConnect,
+  allOrdersDisconnect,
+} from "../../services/ws-all-orders/actions";
+import { ALL_ORDERS_SERVER_URL } from '../../utils/constants';
+
 interface OrderModalProps {
   background: string | undefined;
+  myOrders: Order[]
+  allOrders: Order[]
+  ingredients: IIngredient[]
 }
 
-const OrderModal: FC<OrderModalProps> = ({ background }) => {
+const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingredients }) => {
 
 
   const dispatch = useDispatch()
   const { number } = useParams();
 
   const parsedOrderNumber: number = Number(number)
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
-
 
   const order = useSelector((store) => {
-    let order = store.allOrders.allOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
+    let order = allOrders.find((order: Order) => order.number === parsedOrderNumber);
+    console.log()
     if (order) {
       return order;
     }
 
-    order = store.myOrders.myOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
+    order = myOrders.find((order: Order) => order.number === parsedOrderNumber);
     if (order) {
       return order;
     }
@@ -40,6 +49,11 @@ const OrderModal: FC<OrderModalProps> = ({ background }) => {
       dispatch(getCurrentOrder(parsedOrderNumber))
     }
   }, [])
+
+  useEffect(() => {
+    dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
+
+  }, [dispatch]);
 
   if(!order) {
     return <Preloader />

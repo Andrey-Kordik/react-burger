@@ -34,7 +34,7 @@ export const reducer = (state: TConstructorState = initialState, action: TIngred
           ...state,
           burgerConstructor: {
             ...state.burgerConstructor,
-            bun: action.payload,
+            bun: {...action.payload},
           },
         };
       } else {
