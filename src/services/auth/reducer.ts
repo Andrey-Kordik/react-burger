@@ -20,10 +20,12 @@ import {
   EDIT_USER_DATA_SUCCESS,
   EDIT_USER_DATA_LOADING,
   GET_USER_ERROR,
-  SET_PASSWORD_RESET
+  SET_PASSWORD_RESET,
+  GET_CURRENT_ORDER_FAILURE,
+  GET_CURRENT_ORDER_SUCCESS
 } from "./actions";
 
-import { IUser } from "../types/types";
+import { IUser, Order } from "../types/types";
 import { TAuthActions } from "./actions";
 
 export type TAuthState = {
@@ -34,6 +36,7 @@ export type TAuthState = {
   refreshToken: string,
   isAuthChecked: boolean,
   isPasswordReset: boolean,
+  currentOrder: Order | null
 };
 
 const initialState = {
@@ -44,6 +47,7 @@ const initialState = {
   refreshToken: localStorage.getItem("refreshToken") || "",
   isAuthChecked: false,
   isPasswordReset: false,
+  currentOrder:null
 };
 
 export const reducer = (state: TAuthState  = initialState, action: TAuthActions) : TAuthState => {
@@ -181,6 +185,18 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
           loading: false,
           error: action.payload,
         };
+        case GET_CURRENT_ORDER_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
+          };
+          case GET_CURRENT_ORDER_SUCCESS:
+            return {
+              ...state,
+              loading: false,
+              currentOrder: action.payload,
+            };
     default:
       return state;
   }

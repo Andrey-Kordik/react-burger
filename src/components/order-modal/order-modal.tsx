@@ -1,21 +1,49 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './order-modal.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Order } from '../../services/types/types'
 import { useParams } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from '../../services/hooks/hooks';
-
+import { useSelector, useDispatch } from '../../services/hooks/hooks';
+import { getCurrentOrder } from '../../services/auth/actions'
+import Preloader from '../Preloader/Preloader';
 interface OrderModalProps {
   background: string | undefined;
-  orders: Order[]
 }
 
-const OrderModal: FC<OrderModalProps> = ({ background, orders }) => {
-  const { number: orderNumber } = useParams<{ number?: string }>();
-  const parsedOrderNumber = orderNumber ? parseInt(orderNumber, 10) : undefined;
+const OrderModal: FC<OrderModalProps> = ({ background }) => {
+
+
+  const dispatch = useDispatch()
+  const { number } = useParams();
+
+  const parsedOrderNumber: number = Number(number)
   const ingredients = useSelector((store) => store.ingredients.ingredients);
-  const order = orders.find((order: Order) => order.number === parsedOrderNumber);
+
+
+  const order = useSelector((store) => {
+    let order = store.allOrders.allOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
+    if (order) {
+      return order;
+    }
+
+    order = store.myOrders.myOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
+    if (order) {
+      return order;
+    }
+
+    return store.authReducer.currentOrder
+  });
+
+  useEffect(() => {
+    if (!order) {
+      dispatch(getCurrentOrder(parsedOrderNumber))
+    }
+  }, [])
+
+  if(!order) {
+    return <Preloader />
+  }
 
   const modalStyle = background ? {} : { marginTop: '120px' };
   const modalHeadingStyle = background ? {} : { left: '50%' };
@@ -31,17 +59,17 @@ const OrderModal: FC<OrderModalProps> = ({ background, orders }) => {
     <div className={styles.order_modal} style={modalStyle}>
       {order ? (
         <>
-          <p className={`${styles.order_modal_heading} text text_type_digits-default`} style={modalHeadingStyle}>{`# ${orderNumber}`}</p>
+          <p className={`${styles.order_modal_heading} text text_type_digits-default`} style={modalHeadingStyle}>{`# ${number}`}</p>
           <p className={` ${styles.order_modal_burger} text text_type_main-medium mt-10 mb-2`}>{order.name}</p>
           {order.status === 'done' && (
-                <p className={` ${styles.item__done} text text_type_main-default`}>Выполнен</p>
-              )}
-              {order.status === 'pending' && (
-                <p className={` ${styles.item__preparing} text text_type_main-default`}>Готовится</p>
-              )}
-              {order.status === 'created' && (
-                <p className={` ${styles.item__created} text text_type_main-default`}>Cоздан</p>
-              )}
+            <p className={` ${styles.item__done} text text_type_main-default`}>Выполнен</p>
+          )}
+          {order.status === 'pending' && (
+            <p className={` ${styles.item__preparing} text text_type_main-default`}>Готовится</p>
+          )}
+          {order.status === 'created' && (
+            <p className={` ${styles.item__created} text text_type_main-default`}>Cоздан</p>
+          )}
           <p className={` ${styles.order_modal_stuff} text text_type_main-medium mb-6`}>Состав:</p>
           <div className={` ${styles.order_modal_container} custom-scroll`}>
             {Array.from(uniqueIngredients).map((ingredientId, index) => {
@@ -84,5 +112,6 @@ const OrderModal: FC<OrderModalProps> = ({ background, orders }) => {
     </div>
   );
 };
+
 
 export default OrderModal;

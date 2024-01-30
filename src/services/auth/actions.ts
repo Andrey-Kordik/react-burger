@@ -1,6 +1,6 @@
 import { authApi } from '../../utils/auth-api'
 import { AppThunk, AppDispatch } from '../types/types'
-import { IUser } from '../types/types';
+import { IUser, Order } from '../types/types';
 
 export const REGISTER_LOAD_SUCCESS: 'REGISTER_LOAD_SUCCESS' = "REGISTER_LOAD_SUCCESS";
 export const REGISTER_LOADING: 'REGISTER_LOADING' = "REGISTER_LOADING";
@@ -33,7 +33,8 @@ export const EDIT_USER_DATA_ERROR: 'EDIT_USER_DATA_ERROR' = "EDIT_USER_DATA_ERRO
 export const GET_USER_ERROR: 'GET_USER_ERROR' = "GET_USER_ERROR"
 export const SET_PASSWORD_RESET: 'SET_PASSWORD_RESET' = 'SET_PASSWORD_RESET';
 
-
+export const GET_CURRENT_ORDER_SUCCESS: 'GET_CURRENT_ORDER_SUCCESS' = "GET_CURRENT_ORDER_SUCCESS";
+export const GET_CURRENT_ORDER_FAILURE: 'GET_CURRENT_ORDER_FAILURE' = "GET_CURRENT_ORDER_FAILURE";
 
 export interface IRegisterLoadSuccessAction {
   readonly type: typeof REGISTER_LOAD_SUCCESS;
@@ -154,6 +155,18 @@ export interface ISetIsPasswordResetAction {
   readonly payload: boolean;
 }
 
+
+export interface IGetCurrentOrderSuccessAction {
+  readonly type: typeof GET_CURRENT_ORDER_SUCCESS;
+  readonly payload: Order;
+}
+
+export interface IGetCurrentOrderFailureAction {
+  readonly type: typeof GET_CURRENT_ORDER_FAILURE;
+  readonly payload: string;
+}
+
+
 export type TAuthActions =
   | IRegisterLoadSuccessAction
   | IRegisterLoadingAction
@@ -177,7 +190,9 @@ export type TAuthActions =
   | IEditUserLoadingAction
   | IEditUserFailureAction
   | IEditUserSuccessAction
-  | ISetIsPasswordResetAction;
+  | ISetIsPasswordResetAction
+  | IGetCurrentOrderSuccessAction
+  | IGetCurrentOrderFailureAction;
 
 
 export const setPasswordReset = (isReset: boolean) => ({
@@ -190,6 +205,21 @@ export const setUser = (user: IUser | null) => ({
   payload: user,
 }
 );
+
+export const getCurrentOrder = (number: number): AppThunk => (dispatch: AppDispatch) => {
+  return authApi.getCurrentOrder(number).then(res => {
+      dispatch({
+          type: GET_CURRENT_ORDER_SUCCESS,
+          payload: res
+      });
+  })
+  .catch(error => {
+      dispatch({
+          type: GET_CURRENT_ORDER_FAILURE,
+          payload: error.message
+      });
+  });
+};
 
 
 export const editUserData = (email: string, name: string, password: string) => (dispatch: AppDispatch) => {
