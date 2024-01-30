@@ -1,4 +1,4 @@
-import {AppThunk, AppDispatch} from '../types/types'
+
 import { IIngredient } from '../types/types';
 
 export const ADD_INGREDIENT: 'ADD_INGREDIENT' = "ADD_INGREDIENT";

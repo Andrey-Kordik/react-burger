@@ -10,8 +10,7 @@ import { useDispatch, useSelector } from "../../services/hooks/hooks";
 import { useLocation } from 'react-router-dom';
 import { myOrdersConnect, myOrdersDisconnect } from '../../services/ws-my-orders/actions';
 import Preloader from '../../components/Preloader/Preloader';
-
-const MY_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders";
+import { MY_ORDERS_SERVER_URL } from '../../utils/constants'
 
 
 const Profile: FC<ProfileProps> = ({ user }) => {

@@ -10,11 +10,7 @@ import {
 } from "../../services/ws-all-orders/actions";
 import { useMatch } from 'react-router-dom';
 import { useEffect } from 'react';
-
-
-
-const ALL_ORDERS_SERVER_URL = "wss://norma.nomoreparties.space/orders/all";
-
+import { ALL_ORDERS_SERVER_URL } from '../../utils/constants';
 
 const Orders: FC = () => {
   const dispatch = useDispatch();

@@ -25,6 +25,7 @@ function BurgerConstructor() {
       }
       const newBun = { ...item[0] };
       dispatch(addIngredient(newBun));
+   
     } else if (item.length > 0) {
       const newItem = { ...item[0], key: uuidv4() };
       dispatch(addIngredient(newItem));
