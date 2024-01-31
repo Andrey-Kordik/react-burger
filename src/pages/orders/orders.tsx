@@ -10,7 +10,7 @@ import {
 } from "../../services/ws-all-orders/actions";
 import { useMatch } from 'react-router-dom';
 import { useEffect } from 'react';
-import { ALL_ORDERS_SERVER_URL } from '../../utils/constants';
+
 
 const Orders: FC = () => {
   const dispatch = useDispatch();
@@ -20,17 +20,14 @@ const Orders: FC = () => {
 
 
   useEffect(() => {
-    if (match) {
-      dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
-    }
-    if (!match) {
+    if(!match) {
+    return () => {
       dispatch(allOrdersDisconnect());
-    }
-  }, [match, dispatch]);
+    };
+  }
+  }, [dispatch]);
 
-
-console.log(match)
-
+  
   if (loading) {
     return <Preloader />;
   }

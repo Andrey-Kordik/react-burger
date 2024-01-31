@@ -2,8 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { rootReducer } from './root-reducer';
-import {allOrdersSocketMiddleware} from './middlewares/all-orders-socket-middleware'
-import { myOrdersSocketMiddleware } from './middlewares/my-orders-socket-middleware';
+import { socketMiddleware } from './middlewares/socket-middleware';
 
 import {
   allOrdersConnect,
@@ -26,7 +25,7 @@ import {
   wsMyOrdersMessage,
 } from "./ws-my-orders/actions";
 
-const allOrdersMiddleware = myOrdersSocketMiddleware({
+const allOrdersMiddleware = socketMiddleware({
   wsConnect: allOrdersConnect,
   wsDisconnect: allOrdersDisconnect,
   wsConnecting: wsAllOrdersConnecting,
@@ -36,7 +35,7 @@ const allOrdersMiddleware = myOrdersSocketMiddleware({
   onMessage: wsAllOrdersMessage,
 });
 
-const myOrdersMiddleware = allOrdersSocketMiddleware({
+const myOrdersMiddleware = socketMiddleware({
   wsConnect: myOrdersConnect,
   wsDisconnect: myOrdersDisconnect,
   wsConnecting: wsMyOrdersConnecting,

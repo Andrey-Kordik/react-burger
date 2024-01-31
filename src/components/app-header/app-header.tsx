@@ -5,7 +5,8 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { MenuIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink } from 'react-router-dom';
-import {allOrdersConnect,
+import {
+  allOrdersConnect,
   allOrdersDisconnect,
 } from "../../services/ws-all-orders/actions";
 
@@ -13,7 +14,7 @@ interface HeaderUserName {
   userName: string;
 }
 
-const Header: FC <HeaderUserName> = ({ userName }) => {
+const Header: FC<HeaderUserName> = ({ userName }) => {
 
   return (
     <header className={styles.header}>
@@ -38,7 +39,7 @@ const Header: FC <HeaderUserName> = ({ userName }) => {
           </div>
         </nav>
         <div className={styles.header_logo_container}>
-        <Logo />
+          <NavLink to='/'><Logo /></NavLink>
         </div>
         <div className={styles.header__profile}>
           {userName ? (

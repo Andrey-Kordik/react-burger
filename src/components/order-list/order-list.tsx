@@ -23,8 +23,6 @@ const OrderList: FC = () => {
     return <Preloader />;
   }
 
-
-
   return (
     <div className={`${styles.list} custom-scroll`} style={{ maxWidth }}>
       {orders.map((order) => (

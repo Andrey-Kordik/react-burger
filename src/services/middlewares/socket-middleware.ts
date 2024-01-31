@@ -3,7 +3,7 @@ import {
   ActionCreatorWithoutPayload,
   Middleware,
 } from "@reduxjs/toolkit";
-import { RootState } from "../../services/types/types";
+import { RootState } from "../types/types";
 import { authApi } from '../../utils/auth-api'
 
 export type TWsActionTypes = {
@@ -19,7 +19,7 @@ export type TWsActionTypes = {
 
 const RECONNECT_PERIOD = 3000;
 
-export const myOrdersSocketMiddleware = (
+export const socketMiddleware = (
   wsActions: TWsActionTypes,
   withTokenRefresh = false
 ): Middleware<{}, RootState> => {

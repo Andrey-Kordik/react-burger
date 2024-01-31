@@ -17,18 +17,11 @@ const Profile: FC<ProfileProps> = ({ user }) => {
   const dispatch = useDispatch();
   const matchMyOrders = useMatch('/profile/orders');
 
-  const accessToken = localStorage.getItem('accessToken');
-  const cleanedAccessToken = accessToken?.replace("Bearer ", "")
 
-  const ordersServerUrlWithToken = `${MY_ORDERS_SERVER_URL}?token=${cleanedAccessToken}`;
   const myloading = useSelector((state) => state.myOrders.loading);
 
 
   useEffect(() => {
-
-    if (matchMyOrders) {
-      dispatch(myOrdersConnect(ordersServerUrlWithToken));
-    }
 
     if (!matchMyOrders) {
       dispatch(myOrdersDisconnect());
