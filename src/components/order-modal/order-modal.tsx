@@ -50,12 +50,8 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
     }
   }, [])
 
-  useEffect(() => {
-    dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
 
-  }, [dispatch]);
-
-  if(!order) {
+  if (!order) {
     return <Preloader />
   }
 
@@ -63,6 +59,7 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
   const modalHeadingStyle = background ? {} : { left: '50%' };
 
   const uniqueIngredients = new Set(order?.ingredients);
+
   const totalOrderPrice = Array.from(uniqueIngredients).reduce((total, ingredientId) => {
     const ingredientInfo = ingredients.find((ing) => ing._id === ingredientId);
     const ingredientQuantity = ingredientInfo?.type === 'bun' ? 2 : 1;

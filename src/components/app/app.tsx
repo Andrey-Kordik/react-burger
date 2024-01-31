@@ -51,13 +51,8 @@ function App() {
     dispatch(checkUserAuth());
     dispatch(loadIngredients());
     dispatch(getUser());
-  }, []);
-
-
-  useEffect(() => {
     dispatch(myOrdersConnect(ordersServerUrlWithToken));
-    dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
-
+    dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL))
   }, [dispatch]);
 
 

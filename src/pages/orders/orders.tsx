@@ -27,7 +27,7 @@ const Orders: FC = () => {
   }
   }, [dispatch]);
 
-  
+
   if (loading) {
     return <Preloader />;
   }

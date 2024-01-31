@@ -31,11 +31,19 @@ const OrderItem: FC<OrderProps> = ({ order }) => {
     let totalPrice = 0;
     const bunMultiplier = 2;
 
-    const uniqueIngredients = new Set(order.ingredients);
+    const ingredientCount: Record<string, number> = {};
 
-    uniqueIngredients.forEach((ingredientId) => {
+    order.ingredients.forEach((ingredientId) => {
+      if (ingredientCount[ingredientId]) {
+        ingredientCount[ingredientId]++;
+      } else {
+        ingredientCount[ingredientId] = 1;
+      }
+    });
+
+    Object.keys(ingredientCount).forEach((ingredientId) => {
       const ingredientInfo = getIngredientInfo(ingredientId);
-      const ingredientQuantity = ingredientInfo.type === 'bun' ? bunMultiplier : 1;
+      const ingredientQuantity = ingredientInfo.type === 'bun' ? bunMultiplier : ingredientCount[ingredientId];
       totalPrice += (ingredientInfo.price || 0) * ingredientQuantity;
     });
 
