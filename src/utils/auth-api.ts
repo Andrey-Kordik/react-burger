@@ -29,7 +29,7 @@ class AuthApi {
   }
 
   getCurrentOrder(number: number) {
-    return fetch(`${BASE_URL}/orders/:number`, {
+    return fetch(`${BASE_URL}/orders/${number}`, {
       method: 'GET',
       headers: this.getHeaders(),
     }).then((res) => {
@@ -98,7 +98,6 @@ class AuthApi {
         name,
         email,
         password,
-        token: localStorage.getItem('refreshToken'),
       }),
     });
   }
@@ -114,9 +113,9 @@ class AuthApi {
     });
   }
 
-  logout(refreshToken: string) {
+  logout() {
     const body = {
-      token: refreshToken,
+      token: localStorage.getItem("refreshToken"),
     };
     return this.fetchWithRefresh(`${BASE_URL}/auth/logout`, {
       method: 'POST',

@@ -3,7 +3,6 @@ import styles from './profile.module.css';
 import { logout } from '../../services/auth/actions'
 import OrderList from '../../components/order-list/order-list'
 import { Link, useMatch } from 'react-router-dom';
-import { ProfileProps } from '../../components/profile-routes/profile-routes';
 import { Routes, Route } from 'react-router-dom';
 import ProfileForm from '../../components/profile-form/profile-form';
 import { useDispatch, useSelector } from "../../services/hooks/hooks";
@@ -13,21 +12,10 @@ import Preloader from '../../components/Preloader/Preloader';
 import { MY_ORDERS_SERVER_URL } from '../../utils/constants'
 
 
-const Profile: FC<ProfileProps> = ({ user }) => {
+const Profile: FC = () => {
   const dispatch = useDispatch();
-  const matchMyOrders = useMatch('/profile/orders');
-
 
   const myloading = useSelector((state) => state.myOrders.loading);
-
-
-  useEffect(() => {
-
-    if (!matchMyOrders) {
-      dispatch(myOrdersDisconnect());
-      console.log(matchMyOrders)
-    }
-  }, [matchMyOrders, dispatch]);
 
   const location = useLocation();
 
@@ -68,11 +56,11 @@ const Profile: FC<ProfileProps> = ({ user }) => {
         <Routes>
           <Route
             path="/"
-            element={<ProfileForm user={user} />}
+            element={<ProfileForm />}
           />
           <Route
             path="/orders/"
-            element={myloading ? <Preloader /> : <OrderList />}
+            element={<OrderList />}
           />
         </Routes>
       </div>

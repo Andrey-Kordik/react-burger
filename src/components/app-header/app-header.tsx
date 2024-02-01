@@ -5,16 +5,11 @@ import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { MenuIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink } from 'react-router-dom';
-import {
-  allOrdersConnect,
-  allOrdersDisconnect,
-} from "../../services/ws-all-orders/actions";
+import { useSelector } from '../../services/hooks/hooks';
 
-interface HeaderUserName {
-  userName: string;
-}
 
-const Header: FC<HeaderUserName> = ({ userName }) => {
+const Header: FC = () => {
+  const user = useSelector(store => store.authReducer.user);
 
   return (
     <header className={styles.header}>
@@ -42,9 +37,9 @@ const Header: FC<HeaderUserName> = ({ userName }) => {
           <NavLink to='/'><Logo /></NavLink>
         </div>
         <div className={styles.header__profile}>
-          {userName ? (
+          {user?.name ? (
             <NavLink to="/profile" className={`${window.location.pathname === '/profile' ? styles.header__links : styles.header__links_inactive} pl-2`}>
-              {userName}
+              {user.name}
             </NavLink>
           ) : (
             <>

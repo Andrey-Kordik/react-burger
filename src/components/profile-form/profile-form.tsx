@@ -2,12 +2,12 @@ import React, { FC, FormEvent, useState, useEffect } from 'react';
 import { IUser } from '../../services/types/types';
 import styles from './profile-form.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from "../../services/hooks/hooks";
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
 import { editUserData, getUser } from '../../services/auth/actions'
-import { ProfileProps } from '../../components/profile-routes/profile-routes';
 
-const ProfileForm: FC<ProfileProps> = ({ user }) => {
 
+const ProfileForm: FC = () => {
+  const user = useSelector(store => store.authReducer.user);
   const [emailValue, setEmailValue] = useState<string>('');
   const [nameValue, setNameValue] = useState<string>('');
   const [passwordValue, setPasswordValue] = useState<string>('');

@@ -11,13 +11,11 @@ import Preloader from '../Preloader/Preloader';
 
 
 interface OrderModalProps {
-  background: string | undefined;
-  myOrders: Order[]
-  allOrders: Order[]
-  ingredients: IIngredient[]
+  background?: string ;
+
 }
 
-const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingredients }) => {
+const OrderModal: FC<OrderModalProps> = ({  background }) => {
 
 
   const dispatch = useDispatch()
@@ -25,14 +23,16 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
 
   const parsedOrderNumber: number = Number(number)
 
+  const ingredients = useSelector(store => store.ingredients.ingredients);
+
   const order = useSelector((store) => {
-    let order = allOrders.find((order: Order) => order.number === parsedOrderNumber);
-    console.log()
+    let order = store.allOrders.allOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
     if (order) {
       return order;
     }
 
-    order = myOrders.find((order: Order) => order.number === parsedOrderNumber);
+
+    order = store.myOrders.myOrders.orders.find((order: Order) => order.number === parsedOrderNumber);
     if (order) {
       return order;
     }
@@ -68,7 +68,7 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
     }
     return total;
   }, 0);
-  
+
   return (
     <div className={styles.order_modal} style={modalStyle}>
       {order ? (

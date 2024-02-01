@@ -8,24 +8,19 @@ import {
   allOrdersConnect,
   allOrdersDisconnect,
 } from "../../services/ws-all-orders/actions";
-import { useMatch } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import { ALL_ORDERS_SERVER_URL } from '../../utils/constants';
 
 const Orders: FC = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.allOrders.loading);
 
-  const match = useMatch('/feed');
-
-
   useEffect(() => {
-    if(!match) {
+    dispatch(allOrdersConnect(ALL_ORDERS_SERVER_URL));
     return () => {
       dispatch(allOrdersDisconnect());
     };
-  }
-  }, [dispatch]);
+  }, []);
 
 
   if (loading) {

@@ -32,8 +32,6 @@ export type TAuthState = {
   loading: boolean;
   error: null | string;
   user: IUser | null,
-  accessToken: string,
-  refreshToken: string,
   isAuthChecked: boolean,
   isPasswordReset: boolean,
   currentOrder: Order | null
@@ -43,8 +41,6 @@ const initialState = {
   loading: false,
   error: null,
   user: null,
-  accessToken: localStorage.getItem("accessToken") || "",
-  refreshToken: localStorage.getItem("refreshToken") || "",
   isAuthChecked: false,
   isPasswordReset: false,
   currentOrder:null
@@ -68,8 +64,6 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
       return {
         ...state,
         loading: false,
-        accessToken: "",
-        refreshToken: "",
       };
     case LOGOUT_FAILURE:
       return {
@@ -99,8 +93,7 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
         ...state,
         loading: false,
         user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        isAuthChecked: true
       };
     case REGISTER_LOADING:
       return {
@@ -119,8 +112,7 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
         ...state,
         loading: false,
         user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        isAuthChecked: true
       };
     case SEND_CODE_LOADING:
       return {

@@ -210,7 +210,7 @@ export const getCurrentOrder = (number: number): AppThunk => (dispatch: AppDispa
   return authApi.getCurrentOrder(number).then(res => {
       dispatch({
           type: GET_CURRENT_ORDER_SUCCESS,
-          payload: res
+          payload: res.orders[0]
       });
   })
   .catch(error => {
@@ -285,8 +285,7 @@ export const sendCode = (email: string): AppThunk => {
 
 export const logout = (): AppThunk => (dispatch: AppDispatch, getState) => {
   dispatch({ type: LOGOUT_REQUEST });
-  const refreshToken = getState().authReducer.refreshToken;
-  return authApi.logout(refreshToken)
+  return authApi.logout()
     .then(data => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
@@ -353,7 +352,7 @@ export const setIsAuthChecked = (value: boolean) => ({
 })
 
 
-export const getUser = (): AppThunk => {
+export const getUser = (): AppThunk<Promise<unknown>> => {
   return (dispatch: AppDispatch) => {
     return authApi.getUserData().then((res) => {
       dispatch(setUser(res.user));
@@ -372,7 +371,7 @@ export const checkUserAuth = (): AppThunk => {
   return async (dispatch: AppDispatch) => {
     try {
       if (localStorage.getItem('accessToken')) {
-       dispatch(getUser());
+       await dispatch(getUser());
       }
     } catch (error) {
       localStorage.removeItem('accessToken');

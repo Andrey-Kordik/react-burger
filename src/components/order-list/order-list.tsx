@@ -1,29 +1,34 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './order-list.module.css';
 import OrderItem from '../order-item/order-item';
 import {  useMatch } from 'react-router-dom';
-import { useSelector } from '../../services/hooks/hooks';
+import { useSelector, useDispatch } from '../../services/hooks/hooks';
 import Preloader from '../Preloader/Preloader';
-import { RootState } from '../../services/types/types';
-import { createSelector } from 'reselect';
+import { MY_ORDERS_SERVER_URL } from '../../utils/constants';
+import { myOrdersConnect, myOrdersDisconnect } from '../../services/ws-my-orders/actions';
 
 const OrderList: FC = () => {
   const match = useMatch('/feed');
   const isFeedPage = !!match;
   const maxWidth = isFeedPage ? '600px' : '860px';
 
+  const dispatch = useDispatch();
 
-  const selectAllOrders = (state: RootState) => state.allOrders.allOrders.orders;
-  const selectMyOrders = (state: RootState) => state.myOrders.myOrders.orders;
+  const orders = useSelector(store => {
+    return (isFeedPage ? store.allOrders.allOrders.orders : store.myOrders.myOrders.orders);
+  });
 
-  const ordersSelector = createSelector(
-    selectAllOrders,
-    selectMyOrders,
-    (allOrders, myOrders) => (isFeedPage ? allOrders : [...myOrders].reverse())
-  );
-
-  const orders = useSelector(ordersSelector);
-
+  useEffect(() => {
+    if (!isFeedPage) {
+      const accessToken = localStorage.getItem('accessToken');
+      const cleanedAccessToken = accessToken?.replace("Bearer ", "")
+      const ordersServerUrlWithToken = `${MY_ORDERS_SERVER_URL}?token=${cleanedAccessToken}`;
+      dispatch(myOrdersConnect(ordersServerUrlWithToken));
+      return () => {
+        dispatch(myOrdersDisconnect());
+      }
+    }
+  }, []);
 
   if (!orders) {
     return <Preloader />;
