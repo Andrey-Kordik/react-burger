@@ -55,8 +55,7 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
   const modalHeadingStyle = background ? {} : { left: '50%' };
 
   const ingredientsCountMap = new Map<string, number>();
-
-  order.ingredients.forEach((ingredientId) => {
+  order.ingredients?.forEach((ingredientId) => {
     ingredientsCountMap.set(ingredientId, (ingredientsCountMap.get(ingredientId) || 0) + 1);
   });
 
@@ -69,7 +68,6 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
     }
     return total;
   }, 0);
-
   
   return (
     <div className={styles.order_modal} style={modalStyle}>
