@@ -8,11 +8,7 @@ import { useSelector, useDispatch } from '../../services/hooks/hooks';
 import { getCurrentOrder } from '../../services/auth/actions'
 import { IIngredient } from '../../services/types/types';
 import Preloader from '../Preloader/Preloader';
-import {
-  allOrdersConnect,
-  allOrdersDisconnect,
-} from "../../services/ws-all-orders/actions";
-import { ALL_ORDERS_SERVER_URL } from '../../utils/constants';
+
 
 interface OrderModalProps {
   background: string | undefined;
@@ -58,14 +54,23 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
   const modalStyle = background ? {} : { marginTop: '120px' };
   const modalHeadingStyle = background ? {} : { left: '50%' };
 
-  const uniqueIngredients = new Set(order?.ingredients);
+  const ingredientsCountMap = new Map<string, number>();
 
-  const totalOrderPrice = Array.from(uniqueIngredients).reduce((total, ingredientId) => {
+  order.ingredients.forEach((ingredientId) => {
+    ingredientsCountMap.set(ingredientId, (ingredientsCountMap.get(ingredientId) || 0) + 1);
+  });
+
+  const totalOrderPrice = Array.from(ingredientsCountMap.keys()).reduce((total, ingredientId) => {
     const ingredientInfo = ingredients.find((ing) => ing._id === ingredientId);
-    const ingredientQuantity = ingredientInfo?.type === 'bun' ? 2 : 1;
-    return total + (ingredientInfo?.price || 0) * ingredientQuantity;
+    const ingredientQuantity = ingredientInfo?.type === 'bun' ? 2 : ingredientsCountMap.get(ingredientId) || 1;
+
+    if (ingredientInfo) {
+      return total + (ingredientInfo.price || 0) * ingredientQuantity;
+    }
+    return total;
   }, 0);
 
+  
   return (
     <div className={styles.order_modal} style={modalStyle}>
       {order ? (
@@ -83,11 +88,12 @@ const OrderModal: FC<OrderModalProps> = ({ allOrders, myOrders, background, ingr
           )}
           <p className={` ${styles.order_modal_stuff} text text_type_main-medium mb-6`}>Состав:</p>
           <div className={` ${styles.order_modal_container} custom-scroll`}>
-            {Array.from(uniqueIngredients).map((ingredientId, index) => {
+          {Array.from(ingredientsCountMap.keys()).map((ingredientId, index) => {
               const ingredientInfo = ingredients.find((ing) => ing._id === ingredientId);
-              const ingredientQuantity = ingredientInfo?.type === 'bun' ? 2 : 1;
 
               if (ingredientInfo) {
+                const ingredientQuantity = ingredientInfo.type === 'bun' ? 2 : ingredientsCountMap.get(ingredientId) || 1;
+
                 return (
                   <div className={styles.order_modal_item} key={index}>
                     <div className={styles.order_modal_ing}>
