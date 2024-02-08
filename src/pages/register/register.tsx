@@ -2,15 +2,14 @@ import React, { FC, FormEvent } from 'react';
 import commonStyles from '../login/login.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link,  } from 'react-router-dom';
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
 import { register } from '../../services/auth/actions';
 
 
 
 const Register: FC = () => {
   const dispatch = useDispatch();
-  //@ts-ignore
   const registerState = useSelector((state) => state.authReducer);
   const [emailValue, setEmailValue] = useState<string>('');
   const [passwordValue, setPasswordValue] = useState<string>('');
@@ -28,7 +27,6 @@ const Register: FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
-    //@ts-ignore
     dispatch(register(nameValue, emailValue, passwordValue));
   };
 

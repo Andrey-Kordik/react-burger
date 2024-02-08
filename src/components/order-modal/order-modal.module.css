@@ -1,0 +1,99 @@
+.order_modal {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 100%;
+position: relative;
+}
+
+.order_modal_heading{
+  position: absolute;
+  top: -60px;
+}
+
+.order_modal_burger {
+  text-align: left;
+}
+
+.order_modal_status {
+  text-align: left;
+  margin-bottom: 60px;
+  color: #0CC;
+}
+
+.order_modal_stuff {
+  text-align: left;
+}
+
+.order_modal_container{
+  height: 30vh;
+  overflow-y: scroll;
+}
+
+.order_modal_item {
+  display: flex;
+  max-width: 608px;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.order_modal_item:last-child {
+  margin-bottom: 0;
+}
+
+.order_modal_ing {
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.order_modal_ingpic {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid #801AB2;
+  background-color: #131316;
+}
+
+.order_modal_ingname {
+  max-width: 320px;
+  width: 100%;
+  text-align: left;
+}
+
+.order_modal_price{
+  display: flex;
+  max-width: 192px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal_extrainfo{
+  margin-top: 40px;
+  max-width: 640px;
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item__done{
+  text-align: left;
+  margin-bottom: 60px;
+  color:  #0CC;
+}
+
+.item__preparing {
+  text-align: left;
+  margin-bottom: 60px;
+  color: yellow;
+}
+
+.item__created {
+  text-align: left;
+  margin-bottom: 60px;
+  color: white;
+}

@@ -1,9 +1,17 @@
 import {
   ORDER_LOAD_SUCCESS,
   ORDER_LOADING,
-  ORDER_ERROR, 
+  ORDER_ERROR,
   CLEAR_ORDER_NUMBER
 } from "./actions";
+
+import { TOrderActions } from "./actions";
+
+export type TOrderState = {
+  orderNumber: null | number;
+  loading: boolean;
+  error: null | string;
+};
 
 const initialState = {
   orderNumber: null,
@@ -11,7 +19,7 @@ const initialState = {
   error: null
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: TOrderState  = initialState, action: TOrderActions): TOrderState => {
   switch (action.type) {
     case ORDER_LOADING: {
       return {
@@ -34,11 +42,11 @@ export const reducer = (state = initialState, action) => {
         loading: false,
       };
 
-      case CLEAR_ORDER_NUMBER:
-        return {
-          ...state,
-          orderNumber: null,
-        };
+    case CLEAR_ORDER_NUMBER:
+      return {
+        ...state,
+        orderNumber: null,
+      };
 
     default:
       return state;

@@ -4,8 +4,8 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
 import { reorderIngredients } from "../../../services/constructor-ingredients/actions";
-import { useDispatch } from "react-redux";
-import { IIngredient } from '../../app/app';
+import { useDispatch } from "../../../services/hooks/hooks";
+import { IIngredient } from '../../../services/types/types';
 
 interface FillingProps {
   ingredient: IIngredient;

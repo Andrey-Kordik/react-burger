@@ -1,17 +1,21 @@
 
 import React, { FC } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngredient } from '../../app/app';
+import { IIngredient } from '../../../services/types/types';
 
 interface BunProps {
-  ingredient: IIngredient;
+  ingredient: IIngredient | null;
   text: string;
   type?: 'top' | 'bottom';
 }
 
 const Bun: FC<BunProps> = ({ ingredient, text, type }) => {
-  return (
 
+  if (!ingredient) {
+    return null;
+  }
+
+  return (
     <div key={ingredient.key}>
       <ConstructorElement
         text={text}

@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks/hooks";
 import Preloader from '../Preloader/Preloader';
 import { useLocation, Navigate } from 'react-router-dom';
 import React, { FC, ReactNode, ReactElement } from 'react';
@@ -9,9 +9,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ onlyUnAuth = false, component }) => {
-  //@ts-ignore
   const isAuthChecked = useSelector((state) => state.authReducer.isAuthChecked);
-  //@ts-ignore
   const user = useSelector((state) => state.authReducer.user);
   const location = useLocation();
 
