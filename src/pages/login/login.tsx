@@ -3,7 +3,7 @@ import commonStyles from './login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
 import { login } from '../../services/auth/actions'
 
 
@@ -13,7 +13,6 @@ const Login: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-    //@ts-ignore
   const loginState = useSelector((state) => state.authReducer);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -30,7 +29,6 @@ const Login: FC = () => {
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
-        //@ts-ignore
     dispatch(login(emailValue, passwordValue));
   };
 

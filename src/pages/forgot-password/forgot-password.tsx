@@ -3,7 +3,7 @@ import commonStyles from '../login/login.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "../../services/hooks/hooks";
 import { sendCode, setPasswordReset } from '../../services/auth/actions';
 import {useNavigate } from 'react-router-dom';
 
@@ -16,7 +16,6 @@ const ForgotPassword: FC = () => {
 
   const handleResetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-      //@ts-ignore
     dispatch(sendCode(emailValue));
     dispatch(setPasswordReset(true));
     navigate('/reset-password');
