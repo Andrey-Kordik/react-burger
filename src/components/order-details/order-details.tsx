@@ -3,7 +3,7 @@ import styles from './order-details.module.css';
 import confirmImage from '../../images/done.png';
 
 interface OrderDetailsProps {
-  orderNumber: string;
+  orderNumber: number;
 }
 
 const OrderDetails: FC<OrderDetailsProps> = ({ orderNumber }) => {

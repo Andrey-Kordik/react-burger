@@ -3,9 +3,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import styles from './ingredient.module.css';
 import { useDrag } from "react-dnd";
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../services/hooks/hooks";
 import { Link, useLocation } from 'react-router-dom';
-import { IIngredient } from '../../app/app'
+import { IIngredient } from '../../../services/types/types'
 
 interface IngredientProps {
   data: IIngredient;
@@ -16,22 +16,17 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   const location = useLocation();
   const ing = data;
   const ingredientId = data['_id'];
-  //@ts-ignore
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
+  const isBunInConstructor = constructorIngredients.bun && constructorIngredients.bun._id === ing._id;
 
-  let count = constructorIngredients.ingredients.filter(
-    (ingredient: IIngredient) => ingredient.name === data.name
-  ).length;
-
-  if (data.type === 'bun' && count > 0) {
-    count = 2;
-  }
+  const count = isBunInConstructor
+    ? 2
+    : constructorIngredients.ingredients.filter((ingredient) => ingredient._id === ing._id).length;
 
   const [, dragRef] = useDrag({
     type: data.type === "bun" ? "bun" : "ingredient",
     item: [ing],
   });
-
   return (
     <Link
       key={ingredientId} to={`/ingredients/${ingredientId}`} state={{ background: location }} className={styles.link}>

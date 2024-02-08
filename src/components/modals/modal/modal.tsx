@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
-
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
@@ -22,14 +21,13 @@ const Modal: FC<ModalProps> = ({ children, onClose, headerHeading }) => {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown );
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-
- return modalRoot ? ReactDOM.createPortal(
+  return modalRoot ? ReactDOM.createPortal(
     <>
       <ModalOverlay
         onClose={onClose} />
@@ -43,7 +41,7 @@ const Modal: FC<ModalProps> = ({ children, onClose, headerHeading }) => {
     </>
     ,
     modalRoot
-    ) : null;
+  ) : null;
 }
 
 

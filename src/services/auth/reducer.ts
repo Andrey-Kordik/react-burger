@@ -20,20 +20,33 @@ import {
   EDIT_USER_DATA_SUCCESS,
   EDIT_USER_DATA_LOADING,
   GET_USER_ERROR,
-  SET_PASSWORD_RESET
+  SET_PASSWORD_RESET,
+  GET_CURRENT_ORDER_FAILURE,
+  GET_CURRENT_ORDER_SUCCESS
 } from "./actions";
+
+import { IUser, Order } from "../types/types";
+import { TAuthActions } from "./actions";
+
+export type TAuthState = {
+  loading: boolean;
+  error: null | string;
+  user: IUser | null,
+  isAuthChecked: boolean,
+  isPasswordReset: boolean,
+  currentOrder: Order | null
+};
 
 const initialState = {
   loading: false,
   error: null,
   user: null,
-  accessToken: localStorage.getItem("accessToken") || "",
-  refreshToken: localStorage.getItem("refreshToken") || "",
   isAuthChecked: false,
   isPasswordReset: false,
+  currentOrder:null
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state: TAuthState  = initialState, action: TAuthActions) : TAuthState => {
   switch (action.type) {
     case SET_PASSWORD_RESET:
       return {
@@ -51,8 +64,6 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        accessToken: "",
-        refreshToken: "",
       };
     case LOGOUT_FAILURE:
       return {
@@ -82,8 +93,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        isAuthChecked: true
       };
     case REGISTER_LOADING:
       return {
@@ -102,8 +112,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        isAuthChecked: true
       };
     case SEND_CODE_LOADING:
       return {
@@ -168,6 +177,18 @@ export const reducer = (state = initialState, action) => {
           loading: false,
           error: action.payload,
         };
+        case GET_CURRENT_ORDER_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
+          };
+          case GET_CURRENT_ORDER_SUCCESS:
+            return {
+              ...state,
+              loading: false,
+              currentOrder: action.payload,
+            };
     default:
       return state;
   }

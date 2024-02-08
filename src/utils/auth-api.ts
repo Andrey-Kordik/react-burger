@@ -1,10 +1,7 @@
+import { BASE_URL } from '../utils/constants';
 
 class AuthApi {
-  private url: string;
 
-  constructor({ url }: { url: string }) {
-    this.url = url;
-  }
 
   private _checkResult(res: Response) {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -22,7 +19,7 @@ class AuthApi {
 
 
   getOrder(ids: string[]) {
-    return fetch(`${this.url}/orders`, {
+    return fetch(`${BASE_URL}/orders`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ ingredients: ids }),
@@ -31,8 +28,17 @@ class AuthApi {
     });
   }
 
+  getCurrentOrder(number: number) {
+    return fetch(`${BASE_URL}/orders/${number}`, {
+      method: 'GET',
+      headers: this.getHeaders(),
+    }).then((res) => {
+      return this._checkResult(res);
+    });
+  }
+
   refreshToken = () => {
-    return fetch(`${this.url}/auth/token`, {
+    return fetch(`${BASE_URL}/auth/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -70,14 +76,14 @@ class AuthApi {
   };
 
   getUserData() {
-    return this.fetchWithRefresh(`${this.url}/auth/user`, {
+    return this.fetchWithRefresh(`${BASE_URL}/auth/user`, {
       method: 'GET',
       headers: this.getHeaders(),
     });
   }
 
   editUserData(email: string, name: string, password: string) {
-    return this.fetchWithRefresh(`${this.url}/auth/user`, {
+    return this.fetchWithRefresh(`${BASE_URL}/auth/user`, {
       method: 'PATCH',
       headers: this.getHeaders(),
       body: JSON.stringify({ email, name, password }),
@@ -85,20 +91,19 @@ class AuthApi {
   }
 
   register(name: string, email: string, password: string) {
-    return this.fetchWithRefresh(`${this.url}/auth/register`, {
+    return this.fetchWithRefresh(`${BASE_URL}/auth/register`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({
         name,
         email,
         password,
-        token: localStorage.getItem('refreshToken'),
       }),
     });
   }
 
   authorize(email: string, password: string) {
-    return this.fetchWithRefresh(`${this.url}/auth/login`, {
+    return this.fetchWithRefresh(`${BASE_URL}/auth/login`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({
@@ -108,11 +113,11 @@ class AuthApi {
     });
   }
 
-  logout(refreshToken: string) {
+  logout() {
     const body = {
-      token: refreshToken,
+      token: localStorage.getItem("refreshToken"),
     };
-    return this.fetchWithRefresh(`${this.url}/auth/logout`, {
+    return this.fetchWithRefresh(`${BASE_URL}/auth/logout`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
@@ -123,7 +128,7 @@ class AuthApi {
     const body = {
       email,
     };
-    return fetch(`${this.url}/password-reset`, {
+    return fetch(`${BASE_URL}/password-reset`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
@@ -135,7 +140,7 @@ class AuthApi {
       token,
       password,
     };
-    return fetch(`${this.url}/password-reset/reset`, {
+    return fetch(`${BASE_URL}/password-reset/reset`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(body),
@@ -143,6 +148,4 @@ class AuthApi {
   }
 }
 
-export const authApi = new AuthApi({
-  url: 'https://norma.nomoreparties.space/api',
-});
+export const authApi = new AuthApi;

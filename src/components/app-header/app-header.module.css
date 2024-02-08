@@ -12,10 +12,12 @@
 .header__container {
   max-width: 1240px;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Изменено на grid-template-columns */
   align-items: center;
+
 }
+
 
 .header__nav {
   max-width: 330px;
@@ -30,6 +32,7 @@
 
 .header__profile {
   display: flex;
+  justify-content: flex-end;
 }
 
 .header__links {
@@ -53,4 +56,9 @@
 .header__links:hover {
   opacity: 0.5;
   transition: 0, 4s;
+}
+
+.header_logo_container{
+display: flex;
+justify-content: center;
 }

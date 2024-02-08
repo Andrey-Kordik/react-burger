@@ -1,14 +1,14 @@
+import { BASE_URL } from '../utils/constants';
+
 class IngredientsApi {
-  private url: string;
   private headers: Record<string, string>;
 
-  constructor({ url, headers }: { url: string; headers: Record<string, string> }) {
-    this.url = url;
+  constructor({ headers }: { headers: Record<string, string> }) {
     this.headers = headers;
   }
 
   getIngredients() {
-    return fetch(`${this.url}/ingredients`, {
+    return fetch(`${BASE_URL }/ingredients`, {
       headers: this.headers,
     })
       .then((res) => {
@@ -25,7 +25,6 @@ class IngredientsApi {
 }
 
 export const ingredientsApi = new IngredientsApi({
-  url: 'https://norma.nomoreparties.space/api',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
   },
