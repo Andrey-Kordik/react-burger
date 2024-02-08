@@ -64,6 +64,7 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
       return {
         ...state,
         loading: false,
+        user: null
       };
     case LOGOUT_FAILURE:
       return {
