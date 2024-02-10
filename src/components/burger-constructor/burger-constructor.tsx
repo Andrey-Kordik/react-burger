@@ -78,14 +78,18 @@ function BurgerConstructor() {
             <div className={styles.no_icon}></div>
             {hasBuns && (
               <>
+
                 <Bun ingredient={bun} text={`${bun?.name} (верх)`} type="top" key={bun?.key} data-type="bun"/>
+
                 <div className={` ${styles.burger_constructor_ing} custom-scroll`}>
 
                   {ingredients.map((ingredient: IIngredient, index: number) => (
                     <Filling ingredient={ingredient} deleteIng={deleteIng} key={ingredient.key} index={index} />
                   ))}
                 </div>
+
                 <Bun ingredient={bun} text={`${bun?.name} (низ)`} type="bottom" key={bun?.key} data-type="bun"/>
+
               </>
             )}
             <div className={styles.no_icon}></div>
@@ -112,6 +116,7 @@ function BurgerConstructor() {
                 <Bun ingredient={bun} text={`${bun?.name} (верх)`} type="top" key={bun?.key} data-type="bun"/>
                 <div className={styles.burger_construct_container}>Выберите начинку</div>
                 <Bun ingredient={bun} text={`${bun?.name} (низ)`} type="bottom" key={bun?.key} data-type="bun"/>
+
               </>
             )}
           </>
