@@ -29,6 +29,7 @@ function App() {
 
   const { loading, error, ingredients } = useSelector((store) => store.ingredients);
 
+
   const background: string = location.state && location.state.background;
 
 

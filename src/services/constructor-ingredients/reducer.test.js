@@ -1,4 +1,4 @@
-import { reducer } from './reducer';
+import { reducer, initialState } from './reducer';
 
 import {
   ADD_INGREDIENT,
@@ -11,98 +11,67 @@ import { TEST_BUN, TEST_MAIN, TEST_INGS } from '../../utils/test-constants'
 
 describe('constructor reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      burgerConstructor: {
-        bun: null ,
-        ingredients: [],
-      },
-      totalPrice: 0,
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should add bun ingredient', () => {
-    const prevState = {
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-      totalPrice: 0
-    };
     const action = { type: ADD_INGREDIENT, payload: TEST_BUN};
-    const nextState = reducer(prevState, action);
+    const nextState = reducer(initialState, action);
     expect(nextState).toEqual({
+      ...initialState,
       burgerConstructor: {
         bun: TEST_BUN,
         ingredients: []
-      },
-      totalPrice: 0
+      }
     });
   });
 
   it('should add main ingredient', () => {
-    const prevState = {
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-      totalPrice: 0
-    };
     const action = { type: ADD_INGREDIENT, payload: { ...TEST_MAIN }, id: TEST_MAIN._id };
-    const nextState = reducer(prevState, action);
+    const nextState = reducer(initialState, action);
     expect(nextState).toEqual({
+      ...initialState,
       burgerConstructor: {
         bun: null,
         ingredients: [TEST_MAIN]
-      },
-      totalPrice: 0
+      }
     })
   })
 
   it('should remove bun', () => {
     const prevState = {
+      ...initialState,
       burgerConstructor: {
         bun: TEST_BUN,
         ingredients: []
       },
-      totalPrice: 0
     };
     const action = { type: REMOVE_INGREDIENT, payload: TEST_BUN };
     const nextState = reducer(prevState, action);
-    expect(nextState).toEqual({
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-      totalPrice: 0
-    });
+    expect(nextState).toEqual(initialState);
   });
 
   it('should remove main ingredient ', () => {;
     const prevState = {
+      ...initialState,
       burgerConstructor: {
         bun: null,
         ingredients: [TEST_MAIN]
-      },
-      totalPrice: 0
+      }
     };
+
     const action = { type: REMOVE_INGREDIENT, payload: TEST_MAIN};
     const nextState = reducer(prevState, action);
-    expect(nextState).toEqual({
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-      totalPrice: 0
-    });
+    expect(nextState).toEqual(initialState);
   });
 
   it('should reorder ingredients correctly', () => {
     const prevState = {
+      ...initialState,
       burgerConstructor: {
         bun: null,
         ingredients: [...TEST_INGS]
       },
-      totalPrice: 0
     };
 
     const fromIndex = 0;
@@ -115,33 +84,22 @@ describe('constructor reducer', () => {
     expectedIngredients.splice(toIndex, 0, expectedIngredients.splice(fromIndex, 1)[0]);
 
     expect(nextState).toEqual({
+      ...initialState,
       burgerConstructor: {
         bun: null,
         ingredients: expectedIngredients
-      },
-      totalPrice: 0
+      }
     });
   });
 
   it('should set total price', () => {
-    const prevState = {
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
-      totalPrice: 0
-    };
-
     const newTotalPrice = 100;
 
     const action = { type: SET_TOTAL_PRICE, payload: newTotalPrice };
-    const nextState = reducer(prevState, action);
+    const nextState = reducer(initialState, action);
 
     expect(nextState).toEqual({
-      burgerConstructor: {
-        bun: null,
-        ingredients: []
-      },
+      ...initialState,
       totalPrice: newTotalPrice
     });
   });

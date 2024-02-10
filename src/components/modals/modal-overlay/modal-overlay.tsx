@@ -11,7 +11,7 @@ const ModalOverlay: FC<ModalOverlayProps> = ({ onClose }) => {
   };
 
   return (
-    <div className={styles.modal_overlay} onClick={handleClick}></div>
+    <div className={styles.modal_overlay} onClick={handleClick} data-testid='overlay'></div>
   );
 }
 

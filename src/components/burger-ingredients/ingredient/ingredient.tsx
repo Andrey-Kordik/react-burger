@@ -18,6 +18,7 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   const ingredientId = data['_id'];
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
   const isBunInConstructor = constructorIngredients.bun && constructorIngredients.bun._id === ing._id;
+  const type = data.type === "bun" || data.type === "main" || data.type === "sauce" ? data.type : "ingredient";
 
   const count = isBunInConstructor
     ? 2
@@ -30,12 +31,12 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   return (
     <Link
       key={ingredientId} to={`/ingredients/${ingredientId}`} state={{ background: location }} className={styles.link}>
-      <article className={styles.ingredient} ref={dragRef}>
+      <article className={styles.ingredient} ref={dragRef} data-testid='ingredient' data-type={type}>
         {count > 0 && <Counter count={count} />}
         <img src={data.image} alt={data.name} />
         <div className={styles.ingredient__price}>
           <p className="text text_type_digits-default pr-1">{data.price}</p>
-          <CurrencyIcon type='primary'/>
+          <CurrencyIcon type='primary' />
         </div>
         <p className="text text_type_main-default">{data.name}</p>
       </article>

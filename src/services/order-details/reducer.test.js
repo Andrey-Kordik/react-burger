@@ -1,4 +1,4 @@
-import { reducer } from './reducer';
+import { reducer, initialState} from './reducer';
 
 import {
   ORDER_LOAD_SUCCESS,
@@ -11,78 +11,60 @@ import { TEST_ERROR_MESSAGE } from '../../utils/test-constants'
 
 describe('order details reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      orderNumber: null,
-      loading: false,
-      error: null
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
+
   it('should handle order load', () => {
-    const prevState = {
-      orderNumber: null,
-      loading: false,
-      error: null
-    };
 
     const action = { type: ORDER_LOADING };
-    const nextState = reducer(prevState, action);
+    const nextState = reducer(initialState, action);
 
     expect(nextState).toEqual({
-      orderNumber: null,
+      ...initialState,
       loading: true,
-      error: null
     });
   });
 
   it('should handle order error', () => {
     const prevState = {
-      orderNumber: null,
+      ...initialState,
       loading: true,
-      error: null
     };
 
     const action = { type: ORDER_ERROR, payload: TEST_ERROR_MESSAGE};
     const nextState = reducer(prevState, action);
 
     expect(nextState).toEqual({
-      orderNumber: null,
-      loading: false,
+      ...initialState,
       error: TEST_ERROR_MESSAGE
     });
   });
 
   it('should handle order success', () => {
     const prevState = {
-      orderNumber: null,
+      ...initialState,
       loading: true,
-      error: null
     };
 
     const action = { type: ORDER_LOAD_SUCCESS, payload: 12345 };
     const nextState = reducer(prevState, action);
 
     expect(nextState).toEqual({
-      orderNumber: 12345,
-      loading: false,
-      error: null
+      ...initialState,
+      orderNumber: 12345
     });
   });
 
   it('should handle clear order number', () => {
     const prevState = {
-      orderNumber: 12345,
-      loading: false,
-      error: null
+      ...initialState,
+      orderNumber: 12345
     };
 
     const action = { type: CLEAR_ORDER_NUMBER };
     const nextState = reducer(prevState, action);
 
-    expect(nextState).toEqual({
-      orderNumber: null,
-      loading: false,
-      error: null
-    });
+    expect(nextState).toEqual(initialState);
   });
 
 });

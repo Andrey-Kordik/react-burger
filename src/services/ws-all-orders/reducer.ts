@@ -16,7 +16,7 @@ export type TAllOrdersStore = {
   loading:boolean
 };
 
-const initialState: TAllOrdersStore = {
+export const initialState: TAllOrdersStore = {
   status: WebsocketStatus.OFFLINE,
   allOrders: {
     orders: [],
@@ -46,6 +46,7 @@ export const allOrdersReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(wsAllOrdersMessage, (state, action) => {
+      state.status = WebsocketStatus.ONLINE;
       state.allOrders = {
         orders: action.payload.orders || [],
         total: action.payload.total || 0,

@@ -1,4 +1,4 @@
-import { reducer } from './reducer';
+import { reducer, initialState } from './reducer';
 import {
   INGREDIENTS_LOAD_SUCCESS,
   INGREDIENTS_LOADING,
@@ -9,38 +9,30 @@ import { TEST_INGS, TEST_ERROR_MESSAGE } from '../../utils/test-constants'
 
 describe('ingredients reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      ingredients: [],
-      loading: false,
-      error: null
-    });
+    expect(reducer(undefined, {})).toEqual(
+      initialState
+  );
   });
 
   it('should handle INGREDIENTS_LOADING', () => {
-    const prevState = {
-      ingredients: [],
-      loading: false,
-      error: null
-    };
+
     const action = { type: INGREDIENTS_LOADING };
-    const nextState = reducer(prevState, action);
+    const nextState = reducer(initialState, action);
     expect(nextState).toEqual({
-      ingredients: [],
+     ...initialState,
       loading: true,
-      error: null
     });
   });
 
   it('should handle INGREDIENTS_ERROR', () => {
     const prevState = {
-      ingredients: [],
+      ...initialState,
       loading: true,
-      error: null
     };
     const action = { type: INGREDIENTS_ERROR, payload: TEST_ERROR_MESSAGE };
     const nextState = reducer(prevState, action);
     expect(nextState).toEqual({
-      ingredients: [],
+      ...initialState,
       loading: false,
       error: TEST_ERROR_MESSAGE
     });
@@ -48,17 +40,15 @@ describe('ingredients reducer', () => {
 
   it('should handle INGREDIENTS_LOAD_SUCCESS', () => {
     const prevState = {
-      ingredients: [],
+      ...initialState,
       loading: true,
-      error: null
     };
 
     const action = { type: INGREDIENTS_LOAD_SUCCESS, payload: TEST_INGS };
     const nextState = reducer(prevState, action);
     expect(nextState).toEqual({
+      ...initialState,
       ingredients: TEST_INGS,
-      loading: false,
-      error: null
     });
   });
 

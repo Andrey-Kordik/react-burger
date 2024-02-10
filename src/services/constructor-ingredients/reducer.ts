@@ -17,7 +17,7 @@ export type TConstructorState = {
 };
 
 
-const initialState = {
+export const initialState = {
   burgerConstructor: {
     bun: null ,
     ingredients: [],
