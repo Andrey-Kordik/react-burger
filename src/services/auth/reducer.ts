@@ -37,9 +37,7 @@ export type TAuthState = {
   currentOrder: Order | null
 };
 
-
 export const initialState = {
-
   loading: false,
   error: null,
   user: null,

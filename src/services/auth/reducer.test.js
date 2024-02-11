@@ -363,6 +363,4 @@ describe('constructor reducer', () => {
       currentOrder: TEST_ORDER
     });
   });
-
-
 });

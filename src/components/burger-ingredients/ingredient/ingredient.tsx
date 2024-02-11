@@ -21,7 +21,6 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
 
   const type = data.type === "bun" || data.type === "main" || data.type === "sauce" ? data.type : "ingredient";
 
-
   const count = isBunInConstructor
     ? 2
     : constructorIngredients.ingredients.filter((ingredient) => ingredient._id === ing._id).length;

@@ -18,7 +18,6 @@ export type TAllOrdersStore = {
 
 
 export const initialState: TAllOrdersStore = {
-
   status: WebsocketStatus.OFFLINE,
   allOrders: {
     orders: [],
@@ -48,7 +47,6 @@ export const allOrdersReducer = createReducer(initialState, (builder) => {
       state.loading = false;
     })
     .addCase(wsAllOrdersMessage, (state, action) => {
-
       state.status = WebsocketStatus.ONLINE;
       state.allOrders = {
         orders: action.payload.orders || [],

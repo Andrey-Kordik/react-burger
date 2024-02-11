@@ -17,7 +17,6 @@ export type TMyOrdersStore = {
 };
 
 export const initialState: TMyOrdersStore = {
-
   status: WebsocketStatus.OFFLINE,
   myOrders: {
     orders: [],

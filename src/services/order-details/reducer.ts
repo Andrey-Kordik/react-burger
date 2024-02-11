@@ -13,9 +13,7 @@ export type TOrderState = {
   error: null | string;
 };
 
-
 export const initialState = {
-
   orderNumber: null,
   loading: false,
   error: null

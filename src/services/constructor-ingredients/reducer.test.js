@@ -79,7 +79,6 @@ describe('constructor reducer', () => {
     const action = { type: REORDER_INGREDIENTS, payload: { fromIndex, toIndex } };
     const nextState = reducer(prevState, action);
 
-
     const expectedIngredients = [...TEST_INGS];
     expectedIngredients.splice(toIndex, 0, expectedIngredients.splice(fromIndex, 1)[0]);
 
@@ -103,7 +102,4 @@ describe('constructor reducer', () => {
       totalPrice: newTotalPrice
     });
   });
-
-
-
 });

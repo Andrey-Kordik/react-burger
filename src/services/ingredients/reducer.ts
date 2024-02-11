@@ -13,7 +13,6 @@ export type TIngredientsState = {
   error: null | string;
 };
 
-
 export const initialState = {
   ingredients: [],
   loading: false,

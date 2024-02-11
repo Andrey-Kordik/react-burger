@@ -6,7 +6,6 @@ import {
 } from "./actions";
 import { TEST_INGS, TEST_ERROR_MESSAGE } from '../../utils/test-constants'
 
-
 describe('ingredients reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(
