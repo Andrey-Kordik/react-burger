@@ -138,3 +138,10 @@ export const TEST_ORDER = {
 
 }
 
+export const INGREDIENT_SELECTOR = '[data-testid="ingredient"]';
+export const INGREDIENT_MODAL = '[data-testid="ingredient-details"]';
+export const BUN_INGREDIENT = '[data-testid="ingredient"][data-type="bun"]';
+export const MAIN_INGREDIENT = '[data-testid="ingredient"][data-type="main"]'
+export const SAUCE_INGREDIENT ='[data-testid="ingredient"][data-type="sauce"]'
+export const BUN_CONTAINER ='[data-testid="bun-constructor"]'
+export const STUFF_CONTAINER ='[data-testid="ing-constructor"]'
