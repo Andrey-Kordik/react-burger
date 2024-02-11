@@ -18,7 +18,9 @@ const Ingredient: FC<IngredientProps> = ({ data }) => {
   const ingredientId = data['_id'];
   const constructorIngredients = useSelector((state) => state.selectedIngredients.burgerConstructor);
   const isBunInConstructor = constructorIngredients.bun && constructorIngredients.bun._id === ing._id;
+
   const type = data.type === "bun" || data.type === "main" || data.type === "sauce" ? data.type : "ingredient";
+
 
   const count = isBunInConstructor
     ? 2
