@@ -29,7 +29,7 @@ interface IngredientDetailsProps {
   }
 
   return (
-    <div className={styles.ingredient_details}>
+    <div className={styles.ingredient_details} data-testid='ingredient-details'>
        {!background && (
         <h1 className={styles.ingredient_details_heading}>Детали ингридиента</h1>
       )}

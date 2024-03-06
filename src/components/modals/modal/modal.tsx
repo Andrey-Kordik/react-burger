@@ -34,7 +34,9 @@ const Modal: FC<ModalProps> = ({ children, onClose, headerHeading }) => {
       <div className={styles.modal}>
         <header className={styles.modal_header}>
           <h1 className="text text_type_main-large">{headerHeading}</h1>
+          <div className={styles.modal_close_button} data-testid='close-icon'>
           <CloseIcon type='primary' onClick={onClose} />
+          </div>
         </header>
         {children}
       </div>

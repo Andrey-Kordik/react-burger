@@ -69,7 +69,7 @@ const BurgerConstructorPriceBar: FC<BurgerConstructorPriceBarProps> = ({ totalPr
         <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button onClick={handleOrderSubmit} type="primary" htmlType="button" disabled={!isButtonActive}>
+      <Button onClick={handleOrderSubmit} type="primary" htmlType="button" disabled={!isButtonActive} data-testid='order-button'>
         Оформить заказ
       </Button>
       {loading && (

@@ -37,7 +37,7 @@ export type TAuthState = {
   currentOrder: Order | null
 };
 
-const initialState = {
+export const initialState = {
   loading: false,
   error: null,
   user: null,
@@ -64,6 +64,8 @@ export const reducer = (state: TAuthState  = initialState, action: TAuthActions)
       return {
         ...state,
         loading: false,
+        user: null
+
       };
     case LOGOUT_FAILURE:
       return {
