@@ -14,7 +14,7 @@
 
 ## Скриншоты приложения
 <div style="display: flex; justify-content: center;">
-  <img src="./src/images/Screenshot_2.png" height="300" width="400">
+  <img src="./src/images/Screenshot_1.png" height="300" width="400">
  <img src="./src/images/Screenshot_2.png" height="300" width="400">
 </div>
 
